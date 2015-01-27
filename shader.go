@@ -8,6 +8,6 @@ type UniformLocation interface {
 }
 
 // Shader represents which content and how that content is drawn to the render
-// target. 
+// target.
 type Shader interface {
 }

@@ -5,7 +5,7 @@ package gfx
 // StreamDraw.
 type BufferUsage int
 
-const(
+const (
 	// StaticDraw is a buffer usage hint where the data is static and generally
 	// does not change.
 	StaticDraw BufferUsage = iota

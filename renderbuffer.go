@@ -5,6 +5,6 @@ package gfx
 //
 // It stores data that arepresents a single image. A Renderbuffer can be
 // attached to a Framebuffer and used to store either stencil data or a
-// combination of stencil and depth data. 
+// combination of stencil and depth data.
 type Renderbuffer interface {
 }
