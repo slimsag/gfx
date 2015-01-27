@@ -14,6 +14,7 @@ Super experimental Go graphics API
 
 # TODO - Examples
 
-- Port example from [WebGLProgram docs](https://msdn.microsoft.com/en-us/library/ie/dn302360(v=vs.85).aspx).
-- Port example from [WebGLShader docs](https://msdn.microsoft.com/en-us/library/ie/dn302462(v=vs.85).aspx).
-- Port example from [WebGLTexture docs](https://msdn.microsoft.com/en-us/library/ie/dn302467(v=vs.85).aspx).
+- [WebGLProgram example](https://msdn.microsoft.com/en-us/library/ie/dn302360(v=vs.85).aspx).
+- [WebGLShader example](https://msdn.microsoft.com/en-us/library/ie/dn302462(v=vs.85).aspx).
+- [WebGLTexture example](https://msdn.microsoft.com/en-us/library/ie/dn302467(v=vs.85).aspx).
+- [attachShader example](https://msdn.microsoft.com/en-us/library/ie/dn302364(v=vs.85).aspx).
