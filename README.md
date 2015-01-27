@@ -7,10 +7,25 @@ Super experimental Go graphics API
 - Figure out a common event interface.
 - Add all [Context attributes and methods](https://msdn.microsoft.com/en-us/library/ie/dn302362(v=vs.85).aspx)
 - Add [WebGLShaderPrecisionFormat](https://msdn.microsoft.com/en-us/library/ie/dn302463(v=vs.85).aspx).
+- `blendEquationSeparate`, `blendFuncSeparate` are broken in WebGL.
 
 # State bound problems
 
-- [activeTexture](https://msdn.microsoft.com/en-us/library/ie/dn302363(v=vs.85).aspx)
+- active
+  - [activeTexture](https://msdn.microsoft.com/en-us/library/ie/dn302363(v=vs.85).aspx)
+- bind
+  - [bindAttribLocation](https://msdn.microsoft.com/en-us/library/ie/dn455110(v=vs.85).aspx)
+  - [bindBuffer](https://msdn.microsoft.com/en-us/library/ie/dn302365(v=vs.85).aspx)
+  - [bindFramebuffer](https://msdn.microsoft.com/en-us/library/ie/dn302366(v=vs.85).aspx)
+  - [bindRenderbuffer](https://msdn.microsoft.com/en-us/library/ie/dn302367(v=vs.85).aspx)
+  - [bindTexture](https://msdn.microsoft.com/en-us/library/ie/dn302368(v=vs.85).aspx)
+- other
+  - [blendColor](https://msdn.microsoft.com/en-us/library/ie/dn798648(v=vs.85).aspx)
+  - [blendEquation](https://msdn.microsoft.com/en-us/library/ie/dn302369(v=vs.85).aspx)
+  - [blendEquationSeparate](https://msdn.microsoft.com/en-us/library/ie/dn302370(v=vs.85).aspx)
+  - [blendFunc](https://msdn.microsoft.com/en-us/library/ie/dn302371(v=vs.85).aspx)
+  - [blendFuncSeparate](https://msdn.microsoft.com/en-us/library/ie/dn302372(v=vs.85).aspx)
+  - []
 
 # TODO - Examples
 
