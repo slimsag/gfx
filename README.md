@@ -15,7 +15,6 @@ Super experimental Go graphics API
   - [activeTexture](https://msdn.microsoft.com/en-us/library/ie/dn302363(v=vs.85).aspx)
 - bind
   - [bindAttribLocation](https://msdn.microsoft.com/en-us/library/ie/dn455110(v=vs.85).aspx)
-  - [bindBuffer](https://msdn.microsoft.com/en-us/library/ie/dn302365(v=vs.85).aspx)
   - [bindFramebuffer](https://msdn.microsoft.com/en-us/library/ie/dn302366(v=vs.85).aspx)
   - [bindRenderbuffer](https://msdn.microsoft.com/en-us/library/ie/dn302367(v=vs.85).aspx)
   - [bindTexture](https://msdn.microsoft.com/en-us/library/ie/dn302368(v=vs.85).aspx)
