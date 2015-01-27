@@ -4,6 +4,7 @@ import "errors"
 
 var (
 	ErrInvalidOperation = errors.New("invalid operation")
+	ErrInvalidValue     = errors.New("invalid value")
 	ErrOutOfMemory      = errors.New("out of memory")
 )
 

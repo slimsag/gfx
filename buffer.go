@@ -41,4 +41,13 @@ type Buffer interface {
 	//
 	// TODO(slimsag): typeof(data) == ArrayBuffer
 	Data(data interface{}, usage UsageHint)
+
+	// SubData updates a subarea of the data buffer with the given data,
+	// starting at the offset.
+	//
+	// This function may generate an ErrInvalidValue error if the new data
+	// would write past the end of the buffer.
+	//
+	// TODO(slimsag): typeof(data) == ArrayBuffer
+	SubData(offset uint, data interface{})
 }
