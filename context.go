@@ -2,7 +2,10 @@ package gfx
 
 import "errors"
 
-var ErrInvalidOperation = errors.New("invalid operation")
+var(
+	ErrInvalidOperation = errors.New("invalid operation")
+	ErrOutOfMemory = errors.New("out of memory")
+)
 
 // ContextAttributes is a set of properties used to initialize the context for
 // the first time.
