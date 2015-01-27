@@ -8,6 +8,10 @@ Super experimental Go graphics API
 - Add all [Context attributes and methods](https://msdn.microsoft.com/en-us/library/ie/dn302362(v=vs.85).aspx)
 - Add [WebGLShaderPrecisionFormat](https://msdn.microsoft.com/en-us/library/ie/dn302463(v=vs.85).aspx).
 
+# State bound problems
+
+- [activeTexture](https://msdn.microsoft.com/en-us/library/ie/dn302363(v=vs.85).aspx)
+
 # TODO - Examples
 
 - Port example from [WebGLProgram docs](https://msdn.microsoft.com/en-us/library/ie/dn302360(v=vs.85).aspx).
