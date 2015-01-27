@@ -1,5 +1,9 @@
 package gfx
 
+import "errors"
+
+var ErrInvalidOperation = errors.New("invalid operation")
+
 // ContextAttributes is a set of properties used to initialize the context for
 // the first time.
 //
@@ -40,4 +44,7 @@ type Context interface {
 	// Attributes returns a structure filled with this context's in-use
 	// attributes.
 	Attributes(a ContextAttributes) ContextAttributes
+
+	// Error returns the last error that occured in the context, or nil.
+	Error() error
 }
