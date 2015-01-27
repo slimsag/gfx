@@ -29,7 +29,7 @@ type Buffer interface {
 	//
 	// This function may generate an ErrOutOfMemory error, see Context.Error
 	// for more details.
-	DataSize(size int, usage UsageHint)
+	DataSize(size int, usage BufferUsage)
 
 	// Data prepares this buffer with the given data.
 	//
@@ -40,7 +40,7 @@ type Buffer interface {
 	// for more details.
 	//
 	// TODO(slimsag): typeof(data) == ArrayBuffer
-	Data(data interface{}, usage UsageHint)
+	Data(data interface{}, usage BufferUsage)
 
 	// SubData updates a subarea of the data buffer with the given data,
 	// starting at the offset.
