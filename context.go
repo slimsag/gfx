@@ -35,13 +35,9 @@ type ContextAttributes struct {
 type Context interface {
 	// NewBuffer returns a new buffer object that contains data such as
 	// vertices or colors.
-	//
-	// WebGL equivilent: CreateBuffer
 	NewBuffer() Buffer
 
 	// Attributes returns a structure filled with this context's in-use
 	// attributes.
-	//
-	// WebGL equivilent: getContextAttributes
 	Attributes(a ContextAttributes) ContextAttributes
 }
