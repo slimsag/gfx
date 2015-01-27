@@ -5,6 +5,7 @@ Super experimental Go graphics API
 
 - Add [WebGLContextEvent](https://msdn.microsoft.com/en-us/library/ie/dn302356(v=vs.85).aspx)
 - Figure out a common event interface.
+- Add all [Context attributes and methods](https://msdn.microsoft.com/en-us/library/ie/dn302362(v=vs.85).aspx)
 
 # TODO - Examples
 
