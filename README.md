@@ -8,6 +8,9 @@ Super experimental Go graphics API
 - Add all [Context attributes and methods](https://msdn.microsoft.com/en-us/library/ie/dn302362(v=vs.85).aspx)
 - Add [WebGLShaderPrecisionFormat](https://msdn.microsoft.com/en-us/library/ie/dn302463(v=vs.85).aspx).
 - `blendEquationSeparate`, `blendFuncSeparate` are broken in WebGL.
+- Expose `glFinish`
+- Expose `glFlush`
+- Expose `glReadPixels`
 
 # State bound problems
 
