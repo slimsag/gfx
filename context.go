@@ -16,6 +16,10 @@ var (
 // tied to a specific OS thread (but still must be accessed from only one
 // goroutine/thread at a time).
 type Context interface {
+	// Framebuffer is the default framebuffer of the context, i.e. the one that
+	// when drawn to, appears on the window.
+	Framebuffer
+
 	// NewBuffer returns a new buffer object that contains data such as
 	// vertices or colors.
 	NewBuffer() Buffer
