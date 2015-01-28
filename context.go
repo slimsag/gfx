@@ -2,10 +2,14 @@ package gfx
 
 import "errors"
 
+// Panics that Context.Error may generate.
 var (
-	ErrInvalidOperation = errors.New("invalid operation")
-	ErrInvalidValue     = errors.New("invalid value")
-	ErrOutOfMemory      = errors.New("out of memory")
+	OutOfMemory                 = errors.New("out of memory")
+	InvalidEnum                 = errors.New("invalid enum")
+	InvalidOperation            = errors.New("invalid operation")
+	InvalidFramebufferOperation = errors.New("invalid framebuffer operation")
+	InvalidValue                = errors.New("invalid value")
+	ContextLost                 = errors.New("context lost")
 )
 
 // Context is a graphics context. Unlike traditional OpenGL contexts, it is not
@@ -20,6 +24,8 @@ type Context interface {
 	// attributes.
 	Attributes(a ContextAttributes) ContextAttributes
 
-	// Error returns the last error that occured in the context, or nil.
-	Error() error
+	// Check checks that no errors have occured in the context. If an error
+	// occurs, it is either a programmer error (passing an invalid value, etc)
+	// or a serious device error (running out of memory, losing the context).
+	Check()
 }
