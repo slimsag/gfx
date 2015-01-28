@@ -12,6 +12,15 @@ var (
 // Framebuffer is a collection of buffers that serve as a rendering
 // destination.
 type Framebuffer interface {
+	// Clear clears this framebuffer object. The op arguments may be at max
+	// three parameters, and each must be one of the following unique types:
+	//
+	//  gfx.ClearColor
+	//  gfx.ClearDepth
+	//  gfx.ClearStencil
+	//
+	Clear(op ...interface{})
+
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.
 	Status() error
