@@ -22,7 +22,7 @@ type Context interface {
 
 	// NewBuffer returns a new buffer object that contains data such as
 	// vertices or colors.
-	NewBuffer() Buffer
+	//NewBuffer() Buffer
 
 	// Check checks that no errors have occured in the context. If an error
 	// occurs, it is either a programmer error (passing an invalid value, etc)
