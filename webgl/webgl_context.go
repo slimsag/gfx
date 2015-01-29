@@ -84,6 +84,16 @@ func (c *Context) Check() {
 	}
 }
 
+// Flush implements the gfx.Context interface.
+func (c *Context) Flush() {
+	c.Call("flush")
+}
+
+// Finish implements the gfx.Context interface.
+func (c *Context) Finish() {
+	c.Call("finish")
+}
+
 // Wrap returns a new WebGL rendering context by wrapping the given JavaScript
 // WebGLRenderingContext object.
 func Wrap(o js.Object) gfx.Context {

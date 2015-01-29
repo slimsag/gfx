@@ -21,6 +21,18 @@ func (c *checker) Check() {
 	return
 }
 
+// Flush implements the gfx.Context interface.
+func (c *checker) Flush() {
+	c.ctx.Flush()
+	c.ctx.Check()
+}
+
+// Finish implements the gfx.Context interface.
+func (c *checker) Finish() {
+	c.ctx.Finish()
+	c.ctx.Check()
+}
+
 // Checker wraps the given graphics context such that each function call to the
 // context (or any object gotten from it, e.g. a Framebuffer) has an implicit
 // Check() call after it.

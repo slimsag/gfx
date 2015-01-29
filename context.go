@@ -32,4 +32,21 @@ type Context interface {
 	// occurs, it is either a programmer error (passing an invalid value, etc)
 	// or a serious device error (running out of memory, losing the context).
 	Check()
+
+	// Flush flushes any buffered commands out to the graphics hardware as
+	// quickly as possible. Execution may not be completed in any particular
+	// time period, but does complete in finite time.
+	//
+	// Drivers may buffer commands and queue them for sending to hardware in
+	// large chunks. For this reason, all programs should call Flush whenever
+	// they count on having all of the previously issued commands completed.
+	Flush()
+
+	// Finish blocks (does not return) until the effects of all previously
+	// called commands are complete. Such effects include all changes to the
+	// graphics state, all changes to connection state, and all changes to the
+	// framebuffer contents.
+	//
+	// In most cases, you shouldn't ever use Finish, but rather Flush.
+	Finish()
 }
