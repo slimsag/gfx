@@ -13,6 +13,8 @@ var (
 	InvalidOperation            = errors.New("invalid operation")
 	InvalidFramebufferOperation = errors.New("invalid framebuffer operation")
 	InvalidValue                = errors.New("invalid value")
+	StackOverflow               = errors.New("stack overflow")
+	StackUnderflow              = errors.New("stack underflow")
 	ContextLost                 = errors.New("context lost")
 )
 
