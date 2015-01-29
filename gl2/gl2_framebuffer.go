@@ -1,12 +1,12 @@
 // Copyright 2015 The Azul3D Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
-// +build amd64 386
+// +build amd64,!gles2 386,!gles2
 
 package gl2
 
 import (
-	"github.com/go-gl/glow/gl/2.1/gl"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
 	"github.com/slimsag/gfx"
 )
 
