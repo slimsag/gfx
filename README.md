@@ -3,9 +3,20 @@ Super experimental Go graphics API
 
 # Goals
 
-- One single graphics API for _Desktop, Mobile, and Web_.
-- An idiomatic Go API with _little to no overhead_.
-- _Object-based_, with direct state access (DSA).
+Basically everything mentioned below is not implemented yet.
+
+- One uniform API for Desktop, Mobile, and Web.
+  - (Desktop) Modern OpenGL 2 and 3 backends.
+  - (Mobile) OpenGL ES 2 backend.
+  - (Web) WebGL backend.
+- Idiomatic
+  - An idiomatic Go API with _little to no overhead_.
+  - _Object-based_ utilizing performant hardware and software direct state access (DSA).
+- Debuggable
+  - Generate panics (with useful stack traces!) when a function call caused an error.
+  - Record and playback API calls, stepping through one-by-one to see what happens.
+- Performance
+  - Maintains an internal stack and uses a jump-table to avoid nearly all CGO overhead.
 
 # TODO
 
