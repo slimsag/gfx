@@ -21,6 +21,11 @@ type Context struct {
 	// The default framebuffer implementation for the context.
 	*Framebuffer
 
+	LastBindFramebuffer js.Object
+	LastClearColor      [4]float32
+	LastClearDepth      float32
+	LastClearStencil    int
+
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
 	OUT_OF_MEMORY                 int `js:"OUT_OF_MEMORY"`
@@ -37,22 +42,34 @@ type Context struct {
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
-	// TODO(slimsag): check that framebuffer is not already bound.
+	if c.LastBindFramebuffer == framebuffer {
+		return
+	}
+	c.LastBindFramebuffer = framebuffer
 	c.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
 }
 
 func (c *Context) fastClearColor(v [4]float32) {
-	// TODO(slimsag): check that clearColor is not already the given one.
+	if c.LastClearColor == v {
+		return
+	}
+	c.LastClearColor = v
 	c.Call("clearColor", v[0], v[1], v[2], v[3])
 }
 
 func (c *Context) fastClearDepth(v float32) {
-	// TODO(slimsag): check that clearDepth is not already the given one.
+	if c.LastClearDepth == v {
+		return
+	}
+	c.LastClearDepth = v
 	c.Call("clearDepth", v)
 }
 
 func (c *Context) fastClearStencil(v int) {
-	// TODO(slimsag): check that clearStencil is not already the given one.
+	if c.LastClearStencil == v {
+		return
+	}
+	c.LastClearStencil = v
 	c.Call("clearStencil", v)
 }
 
