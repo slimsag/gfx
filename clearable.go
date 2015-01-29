@@ -10,7 +10,7 @@ type ClearMask int
 //  colorAndDepth := ColorBufer|DepthBuffer
 //
 const (
-	ColorBuffer ClearMask = iota
+	ColorBuffer ClearMask = 1 << iota
 	DepthBuffer
 	StencilBuffer
 )
