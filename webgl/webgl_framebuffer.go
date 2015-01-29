@@ -21,7 +21,7 @@ type Framebuffer struct {
 
 	// State tied to this framebuffer object.
 	clearColor   [4]float32
-	clearDepth   float32
+	clearDepth   float64
 	clearStencil int
 }
 
@@ -42,7 +42,7 @@ func (f *Framebuffer) ClearColor(r, g, b, a float32) {
 }
 
 // ClearDepth implements the gfx.Clearable interface.
-func (f *Framebuffer) ClearDepth(depth float32) {
+func (f *Framebuffer) ClearDepth(depth float64) {
 	f.clearDepth = depth
 }
 

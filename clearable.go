@@ -28,7 +28,7 @@ type Clearable interface {
 	// ClearDepth sets the value to clear the depth buffer to upon a depth
 	// buffer clearing operation (a call to Clear with the DepthBuffer clear
 	// mask)
-	ClearDepth(depth float32)
+	ClearDepth(depth float64)
 
 	// ClearStencil sets the value to clear the stencil buffer to upon a
 	// stencil buffer clearing operation (a call to Clear with the

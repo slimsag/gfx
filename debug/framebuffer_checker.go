@@ -21,7 +21,7 @@ func (f *fbChecker) ClearColor(r, g, b, a float32) {
 }
 
 // ClearDepth implements the gfx.Clearable interface.
-func (f *fbChecker) ClearDepth(depth float32) {
+func (f *fbChecker) ClearDepth(depth float64) {
 	f.fb.ClearDepth(depth)
 	f.ctx.Check()
 }

@@ -23,7 +23,7 @@ type Context struct {
 
 	LastBindFramebuffer js.Object
 	LastClearColor      [4]float32
-	LastClearDepth      float32
+	LastClearDepth      float64
 	LastClearStencil    int
 
 	// WebGL error codes (see the Check method).
@@ -57,7 +57,7 @@ func (c *Context) fastClearColor(v [4]float32) {
 	c.Call("clearColor", v[0], v[1], v[2], v[3])
 }
 
-func (c *Context) fastClearDepth(v float32) {
+func (c *Context) fastClearDepth(v float64) {
 	if c.LastClearDepth == v {
 		return
 	}
