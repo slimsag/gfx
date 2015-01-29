@@ -30,4 +30,13 @@ type Clearable interface {
 	// stencil buffer clearing operation (a call to Clear with the
 	// StencilBuffer clear mask)
 	ClearStencil(stencil int)
+
+	// Clear clears the buffers selected by the bitmask to their respective
+	// clear values. Multiple bitmasks can be OR'd together to select multiple
+	// buffers to clear at once:
+	//
+	//  // Clear both(!) the color and depth buffers in one call.
+	//  Clear(ColorBuffer|DepthBuffer)
+	//
+	Clear(m ClearMask)
 }
