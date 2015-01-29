@@ -6,8 +6,8 @@
 package gl2
 
 import (
-	"github.com/slimsag/gfx/internal/gl/2.0/gl"
 	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
 )
 
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a

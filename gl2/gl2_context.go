@@ -8,8 +8,8 @@ package gl2
 import (
 	"fmt"
 
-	"github.com/slimsag/gfx/internal/gl/2.0/gl"
 	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
 )
 
 // Context implements the gfx.Context interface.
