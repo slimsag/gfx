@@ -36,14 +36,3 @@ func Checker(c gfx.Context) gfx.Context {
 		ctx: c,
 	}
 }
-
-// Context wraps the given graphics context with a Checker, it is short-handed
-// for:
-//
-//  c = debug.Checker(c)
-//
-func Context(c gfx.Context) gfx.Context {
-	return Checker(c)
-}
-
-// TODO(slimsag): check for invalid Framebuffer.Clear masks
