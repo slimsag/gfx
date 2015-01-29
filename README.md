@@ -5,7 +5,7 @@ Super experimental Go graphics API
 
 - One single graphics API for _Desktop, Mobile, and Web_.
 - An idiomatic Go API with _little to no overhead_.
-- Object-based direct state access.
+- _Object-based_, with direct state access (DSA).
 
 # TODO
 
