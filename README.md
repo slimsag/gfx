@@ -9,6 +9,8 @@ Basically everything mentioned below is not implemented yet.
   - (Desktop) Modern OpenGL 2 and 3 backends.
   - (Mobile) OpenGL ES 2 backend.
   - (Web) WebGL backend.
+- Non-limited
+  - Can use existing OpenGL Go bindings _with_ these bindings in order to access OpenGL platform-dependant features (geometry shaders, etc).
 - Idiomatic
   - An idiomatic Go API with _little to no overhead_.
   - _Object-based_ utilizing performant hardware and software direct state access (DSA).
