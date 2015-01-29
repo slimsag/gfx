@@ -26,7 +26,7 @@ type Framebuffer struct {
 }
 
 // useState binds the global OpenGL state for this local Framebuffer object.
-func (f Framebuffer) useState() {
+func (f *Framebuffer) useState() {
 	// Global OpenGL state.
 	f.ctx.fastClearColor(f.clearColor)
 	f.ctx.fastClearDepth(f.clearDepth)
@@ -37,22 +37,22 @@ func (f Framebuffer) useState() {
 }
 
 // ClearColor implements the gfx.Clearable interface.
-func (f Framebuffer) ClearColor(r, g, b, a float32) {
+func (f *Framebuffer) ClearColor(r, g, b, a float32) {
 	f.clearColor = [4]float32{r, g, b, a}
 }
 
 // ClearDepth implements the gfx.Clearable interface.
-func (f Framebuffer) ClearDepth(depth float32) {
+func (f *Framebuffer) ClearDepth(depth float32) {
 	f.clearDepth = depth
 }
 
 // ClearStencil implements the gfx.Clearable interface.
-func (f Framebuffer) ClearStencil(stencil int) {
+func (f *Framebuffer) ClearStencil(stencil int) {
 	f.clearStencil = stencil
 }
 
 // Clear implements the gfx.Framebuffer interface.
-func (f Framebuffer) Clear(m gfx.ClearMask) {
+func (f *Framebuffer) Clear(m gfx.ClearMask) {
 	var mask int
 	if m&gfx.ColorBuffer != 0 {
 		mask |= f.ctx.COLOR_BUFFER_BIT

@@ -19,7 +19,7 @@ type Context struct {
 	js.Object
 
 	// The default framebuffer implementation for the context.
-	Framebuffer
+	*Framebuffer
 
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
@@ -90,7 +90,7 @@ func Wrap(o js.Object) gfx.Context {
 	ctx := &Context{
 		Object: o,
 	}
-	ctx.Framebuffer = Framebuffer{
+	ctx.Framebuffer = &Framebuffer{
 		Object: nil, // Default framebuffer object.
 		ctx:    ctx,
 	}
