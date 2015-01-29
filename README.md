@@ -1,6 +1,12 @@
 # gfx
 Super experimental Go graphics API
 
+# Goals
+
+- One single graphics API for _Desktop, Mobile, and Web_.
+- An idiomatic Go API with _little to no overhead_.
+- Object-based direct state access.
+
 # TODO
 
 - Add [WebGLContextEvent](https://msdn.microsoft.com/en-us/library/ie/dn302356(v=vs.85).aspx)
