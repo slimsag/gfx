@@ -6,7 +6,7 @@ package gfx
 
 import "errors"
 
-// Panics that Context.Error may generate.
+// Panics that Context.Check may generate.
 var (
 	OutOfMemory                 = errors.New("out of memory")
 	InvalidEnum                 = errors.New("invalid enum")

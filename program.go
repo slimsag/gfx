@@ -10,7 +10,7 @@ type Program interface {
 	// AttachShader attaches the given shader object to this program.
 	//
 	// If the shader is already attached to a program, or another shader of the
-	// same type is already attached to this program, ErrInvalidOperation is
-	// generated (see Context.Error).
+	// same type is already attached to this program, a InvalidOperation panic
+	// will be generated at Context.Check time.
 	AttachShader(s Shader) error
 }

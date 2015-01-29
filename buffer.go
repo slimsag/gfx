@@ -40,8 +40,8 @@ type Buffer interface {
 	// The usage hint is only a performance hint, it has no effect on the
 	// actual usage of the buffer.
 	//
-	// This function may generate an ErrOutOfMemory error, see Context.Error
-	// for more details.
+	// Calling this function may generate a OutOfMemory panic at Context.Check
+	// time.
 	//
 	// TODO(slimsag): typeof(data) == ArrayBuffer
 	Data(data interface{}, usage BufferUsage)
@@ -49,8 +49,8 @@ type Buffer interface {
 	// SubData updates a subarea of the data buffer with the given data,
 	// starting at the offset.
 	//
-	// This function may generate an ErrInvalidValue error if the new data
-	// would write past the end of the buffer.
+	// This function will generate an InvalidValue panic at Context.Check time
+	// if the new data would write past the end of the buffer.
 	//
 	// TODO(slimsag): typeof(data) == ArrayBuffer
 	SubData(offset uint, data interface{})
