@@ -41,19 +41,19 @@ func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
 	c.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
 }
 
-func (c *Context) fastClearColor(v gfx.ClearColor) {
+func (c *Context) fastClearColor(v [4]float32) {
 	// TODO(slimsag): check that clearColor is not already the given one.
 	c.Call("clearColor", v[0], v[1], v[2], v[3])
 }
 
-func (c *Context) fastClearDepth(v gfx.ClearDepth) {
+func (c *Context) fastClearDepth(v float32) {
 	// TODO(slimsag): check that clearDepth is not already the given one.
-	c.Call("clearDepth", float64(v))
+	c.Call("clearDepth", v)
 }
 
-func (c *Context) fastClearStencil(v gfx.ClearStencil) {
+func (c *Context) fastClearStencil(v int) {
 	// TODO(slimsag): check that clearStencil is not already the given one.
-	c.Call("clearStencil", int(v))
+	c.Call("clearStencil", v)
 }
 
 // Check implements the gfx.Context interface.
@@ -92,7 +92,7 @@ func Wrap(o js.Object) gfx.Context {
 	}
 	ctx.Framebuffer = Framebuffer{
 		Object: nil, // Default framebuffer object.
-		ctx: ctx,
+		ctx:    ctx,
 	}
 	return ctx
 }

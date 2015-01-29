@@ -18,34 +18,53 @@ type Framebuffer struct {
 	js.Object
 
 	ctx *Context
+
+	// State tied to this framebuffer object.
+	clearColor   [4]float32
+	clearDepth   float32
+	clearStencil int
+}
+
+// useState binds the global OpenGL state for this local Framebuffer object.
+func (f Framebuffer) useState() {
+	// Global OpenGL state.
+	f.ctx.fastClearColor(f.clearColor)
+	f.ctx.fastClearDepth(f.clearDepth)
+	f.ctx.fastClearStencil(f.clearStencil)
+
+	// Bind the framebuffer now.
+	f.ctx.fastBindFramebuffer(f.Object)
+}
+
+// ClearColor implements the gfx.Clearable interface.
+func (f Framebuffer) ClearColor(r, g, b, a float32) {
+	f.clearColor = [4]float32{r, g, b, a}
+}
+
+// ClearDepth implements the gfx.Clearable interface.
+func (f Framebuffer) ClearDepth(depth float32) {
+	f.clearDepth = depth
+}
+
+// ClearStencil implements the gfx.Clearable interface.
+func (f Framebuffer) ClearStencil(stencil int) {
+	f.clearStencil = stencil
 }
 
 // Clear implements the gfx.Framebuffer interface.
-func (f Framebuffer) Clear(ops ...interface{}) {
-	// Check for an invalid number of arguments.
-	if len(ops) == 0 || len(ops) > 3 {
-		panic("Framebuffer.Clear: invalid number of arguments")
-	}
-
-	// Build the proper bitmask and store the needed clear values.
+func (f Framebuffer) Clear(m gfx.ClearMask) {
 	var mask int
-	for _, op := range ops {
-		switch v := op.(type) {
-		case gfx.ClearColor:
-			mask |= f.ctx.COLOR_BUFFER_BIT
-			f.ctx.fastClearColor(v)
-		case gfx.ClearDepth:
-			mask |= f.ctx.DEPTH_BUFFER_BIT
-			f.ctx.fastClearDepth(v)
-		case gfx.ClearStencil:
-			mask |= f.ctx.STENCIL_BUFFER_BIT
-			f.ctx.fastClearStencil(v)
-		default:
-			panic("Framebuffer.Clear: invalid operation")
-		}
+	if m&gfx.ColorBuffer != 0 {
+		mask |= f.ctx.COLOR_BUFFER_BIT
+	}
+	if m&gfx.DepthBuffer != 0 {
+		mask |= f.ctx.DEPTH_BUFFER_BIT
+	}
+	if m&gfx.StencilBuffer != 0 {
+		mask |= f.ctx.STENCIL_BUFFER_BIT
 	}
 
-	// Bind the framebuffer, clear with the bitmask.
-	f.ctx.fastBindFramebuffer(f.Object)
+	// Use this framebuffer's state, and perform the clear operation.
+	f.useState()
 	f.ctx.Call("clear", mask)
 }

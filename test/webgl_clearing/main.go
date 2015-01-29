@@ -13,19 +13,20 @@ func main() {
 	canvas := document.Call("createElement", "canvas")
 	document.Get("body").Call("appendChild", canvas)
 
-	// Set size of canvas to 640x480 
+	// Set size of canvas to 640x480
 	canvas.Set("width", 640)
 	canvas.Set("height", 480)
 
 	// Create a new WebGL context (could also webgl.Wrap an existing one).
-	ctx, err := webgl.New(canvas, nil)
+	gl, err := webgl.New(canvas, nil)
 	if err != nil {
 		js.Global.Call("alert", err.Error())
 	}
 
 	// Wrap the context to get a debug context.
-	ctx = debug.Context(ctx)
+	gl = debug.Context(gl)
 
 	// Clear the color buffer to red.
-	ctx.Clear(gfx.ClearColor{1, 0, 0, 1})
+	gl.ClearColor(1, 0, 0, 1)
+	gl.Clear(gfx.ColorBuffer)
 }
