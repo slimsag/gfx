@@ -13,10 +13,44 @@ var (
 	ErrFramebufferUnsupported                 = errors.New("framebuffer: the attachments aren't supported")
 )
 
+// PixelFormat represents a single pixel format.
+type PixelFormat int
+
+const (
+	zeroPixelFormat PixelFormat = iota
+
+	// RGBA is a 32bpp RGBA pixel format.
+	RGBA
+)
+
+// PixelDataType represents a single pixel data type.
+type PixelDataType int
+
+const (
+	zeroPixelDataType PixelDataType = iota
+	UnsignedByte
+)
+
 // Framebuffer is a collection of buffers that serve as a rendering
 // destination.
 type Framebuffer interface {
 	Clearable
+
+	// ReadPixelsUint8 reads pixel data into the given slice from a rectangular
+	// area in the color buffer of this frame buffer.
+	//
+	// The x and y coordinates specify the frame buffer coordinates of the
+	// first pixel that is read from the frame buffer. This location is the
+	// lower left corner of the rectangular block of pixels.
+	//
+	// The format parameter is the format of the pixel data, which must be
+	// RGBA.
+	//
+	// The dataType parameter is the type of data being read, which must be
+	// UnsignedByte.
+	//
+	// len(dst) must be >= width*height*4
+	ReadPixelsUint8(x, y, width, height int, format PixelFormat, dataType PixelDataType, dst []uint8)
 
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.

@@ -6,6 +6,8 @@
 package gles2
 
 import (
+	"unsafe"
+
 	"github.com/slimsag/gfx"
 	gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
 )
@@ -67,4 +69,11 @@ func (f *Framebuffer) Clear(m gfx.ClearMask) {
 	// Use this framebuffer's state, and perform the clear operation.
 	f.useState()
 	gl.Clear(mask)
+}
+
+// ReadPixelsUint8 implements the gfx.Framebuffer interface.
+func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, format gfx.PixelFormat, dataType gfx.PixelDataType, dst []uint8) {
+	f.useState()
+	dstPtr := unsafe.Pointer(&dst[0])
+	gl.ReadPixels(int32(x), int32(y), int32(width), int32(height), gl.RGBA, gl.UNSIGNED_BYTE, dstPtr)
 }
