@@ -53,22 +53,12 @@ func (f *fbChecker) Clear(m gfx.ClearMask) {
 }
 
 // ReadPixelsUint8 implements the gfx.Framebuffer interface.
-func (f *fbChecker) ReadPixelsUint8(x, y, width, height int, format gfx.PixelFormat, dataType gfx.PixelDataType, dst []uint8) {
-	// Verify format argument.
-	if format != gfx.RGBA {
-		panic("Framebuffer.ReadPixelsUint8: invalid format (expect gfx.RGBA)")
-	}
-
-	// Verify dataType argument.
-	if dataType != gfx.UnsignedByte {
-		panic("Framebuffer.ReadPixelsUint8: invalid data type (expect gfx.UnsignedByte)")
-	}
-
+func (f *fbChecker) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	// Verify destination buffer size.
 	if len(dst) < width*height*4 {
 		panic("Framebuffer.ReadPixelsUint8: dst buffer is not large enough")
 	}
 
-	f.fb.ReadPixelsUint8(x, y, width, height, format, dataType, dst)
+	f.fb.ReadPixelsUint8(x, y, width, height, dst)
 	f.ctx.Check()
 }

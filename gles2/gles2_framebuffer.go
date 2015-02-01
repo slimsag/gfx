@@ -72,7 +72,7 @@ func (f *Framebuffer) Clear(m gfx.ClearMask) {
 }
 
 // ReadPixelsUint8 implements the gfx.Framebuffer interface.
-func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, format gfx.PixelFormat, dataType gfx.PixelDataType, dst []uint8) {
+func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.useState()
 	dstPtr := unsafe.Pointer(&dst[0])
 	gl.ReadPixels(int32(x), int32(y), int32(width), int32(height), gl.RGBA, gl.UNSIGNED_BYTE, dstPtr)
