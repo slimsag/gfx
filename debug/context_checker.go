@@ -18,14 +18,20 @@ type checker struct {
 func (c *checker) NewFramebuffer() gfx.Framebuffer {
 	v := c.ctx.NewFramebuffer()
 	c.ctx.Check()
-	return v
+	return &fbChecker{
+		fb:  v,
+		ctx: c,
+	}
 }
 
 // NewRenderbuffer implements the gfx.Context interface.
 func (c *checker) NewRenderbuffer() gfx.Renderbuffer {
 	v := c.ctx.NewRenderbuffer()
 	c.ctx.Check()
-	return v
+	return &rbChecker{
+		rb:  v,
+		ctx: c,
+	}
 }
 
 // Check implements the gfx.Context interface.
