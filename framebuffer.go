@@ -30,5 +30,5 @@ type Framebuffer interface {
 
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.
-	//Status() error
+	Status() error
 }

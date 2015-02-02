@@ -6,6 +6,8 @@
 package webgl
 
 import (
+	"fmt"
+
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/slimsag/gfx"
 )
@@ -73,4 +75,29 @@ func (f *Framebuffer) Clear(m gfx.ClearMask) {
 func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.useState()
 	f.ctx.Call("readPixels", x, y, width, height, f.ctx.RGBA, f.ctx.UNSIGNED_BYTE, dst)
+}
+
+// Status implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Status() error {
+	f.useState()
+	e := f.ctx.Call("checkFramebufferStatus", f.ctx.FRAMEBUFFER).Int()
+
+	// Avoid the larger switch statement below, as no error is the most likely
+	// case.
+	if e == f.ctx.FRAMEBUFFER_COMPLETE {
+		return nil
+	}
+
+	switch e {
+	case f.ctx.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+		return gfx.ErrFramebufferIncompleteAttachment
+	case f.ctx.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+		return gfx.ErrFramebufferIncompleteMissingAttachment
+	//case f.ctx.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+	//	return gfx.ErrFramebufferIncompleteDimensions
+	case f.ctx.FRAMEBUFFER_UNSUPPORTED:
+		return gfx.ErrFramebufferIncompleteDimensions
+	default:
+		panic(fmt.Sprintf("webgl: unhandled framebuffer status 0x%X\n", e))
+	}
 }

@@ -41,6 +41,12 @@ type Context struct {
 	COLOR_BUFFER_BIT   int `js:"COLOR_BUFFER_BIT"`
 	UNSIGNED_BYTE      int `js:"UNSIGNED_BYTE"`
 	RGBA               int `js:"RGBA"`
+
+	// Framebuffer status codes (see the Framebuffer.Status method).
+	FRAMEBUFFER_COMPLETE               int `js:"FRAMEBUFFER_COMPLETE"`
+	FRAMEBUFFER_INCOMPLETE_ATTACHMENT               int `js:"FRAMEBUFFER_INCOMPLETE_ATTACHMENT"`
+	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT               int `js:"FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"`
+	FRAMEBUFFER_UNSUPPORTED               int `js:"FRAMEBUFFER_UNSUPPORTED"`
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {

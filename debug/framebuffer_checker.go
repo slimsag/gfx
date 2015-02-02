@@ -62,3 +62,10 @@ func (f *fbChecker) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.fb.ReadPixelsUint8(x, y, width, height, dst)
 	f.ctx.Check()
 }
+
+// Status implements the gfx.Framebuffer interface.
+func (f *fbChecker) Status() error {
+	status := f.fb.Status()
+	f.ctx.Check()
+	return status
+}

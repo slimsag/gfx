@@ -83,7 +83,7 @@ func (c *Context) Check() {
 	case gl.CONTEXT_LOST:
 		panic(gfx.ContextLost)
 	default:
-		panic(fmt.Sprintf("gl2: unhandled error 0x%X\n", e))
+		panic(fmt.Sprintf("gles2: unhandled error 0x%X\n", e))
 	}
 }
 

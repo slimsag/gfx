@@ -6,6 +6,7 @@
 package gles2
 
 import (
+	"fmt"
 	"unsafe"
 
 	"github.com/slimsag/gfx"
@@ -76,4 +77,29 @@ func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.useState()
 	dstPtr := unsafe.Pointer(&dst[0])
 	gl.ReadPixels(int32(x), int32(y), int32(width), int32(height), gl.RGBA, gl.UNSIGNED_BYTE, dstPtr)
+}
+
+// Status implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Status() error {
+	f.useState()
+	e := gl.CheckFramebufferStatus(gl.FRAMEBUFFER)
+
+	// Avoid the larger switch statement below, as no error is the most likely
+	// case.
+	if e == gl.FRAMEBUFFER_COMPLETE {
+		return nil
+	}
+
+	switch e {
+	case gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+		return gfx.ErrFramebufferIncompleteAttachment
+	case gl.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+		return gfx.ErrFramebufferIncompleteMissingAttachment
+	case gl.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+		return gfx.ErrFramebufferIncompleteDimensions
+	case gl.FRAMEBUFFER_UNSUPPORTED:
+		return gfx.ErrFramebufferIncompleteDimensions
+	default:
+		panic(fmt.Sprintf("gl2: unhandled framebuffer status 0x%X\n", e))
+	}
 }
