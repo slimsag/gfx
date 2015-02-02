@@ -515,6 +515,7 @@ const (
 	DEPTH_COMPONENT24                         = 0x81A6
 	DEPTH_COMPONENT32                         = 0x81A7
 	DEPTH_FUNC                                = 0x0B74
+	DEPTH_STENCIL_ATTACHMENT                  = 0x821A
 	DEPTH_TEST                                = 0x0B71
 	DEPTH_WRITEMASK                           = 0x0B72
 	DITHER                                    = 0x0BD0
@@ -635,6 +636,12 @@ const (
 	TEXTURE_2D                                = 0x0DE1
 	TEXTURE_BASE_LEVEL                        = 0x813C
 	TEXTURE_BORDER_COLOR                      = 0x1004
+	TEXTURE_CUBE_MAP_NEGATIVE_X               = 0x8516
+	TEXTURE_CUBE_MAP_NEGATIVE_Y               = 0x8518
+	TEXTURE_CUBE_MAP_NEGATIVE_Z               = 0x851A
+	TEXTURE_CUBE_MAP_POSITIVE_X               = 0x8515
+	TEXTURE_CUBE_MAP_POSITIVE_Y               = 0x8517
+	TEXTURE_CUBE_MAP_POSITIVE_Z               = 0x8519
 	TEXTURE_MAG_FILTER                        = 0x2800
 	TEXTURE_MAX_LEVEL                         = 0x813D
 	TEXTURE_MIN_FILTER                        = 0x2801
