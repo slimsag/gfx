@@ -16,3 +16,8 @@ type Renderbuffer struct {
 
 	ctx *Context
 }
+
+// Delete implements the gfx.Renderbuffer interface.
+func (r *Renderbuffer) Delete() {
+	r.ctx.Object.Call("deleteRenderbuffer", r.Object)
+}

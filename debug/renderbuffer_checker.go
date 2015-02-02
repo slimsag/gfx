@@ -13,3 +13,9 @@ type rbChecker struct {
 	rb  gfx.Renderbuffer
 	ctx gfx.Context
 }
+
+// Delete implements the gfx.Framebuffer interface.
+func (r *rbChecker) Delete() {
+	r.rb.Delete()
+	r.ctx.Check()
+}

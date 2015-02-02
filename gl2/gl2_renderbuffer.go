@@ -5,6 +5,8 @@
 
 package gl2
 
+import "github.com/slimsag/gfx/internal/gl/2.0/gl"
+
 // Renderbuffer implements the gfx.Renderbuffer interface by wrapping a OpenGL
 // renderbuffer object ID.
 type Renderbuffer struct {
@@ -12,4 +14,9 @@ type Renderbuffer struct {
 	Object uint32
 
 	ctx *Context
+}
+
+// Delete implements the gfx.Renderbuffer interface.
+func (r *Renderbuffer) Delete() {
+	gl.DeleteRenderbuffers(1, &r.Object)
 }

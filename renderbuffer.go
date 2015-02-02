@@ -11,4 +11,7 @@ package gfx
 // attached to a Framebuffer and used to store either stencil data or a
 // combination of stencil and depth data.
 type Renderbuffer interface {
+	// Delete deletes this renderbuffer object, it is unsafe to use this
+	// renderbuffer after deletion.
+	Delete()
 }
