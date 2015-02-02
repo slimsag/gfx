@@ -6,9 +6,9 @@ package debug
 
 import "github.com/slimsag/gfx"
 
-// rbChecker is like the checker type, but for a gfx.Renderbuffer. It implicitly
-// invokes the Check method of the underlying context after each function call
-// is made.
+// rbChecker is like the checker type, but for a gfx.Renderbuffer. It
+// implicitly invokes the Check method of the underlying context after each
+// function call is made.
 type rbChecker struct {
 	rb  gfx.Renderbuffer
 	ctx gfx.Context
