@@ -105,6 +105,13 @@ func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	}
 }
 
+// NewRenderbuffer implements the gfx.Context interface.
+func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
+	return &Renderbuffer{
+		Object: c.Object.Call("createRenderbuffer"),
+	}
+}
+
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
 	e := c.Object.Call("getError").Int()

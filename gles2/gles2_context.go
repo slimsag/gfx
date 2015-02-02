@@ -62,6 +62,13 @@ func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	return fb
 }
 
+// NewRenderbuffer implements the gfx.Context interface.
+func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
+	rb := new(Renderbuffer)
+	gl.GenRenderbuffers(1, &rb.Object)
+	return rb
+}
+
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
 	e := gl.GetError()

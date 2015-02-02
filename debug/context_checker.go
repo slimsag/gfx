@@ -21,6 +21,13 @@ func (c *checker) NewFramebuffer() gfx.Framebuffer {
 	return v
 }
 
+// NewRenderbuffer implements the gfx.Context interface.
+func (c *checker) NewRenderbuffer() gfx.Renderbuffer {
+	v := c.ctx.NewRenderbuffer()
+	c.ctx.Check()
+	return v
+}
+
 // Check implements the gfx.Context interface.
 func (c *checker) Check() {
 	// We don't want caller to accidently grab the error, so we stub out the
