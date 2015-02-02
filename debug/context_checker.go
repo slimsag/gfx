@@ -39,6 +39,9 @@ func (c *checker) Finish() {
 //
 // This ensures that, should any error occur in the context, you will receive
 // a nice Go stack trace with the exact function where the error was made.
+//
+// Additionally, it will generate panics for any Framebuffer operations whose
+// Status is != nil.
 func Checker(c gfx.Context) gfx.Context {
 	return &checker{
 		fbChecker: &fbChecker{

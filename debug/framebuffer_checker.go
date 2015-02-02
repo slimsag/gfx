@@ -17,19 +17,19 @@ type fbChecker struct {
 // ClearColor implements the gfx.Clearable interface.
 func (f *fbChecker) ClearColor(r, g, b, a float32) {
 	f.fb.ClearColor(r, g, b, a)
-	f.ctx.Check()
+	f.check()
 }
 
 // ClearDepth implements the gfx.Clearable interface.
 func (f *fbChecker) ClearDepth(depth float64) {
 	f.fb.ClearDepth(depth)
-	f.ctx.Check()
+	f.check()
 }
 
 // ClearStencil implements the gfx.Clearable interface.
 func (f *fbChecker) ClearStencil(stencil int) {
 	f.fb.ClearStencil(stencil)
-	f.ctx.Check()
+	f.check()
 }
 
 // Clear implements the gfx.Clearable interface.
@@ -49,7 +49,7 @@ func (f *fbChecker) Clear(m gfx.ClearMask) {
 	}
 
 	f.fb.Clear(m)
-	f.ctx.Check()
+	f.check()
 }
 
 // ReadPixelsUint8 implements the gfx.Framebuffer interface.
@@ -60,7 +60,7 @@ func (f *fbChecker) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	}
 
 	f.fb.ReadPixelsUint8(x, y, width, height, dst)
-	f.ctx.Check()
+	f.check()
 }
 
 // Status implements the gfx.Framebuffer interface.
@@ -68,4 +68,10 @@ func (f *fbChecker) Status() error {
 	status := f.fb.Status()
 	f.ctx.Check()
 	return status
+}
+
+func (f *fbChecker) check() {
+	if status := f.Status(); status != nil {
+		panic(status)
+	}
 }
