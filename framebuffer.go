@@ -44,6 +44,9 @@ type Framebuffer interface {
 	// Texture2D attaches a 2D texture to this framebuffer object.
 	Texture2D(attachment FramebufferAttachment, target TextureTarget, tex Texture)
 
+	// Renderbuffer attaches a renderbuffer to this framebuffer object.
+	Renderbuffer(attachment FramebufferAttachment, buf Renderbuffer)
+
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.
 	//

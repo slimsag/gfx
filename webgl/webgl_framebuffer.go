@@ -12,6 +12,21 @@ import (
 	"github.com/slimsag/gfx"
 )
 
+func (c *Context) convertFramebufferAttachment(a gfx.FramebufferAttachment) int {
+	switch a {
+	case gfx.ColorAttachment0:
+		return c.COLOR_ATTACHMENT0
+	case gfx.DepthAttachment:
+		return c.DEPTH_ATTACHMENT
+	case gfx.StencilAttachment:
+		return c.STENCIL_ATTACHMENT
+	case gfx.DepthStencilAttachment:
+		return c.DEPTH_STENCIL_ATTACHMENT
+	default:
+		panic("invalid framebuffer attachment parameter")
+	}
+}
+
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
@@ -79,43 +94,28 @@ func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 
 // Texture2D implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx.TextureTarget, tex gfx.Texture) {
-	// Convert the attachment parameter.
-	var a int
-	switch attachment {
-	case gfx.ColorAttachment0:
-		a = f.ctx.COLOR_ATTACHMENT0
-	case gfx.DepthAttachment:
-		a = f.ctx.DEPTH_ATTACHMENT
-	case gfx.StencilAttachment:
-		a = f.ctx.STENCIL_ATTACHMENT
-	case gfx.DepthStencilAttachment:
-		a = f.ctx.DEPTH_STENCIL_ATTACHMENT
-	default:
-		panic("Framebuffer.Texture2D: invalid framebuffer attachment parameter")
-	}
-
-	// Convert the target parameter.
-	var t int
-	switch target {
-	case gfx.Texture2D:
-		t = f.ctx.TEXTURE_2D
-	case gfx.TextureCubeMapPositiveX:
-		t = f.ctx.TEXTURE_CUBE_MAP_POSITIVE_X
-	case gfx.TextureCubeMapNegativeX:
-		t = f.ctx.TEXTURE_CUBE_MAP_NEGATIVE_X
-	case gfx.TextureCubeMapPositiveY:
-		t = f.ctx.TEXTURE_CUBE_MAP_POSITIVE_Y
-	case gfx.TextureCubeMapNegativeY:
-		t = f.ctx.TEXTURE_CUBE_MAP_NEGATIVE_Y
-	case gfx.TextureCubeMapPositiveZ:
-		t = f.ctx.TEXTURE_CUBE_MAP_POSITIVE_Z
-	case gfx.TextureCubeMapNegativeZ:
-		t = f.ctx.TEXTURE_CUBE_MAP_NEGATIVE_Z
-	default:
-		panic("Framebuffer.Texture2D: invalid texture target parameter")
-	}
 	f.useState()
-	f.ctx.Object.Call("framebufferTexture2D", f.ctx.FRAMEBUFFER, a, t, tex.(*Texture).Object, 0)
+	f.ctx.Object.Call(
+		"framebufferTexture2D",
+		f.ctx.FRAMEBUFFER,
+		f.ctx.convertFramebufferAttachment(attachment),
+		f.ctx.convertTextureTarget(target),
+		tex.(*Texture).Object,
+		0,
+	)
+}
+
+// Renderbuffer implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx.Renderbuffer) {
+	f.useState()
+	f.ctx.Object.Call(
+		"framebufferTexture2D",
+		f.ctx.FRAMEBUFFER,
+		f.ctx.convertFramebufferAttachment(attachment),
+		f.ctx.RENDERBUFFER,
+		buf.(*Renderbuffer).Object,
+		0,
+	)
 }
 
 // Status implements the gfx.Framebuffer interface.

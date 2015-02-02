@@ -69,6 +69,12 @@ func (f *fbChecker) Texture2D(attachment gfx.FramebufferAttachment, target gfx.T
 	f.check()
 }
 
+// Renderbuffer implements the gfx.Framebuffer interface.
+func (f *fbChecker) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx.Renderbuffer) {
+	f.fb.Renderbuffer(attachment, buf)
+	f.check()
+}
+
 // Status implements the gfx.Framebuffer interface.
 func (f *fbChecker) Status() error {
 	status := f.fb.Status()
