@@ -103,3 +103,8 @@ func (f *Framebuffer) Status() error {
 		panic(fmt.Sprintf("gl2: unhandled framebuffer status 0x%X\n", e))
 	}
 }
+
+// Delete implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Delete() {
+	gl.DeleteFramebuffers(1, &f.Object)
+}

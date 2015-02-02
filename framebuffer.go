@@ -35,4 +35,8 @@ type Framebuffer interface {
 	// is returned when the framebuffer attachment combination is not supported
 	// by the hardware.
 	Status() error
+
+	// Delete deletes this framebuffer object, it is unsafe to use this
+	// framebuffer after deletion.
+	Delete()
 }

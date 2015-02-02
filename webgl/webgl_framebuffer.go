@@ -17,7 +17,7 @@ import (
 type Framebuffer struct {
 	// Object is literally the WebGLFramebuffer object (or nil in the case of
 	// the default framebuffer).
-	js.Object
+	Object js.Object
 
 	ctx *Context
 
@@ -68,19 +68,19 @@ func (f *Framebuffer) Clear(m gfx.ClearMask) {
 
 	// Use this framebuffer's state, and perform the clear operation.
 	f.useState()
-	f.ctx.Call("clear", mask)
+	f.ctx.Object.Call("clear", mask)
 }
 
 // ReadPixelsUint8 implements the gfx.Framebuffer interface.
 func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.useState()
-	f.ctx.Call("readPixels", x, y, width, height, f.ctx.RGBA, f.ctx.UNSIGNED_BYTE, dst)
+	f.ctx.Object.Call("readPixels", x, y, width, height, f.ctx.RGBA, f.ctx.UNSIGNED_BYTE, dst)
 }
 
 // Status implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Status() error {
 	f.useState()
-	e := f.ctx.Call("checkFramebufferStatus", f.ctx.FRAMEBUFFER).Int()
+	e := f.ctx.Object.Call("checkFramebufferStatus", f.ctx.FRAMEBUFFER).Int()
 
 	// Avoid the larger switch statement below, as no error is the most likely
 	// case.
@@ -93,11 +93,16 @@ func (f *Framebuffer) Status() error {
 		return gfx.ErrFramebufferIncompleteAttachment
 	case f.ctx.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 		return gfx.ErrFramebufferIncompleteMissingAttachment
-	//case f.ctx.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-	//	return gfx.ErrFramebufferIncompleteDimensions
+	case f.ctx.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+		return gfx.ErrFramebufferIncompleteDimensions
 	case f.ctx.FRAMEBUFFER_UNSUPPORTED:
 		return gfx.ErrFramebufferIncompleteDimensions
 	default:
 		panic(fmt.Sprintf("webgl: unhandled framebuffer status 0x%X\n", e))
 	}
+}
+
+// Delete implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Delete() {
+	f.ctx.Object.Call("deleteFramebuffer", f.Object)
 }

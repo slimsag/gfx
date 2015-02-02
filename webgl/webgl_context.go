@@ -16,7 +16,7 @@ import (
 // Context implements the gfx.Context interface.
 type Context struct {
 	// Object is literally the WebGLRenderingContext JavaScript object.
-	js.Object
+	Object js.Object
 
 	// The default framebuffer implementation for the context.
 	*Framebuffer
@@ -46,6 +46,7 @@ type Context struct {
 	FRAMEBUFFER_COMPLETE                      int `js:"FRAMEBUFFER_COMPLETE"`
 	FRAMEBUFFER_INCOMPLETE_ATTACHMENT         int `js:"FRAMEBUFFER_INCOMPLETE_ATTACHMENT"`
 	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT int `js:"FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"`
+	FRAMEBUFFER_INCOMPLETE_DIMENSIONS         int `js:"FRAMEBUFFER_INCOMPLETE_DIMENSIONS"`
 	FRAMEBUFFER_UNSUPPORTED                   int `js:"FRAMEBUFFER_UNSUPPORTED"`
 }
 
@@ -54,7 +55,7 @@ func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
 		return
 	}
 	c.LastBindFramebuffer = framebuffer
-	c.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
+	c.Object.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
 }
 
 func (c *Context) fastClearColor(v [4]float32) {
@@ -62,7 +63,7 @@ func (c *Context) fastClearColor(v [4]float32) {
 		return
 	}
 	c.LastClearColor = v
-	c.Call("clearColor", v[0], v[1], v[2], v[3])
+	c.Object.Call("clearColor", v[0], v[1], v[2], v[3])
 }
 
 func (c *Context) fastClearDepth(v float64) {
@@ -70,7 +71,7 @@ func (c *Context) fastClearDepth(v float64) {
 		return
 	}
 	c.LastClearDepth = v
-	c.Call("clearDepth", v)
+	c.Object.Call("clearDepth", v)
 }
 
 func (c *Context) fastClearStencil(v int) {
@@ -78,12 +79,12 @@ func (c *Context) fastClearStencil(v int) {
 		return
 	}
 	c.LastClearStencil = v
-	c.Call("clearStencil", v)
+	c.Object.Call("clearStencil", v)
 }
 
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
-	e := c.Call("getError").Int()
+	e := c.Object.Call("getError").Int()
 
 	// Avoid the larger switch statement below, as no error is the most likely
 	// case.
@@ -111,12 +112,12 @@ func (c *Context) Check() {
 
 // Flush implements the gfx.Context interface.
 func (c *Context) Flush() {
-	c.Call("flush")
+	c.Object.Call("flush")
 }
 
 // Finish implements the gfx.Context interface.
 func (c *Context) Finish() {
-	c.Call("finish")
+	c.Object.Call("finish")
 }
 
 // Wrap returns a new WebGL rendering context by wrapping the given JavaScript
