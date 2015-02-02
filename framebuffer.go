@@ -19,7 +19,7 @@ type Framebuffer interface {
 	Clearable
 
 	// ReadPixelsUint8 reads RGBA 32/bpp pixel data into the given slice from a
-    // rectangular area in the color buffer of this frame buffer.
+	// rectangular area in the color buffer of this frame buffer.
 	//
 	// The x and y coordinates specify the frame buffer coordinates of the
 	// first pixel that is read from the frame buffer. This location is the
