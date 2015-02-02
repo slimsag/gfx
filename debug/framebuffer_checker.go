@@ -63,6 +63,12 @@ func (f *fbChecker) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.check()
 }
 
+// Texture2D implements the gfx.Framebuffer interface.
+func (f *fbChecker) Texture2D(attachment gfx.FramebufferAttachment, target gfx.TextureTarget, tex gfx.Texture) {
+	f.fb.Texture2D(attachment, target, tex)
+	f.check()
+}
+
 // Status implements the gfx.Framebuffer interface.
 func (f *fbChecker) Status() error {
 	status := f.fb.Status()

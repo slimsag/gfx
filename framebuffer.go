@@ -13,6 +13,19 @@ var (
 	ErrFramebufferUnsupported                 = errors.New("framebuffer: the attachments aren't supported")
 )
 
+// FramebufferAttachment represents a framebuffer attachment point. It must be
+// one of the predefined constants.
+type FramebufferAttachment int
+
+// Framebuffer attachment points.
+const (
+	zeroFramebufferAttachment FramebufferAttachment = iota
+	ColorAttachment0
+	DepthAttachment
+	StencilAttachment
+	DepthStencilAttachment
+)
+
 // Framebuffer is a collection of buffers that serve as a rendering
 // destination.
 type Framebuffer interface {
@@ -27,6 +40,9 @@ type Framebuffer interface {
 	//
 	// len(dst) must be >= width*height*4
 	ReadPixelsUint8(x, y, width, height int, dst []uint8)
+
+	// Texture2D attaches a 2D texture to this framebuffer object.
+	Texture2D(attachment FramebufferAttachment, target TextureTarget, tex Texture)
 
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.

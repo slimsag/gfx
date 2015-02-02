@@ -79,6 +79,47 @@ func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	gl.ReadPixels(int32(x), int32(y), int32(width), int32(height), gl.RGBA, gl.UNSIGNED_BYTE, dstPtr)
 }
 
+// Texture2D implements the gfx.Framebuffer interface.
+func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx.TextureTarget, tex gfx.Texture) {
+	// Convert the attachment parameter.
+	var a uint32
+	switch attachment {
+	case gfx.ColorAttachment0:
+		a = gl.COLOR_ATTACHMENT0
+	case gfx.DepthAttachment:
+		a = gl.DEPTH_ATTACHMENT
+	case gfx.StencilAttachment:
+		a = gl.STENCIL_ATTACHMENT
+	case gfx.DepthStencilAttachment:
+		a = gl.DEPTH_STENCIL_ATTACHMENT
+	default:
+		panic("Framebuffer.Texture2D: invalid framebuffer attachment parameter")
+	}
+
+	// Convert the target parameter.
+	var t uint32
+	switch target {
+	case gfx.Texture2D:
+		t = gl.TEXTURE_2D
+	case gfx.TextureCubeMapPositiveX:
+		t = gl.TEXTURE_CUBE_MAP_POSITIVE_X
+	case gfx.TextureCubeMapNegativeX:
+		t = gl.TEXTURE_CUBE_MAP_NEGATIVE_X
+	case gfx.TextureCubeMapPositiveY:
+		t = gl.TEXTURE_CUBE_MAP_POSITIVE_Y
+	case gfx.TextureCubeMapNegativeY:
+		t = gl.TEXTURE_CUBE_MAP_NEGATIVE_Y
+	case gfx.TextureCubeMapPositiveZ:
+		t = gl.TEXTURE_CUBE_MAP_POSITIVE_Z
+	case gfx.TextureCubeMapNegativeZ:
+		t = gl.TEXTURE_CUBE_MAP_NEGATIVE_Z
+	default:
+		panic("Framebuffer.Texture2D: invalid texture target parameter")
+	}
+	f.useState()
+	gl.FramebufferTexture2D(gl.FRAMEBUFFER, a, t, tex.(*Texture).Object, 0)
+}
+
 // Status implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Status() error {
 	f.useState()
