@@ -30,5 +30,9 @@ type Framebuffer interface {
 
 	// Status returns any framebuffer status error that might have occured. If
 	// nil is returned, the framebuffer is ready for display.
+	//
+	// Primarily you should expect to handle ErrFramebufferUnsupported, which
+	// is returned when the framebuffer attachment combination is not supported
+	// by the hardware.
 	Status() error
 }
