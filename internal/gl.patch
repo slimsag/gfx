@@ -1,0 +1,43 @@
+diff --git a/gl/2.0/gl/conversions.go b/gltmp/2.0/gl/conversions.go
+index 4bf004c..e5263b9 100644
+--- a/gl/2.0/gl/conversions.go
++++ b/gltmp/2.0/gl/conversions.go
+@@ -1,4 +1,5 @@
+ // Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
++// +build 386,!gles2 amd64,!gles2
+ 
+ package gl
+ 
+diff --git a/gl/2.0/gl/debug.go b/gltmp/2.0/gl/debug.go
+index 4482827..a440515 100644
+--- a/gl/2.0/gl/debug.go
++++ b/gltmp/2.0/gl/debug.go
+@@ -1,4 +1,5 @@
+ // Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
++// +build 386,!gles2 amd64,!gles2
+ 
+ package gl
+ 
+diff --git a/gl/2.0/gl/package.go b/gltmp/2.0/gl/package.go
+index 8b62406..c4a5089 100644
+--- a/gl/2.0/gl/package.go
++++ b/gltmp/2.0/gl/package.go
+@@ -6,6 +6,7 @@
+ // Copyright (c) 1991-2006 Silicon Graphics, Inc.
+ // This document is licensed under the SGI Free Software B License.
+ // For details, see http://oss.sgi.com/projects/FreeB.
++// +build 386,!gles2 amd64,!gles2
+ 
+ // Package gl implements Go bindings to OpenGL.
+ //
+@@ -458,8 +459,8 @@ import (
+ 	"errors"
+ 	"unsafe"
+ 
+-	"github.com/go-gl/glow/procaddr"
+-	"github.com/go-gl/glow/procaddr/auto"
++	"github.com/slimsag/gfx/internal/procaddr"
++	"github.com/slimsag/gfx/internal/procaddr/auto"
+ )
+ 
+ const (
