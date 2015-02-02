@@ -14,6 +14,13 @@ type checker struct {
 	ctx gfx.Context
 }
 
+// NewFramebuffer implements the gfx.Context interface.
+func (c *checker) NewFramebuffer() gfx.Framebuffer {
+	v := c.ctx.NewFramebuffer()
+	c.ctx.Check()
+	return v
+}
+
 // Check implements the gfx.Context interface.
 func (c *checker) Check() {
 	// We don't want caller to accidently grab the error, so we stub out the

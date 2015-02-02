@@ -30,6 +30,10 @@ type Context interface {
 	// vertices or colors.
 	//NewBuffer() Buffer
 
+	// NewFramebuffer returns a new Framebuffer object used for storing
+	// complete frames.
+	NewFramebuffer() Framebuffer
+
 	// Check checks that no errors have occured in the context. If an error
 	// occurs, it is either a programmer error (passing an invalid value, etc)
 	// or a serious device error (running out of memory, losing the context).

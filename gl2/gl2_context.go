@@ -55,6 +55,13 @@ func (c *Context) fastClearStencil(v int) {
 	gl.ClearStencil(int32(v))
 }
 
+// NewFramebuffer implements the gfx.Context interface.
+func (c *Context) NewFramebuffer() gfx.Framebuffer {
+	fb := new(Framebuffer)
+	gl.GenFramebuffers(1, &fb.Object)
+	return fb
+}
+
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
 	e := gl.GetError()

@@ -82,6 +82,13 @@ func (c *Context) fastClearStencil(v int) {
 	c.Object.Call("clearStencil", v)
 }
 
+// NewFramebuffer implements the gfx.Context interface.
+func (c *Context) NewFramebuffer() gfx.Framebuffer {
+	return &Framebuffer{
+		Object: c.Object.Call("createFramebuffer"),
+	}
+}
+
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
 	e := c.Object.Call("getError").Int()
