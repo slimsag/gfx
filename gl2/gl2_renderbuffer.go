@@ -5,7 +5,10 @@
 
 package gl2
 
-import "github.com/slimsag/gfx/internal/gl/2.0/gl"
+import (
+	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
+)
 
 // Renderbuffer implements the gfx.Renderbuffer interface by wrapping a OpenGL
 // renderbuffer object ID.
@@ -14,6 +17,32 @@ type Renderbuffer struct {
 	Object uint32
 
 	ctx *Context
+}
+
+// useState binds the global OpenGL state for this local Renderbuffer object.
+func (r *Renderbuffer) useState() {
+	// Bind the renderbuffer now.
+	r.ctx.fastBindRenderbuffer(r.Object)
+}
+
+// Storage implements the gfx.Renderbuffer interface.
+func (r *Renderbuffer) Storage(internalFormat gfx.RenderbufferFormat, width, height int) {
+	var f uint32
+	switch internalFormat {
+	case gfx.RGBA4:
+		f = gl.RGBA4
+	case gfx.RGB565:
+		f = gl.RGB565
+	case gfx.RGB5A1:
+		f = gl.RGB5_A1
+	case gfx.DepthComponent16:
+		f = gl.DEPTH_COMPONENT16
+	default:
+		panic("Renderbuffer.Storage: invalid internalFormat parameter")
+	}
+
+	r.useState()
+	gl.RenderbufferStorage(gl.RENDERBUFFER, f, int32(width), int32(height))
 }
 
 // Delete implements the gfx.Renderbuffer interface.

@@ -17,10 +17,11 @@ type Context struct {
 	// The default framebuffer implementation for the context.
 	*Framebuffer
 
-	LastBindFramebuffer uint32
-	LastClearColor      [4]float32
-	LastClearDepth      float64
-	LastClearStencil    int
+	LastBindFramebuffer  uint32
+	LastBindRenderbuffer uint32
+	LastClearColor       [4]float32
+	LastClearDepth       float64
+	LastClearStencil     int
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer uint32) {
@@ -29,6 +30,14 @@ func (c *Context) fastBindFramebuffer(framebuffer uint32) {
 	}
 	c.LastBindFramebuffer = framebuffer
 	gl.BindFramebuffer(gl.FRAMEBUFFER, framebuffer)
+}
+
+func (c *Context) fastBindRenderbuffer(renderbuffer uint32) {
+	if c.LastBindRenderbuffer == renderbuffer {
+		return
+	}
+	c.LastBindRenderbuffer = renderbuffer
+	gl.BindRenderbuffer(gl.RENDERBUFFER, renderbuffer)
 }
 
 func (c *Context) fastClearColor(v [4]float32) {

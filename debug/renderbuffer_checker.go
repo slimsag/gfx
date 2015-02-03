@@ -14,6 +14,12 @@ type rbChecker struct {
 	ctx gfx.Context
 }
 
+// Storage implements the gfx.Renderbuffer interface.
+func (r *rbChecker) Storage(internalFormat gfx.RenderbufferFormat, width, height int) {
+	r.rb.Storage(internalFormat, width, height)
+	r.ctx.Check()
+}
+
 // Delete implements the gfx.Framebuffer interface.
 func (r *rbChecker) Delete() {
 	r.rb.Delete()

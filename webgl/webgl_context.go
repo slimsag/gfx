@@ -21,10 +21,11 @@ type Context struct {
 	// The default framebuffer implementation for the context.
 	*Framebuffer
 
-	LastBindFramebuffer js.Object
-	LastClearColor      [4]float32
-	LastClearDepth      float64
-	LastClearStencil    int
+	LastBindFramebuffer  js.Object
+	LastBindRenderbuffer js.Object
+	LastClearColor       [4]float32
+	LastClearDepth       float64
+	LastClearStencil     int
 
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
@@ -64,6 +65,12 @@ type Context struct {
 	TEXTURE_CUBE_MAP_NEGATIVE_Y int `js:"TEXTURE_CUBE_MAP_NEGATIVE_Y"`
 	TEXTURE_CUBE_MAP_POSITIVE_Z int `js:"TEXTURE_CUBE_MAP_POSITIVE_Z"`
 	TEXTURE_CUBE_MAP_NEGATIVE_Z int `js:"TEXTURE_CUBE_MAP_NEGATIVE_Z"`
+
+	// Renderbuffer storage formats.
+	RGBA4             int `js:"RGBA4"`
+	RGB565            int `js:"RGB565"`
+	RGB5_A1           int `js:"RGB5_A1"`
+	DEPTH_COMPONENT16 int `js:"DEPTH_COMPONENT16"`
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
@@ -72,6 +79,14 @@ func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
 	}
 	c.LastBindFramebuffer = framebuffer
 	c.Object.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
+}
+
+func (c *Context) fastBindRenderbuffer(renderbuffer js.Object) {
+	if c.LastBindRenderbuffer == renderbuffer {
+		return
+	}
+	c.LastBindRenderbuffer = renderbuffer
+	c.Object.Call("bindRenderbuffer", c.RENDERBUFFER, renderbuffer)
 }
 
 func (c *Context) fastClearColor(v [4]float32) {
