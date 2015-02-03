@@ -183,6 +183,7 @@ package gl
 // typedef GLint  (APIENTRYP GPGETUNIFORMLOCATION)(GLuint  program, const GLchar * name);
 // typedef void  (APIENTRYP GPLINKPROGRAM)(GLuint  program);
 // typedef void  (APIENTRYP GPREADPIXELS)(GLint  x, GLint  y, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, void * pixels);
+// typedef void  (APIENTRYP GPRENDERBUFFERSTORAGE)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPRENDERBUFFERSTORAGEMULTISAMPLE)(GLenum  target, GLsizei  samples, GLenum  internalformat, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPSCISSOR)(GLint  x, GLint  y, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPSHADERSOURCE)(GLuint  shader, GLsizei  count, const GLchar *const* string, const GLint * length);
@@ -397,6 +398,9 @@ package gl
 // static void  glowReadPixels(GPREADPIXELS fnptr, GLint  x, GLint  y, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, void * pixels) {
 //   (*fnptr)(x, y, width, height, format, type, pixels);
 // }
+// static void  glowRenderbufferStorage(GPRENDERBUFFERSTORAGE fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height) {
+//   (*fnptr)(target, internalformat, width, height);
+// }
 // static void  glowRenderbufferStorageMultisample(GPRENDERBUFFERSTORAGEMULTISAMPLE fnptr, GLenum  target, GLsizei  samples, GLenum  internalformat, GLsizei  width, GLsizei  height) {
 //   (*fnptr)(target, samples, internalformat, width, height);
 // }
@@ -597,8 +601,11 @@ const (
 	REPEAT                                    = 0x2901
 	REPLACE                                   = 0x1E01
 	RGB                                       = 0x1907
+	RGB565                                    = 0x8D62
+	RGB5_A1                                   = 0x8057
 	RGB8                                      = 0x8051
 	RGBA                                      = 0x1908
+	RGBA4                                     = 0x8056
 	RGBA8                                     = 0x8058
 	SAMPLES                                   = 0x80A9
 	SAMPLES_PASSED                            = 0x8914
@@ -724,6 +731,7 @@ var (
 	gpGetUniformLocation             C.GPGETUNIFORMLOCATION
 	gpLinkProgram                    C.GPLINKPROGRAM
 	gpReadPixels                     C.GPREADPIXELS
+	gpRenderbufferStorage            C.GPRENDERBUFFERSTORAGE
 	gpRenderbufferStorageMultisample C.GPRENDERBUFFERSTORAGEMULTISAMPLE
 	gpScissor                        C.GPSCISSOR
 	gpShaderSource                   C.GPSHADERSOURCE
@@ -1064,6 +1072,11 @@ func ReadPixels(x int32, y int32, width int32, height int32, format uint32, xtyp
 	C.glowReadPixels(gpReadPixels, (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLenum)(format), (C.GLenum)(xtype), pixels)
 }
 
+// establish data storage, format and dimensions of a     renderbuffer object's image
+func RenderbufferStorage(target uint32, internalformat uint32, width int32, height int32) {
+	C.glowRenderbufferStorage(gpRenderbufferStorage, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height))
+}
+
 // establish data storage, format, dimensions and sample count of     a renderbuffer object's image
 func RenderbufferStorageMultisample(target uint32, samples int32, internalformat uint32, width int32, height int32) {
 	C.glowRenderbufferStorageMultisample(gpRenderbufferStorageMultisample, (C.GLenum)(target), (C.GLsizei)(samples), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height))
@@ -1382,6 +1395,7 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
 	if gpReadPixels == nil {
 		return errors.New("glReadPixels")
 	}
+	gpRenderbufferStorage = (C.GPRENDERBUFFERSTORAGE)(getProcAddr("glRenderbufferStorage"))
 	gpRenderbufferStorageMultisample = (C.GPRENDERBUFFERSTORAGEMULTISAMPLE)(getProcAddr("glRenderbufferStorageMultisample"))
 	gpScissor = (C.GPSCISSOR)(getProcAddr("glScissor"))
 	if gpScissor == nil {
