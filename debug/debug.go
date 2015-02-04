@@ -15,5 +15,3 @@ import "github.com/slimsag/gfx"
 func Context(c gfx.Context) gfx.Context {
 	return Checker(c)
 }
-
-// TODO(slimsag): check for invalid Framebuffer.Clear masks
