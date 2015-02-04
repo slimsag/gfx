@@ -9,16 +9,22 @@ import "testing"
 // It's important that enumerations range consequtively from [zero - EnumMax],
 // because we use an flat array as a lookup table.
 func TestEnumOrder(t *testing.T) {
-	if zeroTextureTarget != 0 {
-		panic("zeroTextureTarget != 0")
+	zeros := []int{
+		int(zeroTextureTarget),
+		int(zeroRenderbufferFormat),
+		int(zeroFramebufferAttachment),
+		int(zeroBufferUsage),
+		int(zeroFeature),
+		EnumMax,
 	}
-	if zeroRenderbufferFormat != 8 {
-		panic("zeroRenderbufferFormat != 8")
-	}
-	if zeroBufferUsage != 18 {
-		panic("zeroBufferUsage != 18")
-	}
-	if EnumMax != 22 {
-		panic("EnumMax != 22")
+	var last = 0
+	for i := 1; i < len(zeros); i++ {
+		this := zeros[i]
+		if this <= last {
+			t.Log("last", last)
+			t.Log("this", this)
+			panic("invalid enum ordering")
+		}
+		last = this
 	}
 }
