@@ -12,21 +12,6 @@ import (
 	"github.com/slimsag/gfx"
 )
 
-func (c *Context) convertFramebufferAttachment(a gfx.FramebufferAttachment) int {
-	switch a {
-	case gfx.ColorAttachment0:
-		return c.COLOR_ATTACHMENT0
-	case gfx.DepthAttachment:
-		return c.DEPTH_ATTACHMENT
-	case gfx.StencilAttachment:
-		return c.STENCIL_ATTACHMENT
-	case gfx.DepthStencilAttachment:
-		return c.DEPTH_STENCIL_ATTACHMENT
-	default:
-		panic("invalid framebuffer attachment parameter")
-	}
-}
-
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
@@ -98,8 +83,8 @@ func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx
 	f.ctx.Object.Call(
 		"framebufferTexture2D",
 		f.ctx.FRAMEBUFFER,
-		f.ctx.convertFramebufferAttachment(attachment),
-		f.ctx.convertTextureTarget(target),
+		f.ctx.Enums[int(attachment)],
+		f.ctx.Enums[int(target)],
 		tex.(*Texture).Object,
 		0,
 	)
@@ -111,7 +96,7 @@ func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx
 	f.ctx.Object.Call(
 		"framebufferTexture2D",
 		f.ctx.FRAMEBUFFER,
-		f.ctx.convertFramebufferAttachment(attachment),
+		f.ctx.Enums[int(attachment)],
 		f.ctx.RENDERBUFFER,
 		buf.(*Renderbuffer).Object,
 		0,

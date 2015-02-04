@@ -13,19 +13,6 @@ var (
 	ErrFramebufferUnsupported                 = errors.New("framebuffer: the attachments aren't supported")
 )
 
-// FramebufferAttachment represents a framebuffer attachment point. It must be
-// one of the predefined constants.
-type FramebufferAttachment int
-
-// Framebuffer attachment points.
-const (
-	zeroFramebufferAttachment FramebufferAttachment = iota
-	ColorAttachment0
-	DepthAttachment
-	StencilAttachment
-	DepthStencilAttachment
-)
-
 // Framebuffer is a collection of buffers that serve as a rendering
 // destination.
 type Framebuffer interface {

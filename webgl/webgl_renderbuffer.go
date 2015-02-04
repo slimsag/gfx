@@ -28,22 +28,8 @@ func (r *Renderbuffer) useState() {
 
 // Storage implements the gfx.Renderbuffer interface.
 func (r *Renderbuffer) Storage(internalFormat gfx.RenderbufferFormat, width, height int) {
-	var f int
-	switch internalFormat {
-	case gfx.RGBA4:
-		f = r.ctx.RGBA4
-	case gfx.RGB565:
-		f = r.ctx.RGB565
-	case gfx.RGB5A1:
-		f = r.ctx.RGB5_A1
-	case gfx.DepthComponent16:
-		f = r.ctx.DEPTH_COMPONENT16
-	default:
-		panic("Renderbuffer.Storage: invalid internalFormat parameter")
-	}
-
 	r.useState()
-	r.ctx.Object.Call("renderbufferStorage", r.ctx.RENDERBUFFER, f, width, height)
+	r.ctx.Object.Call("renderbufferStorage", r.ctx.RENDERBUFFER, r.ctx.Enums[int(internalFormat)], width, height)
 }
 
 // Delete implements the gfx.Renderbuffer interface.

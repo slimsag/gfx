@@ -27,6 +27,9 @@ type Context struct {
 	LastClearDepth       float64
 	LastClearStencil     int
 
+	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
+	Enums *[gfx.EnumMax]int
+
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
 	OUT_OF_MEMORY                 int `js:"OUT_OF_MEMORY"`
@@ -38,11 +41,11 @@ type Context struct {
 
 	FRAMEBUFFER        int `js:"FRAMEBUFFER"`
 	RENDERBUFFER       int `js:"RENDERBUFFER"`
+	UNSIGNED_BYTE      int `js:"UNSIGNED_BYTE"`
+	RGBA               int `js:"RGBA"`
 	DEPTH_BUFFER_BIT   int `js:"DEPTH_BUFFER_BIT"`
 	STENCIL_BUFFER_BIT int `js:"STENCIL_BUFFER_BIT"`
 	COLOR_BUFFER_BIT   int `js:"COLOR_BUFFER_BIT"`
-	UNSIGNED_BYTE      int `js:"UNSIGNED_BYTE"`
-	RGBA               int `js:"RGBA"`
 
 	// Framebuffer status codes (see the Framebuffer.Status method).
 	FRAMEBUFFER_COMPLETE                      int `js:"FRAMEBUFFER_COMPLETE"`
@@ -50,27 +53,41 @@ type Context struct {
 	FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT int `js:"FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"`
 	FRAMEBUFFER_INCOMPLETE_DIMENSIONS         int `js:"FRAMEBUFFER_INCOMPLETE_DIMENSIONS"`
 	FRAMEBUFFER_UNSUPPORTED                   int `js:"FRAMEBUFFER_UNSUPPORTED"`
+}
+
+func (c *Context) putEnum(gfxEnum int, name string) {
+	glEnum := c.Object.Get(name).Int()
+	if glEnum == 0 {
+		fmt.Println("gfxEnum:", gfxEnum)
+		fmt.Println("name:", name)
+		panic("putEnum: got invalid enum")
+	}
+	c.Enums[gfxEnum] = glEnum
+}
+
+func (c *Context) loadEnums() {
+	c.Enums = new([gfx.EnumMax]int)
 
 	// Framebuffer attachment points.
-	COLOR_ATTACHMENT0        int `js:"COLOR_ATTACHMENT0"`
-	DEPTH_ATTACHMENT         int `js:"DEPTH_ATTACHMENT"`
-	STENCIL_ATTACHMENT       int `js:"STENCIL_ATTACHMENT"`
-	DEPTH_STENCIL_ATTACHMENT int `js:"DEPTH_STENCIL_ATTACHMENT"`
+	c.putEnum(int(gfx.ColorAttachment0), "COLOR_ATTACHMENT0")
+	c.putEnum(int(gfx.DepthAttachment), "DEPTH_ATTACHMENT")
+	c.putEnum(int(gfx.StencilAttachment), "STENCIL_ATTACHMENT")
+	c.putEnum(int(gfx.DepthStencilAttachment), "DEPTH_STENCIL_ATTACHMENT")
 
 	// Texture targets.
-	TEXTURE_2D                  int `js:"TEXTURE_2D"`
-	TEXTURE_CUBE_MAP_POSITIVE_X int `js:"TEXTURE_CUBE_MAP_POSITIVE_X"`
-	TEXTURE_CUBE_MAP_NEGATIVE_X int `js:"TEXTURE_CUBE_MAP_NEGATIVE_X"`
-	TEXTURE_CUBE_MAP_POSITIVE_Y int `js:"TEXTURE_CUBE_MAP_POSITIVE_Y"`
-	TEXTURE_CUBE_MAP_NEGATIVE_Y int `js:"TEXTURE_CUBE_MAP_NEGATIVE_Y"`
-	TEXTURE_CUBE_MAP_POSITIVE_Z int `js:"TEXTURE_CUBE_MAP_POSITIVE_Z"`
-	TEXTURE_CUBE_MAP_NEGATIVE_Z int `js:"TEXTURE_CUBE_MAP_NEGATIVE_Z"`
+	c.putEnum(int(gfx.Texture2D), "TEXTURE_2D")
+	c.putEnum(int(gfx.TextureCubeMapPositiveX), "TEXTURE_CUBE_MAP_POSITIVE_X")
+	c.putEnum(int(gfx.TextureCubeMapNegativeX), "TEXTURE_CUBE_MAP_NEGATIVE_X")
+	c.putEnum(int(gfx.TextureCubeMapPositiveY), "TEXTURE_CUBE_MAP_POSITIVE_Y")
+	c.putEnum(int(gfx.TextureCubeMapNegativeY), "TEXTURE_CUBE_MAP_NEGATIVE_Y")
+	c.putEnum(int(gfx.TextureCubeMapPositiveZ), "TEXTURE_CUBE_MAP_POSITIVE_Z")
+	c.putEnum(int(gfx.TextureCubeMapNegativeZ), "TEXTURE_CUBE_MAP_NEGATIVE_Z")
 
 	// Renderbuffer storage formats.
-	RGBA4             int `js:"RGBA4"`
-	RGB565            int `js:"RGB565"`
-	RGB5_A1           int `js:"RGB5_A1"`
-	DEPTH_COMPONENT16 int `js:"DEPTH_COMPONENT16"`
+	c.putEnum(int(gfx.RGBA4), "RGBA4")
+	c.putEnum(int(gfx.RGB565), "RGB565")
+	c.putEnum(int(gfx.RGB5A1), "RGB5_A1")
+	c.putEnum(int(gfx.DepthComponent16), "DEPTH_COMPONENT16")
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
@@ -175,6 +192,7 @@ func Wrap(o js.Object) gfx.Context {
 		Object: nil, // Default framebuffer object.
 		ctx:    ctx,
 	}
+	ctx.loadEnums()
 	return ctx
 }
 

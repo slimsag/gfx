@@ -5,32 +5,6 @@
 
 package gles2
 
-import (
-	"github.com/slimsag/gfx"
-	gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
-)
-
-func convertTextureTarget(t gfx.TextureTarget) uint32 {
-	switch t {
-	case gfx.Texture2D:
-		return gl.TEXTURE_2D
-	case gfx.TextureCubeMapPositiveX:
-		return gl.TEXTURE_CUBE_MAP_POSITIVE_X
-	case gfx.TextureCubeMapNegativeX:
-		return gl.TEXTURE_CUBE_MAP_NEGATIVE_X
-	case gfx.TextureCubeMapPositiveY:
-		return gl.TEXTURE_CUBE_MAP_POSITIVE_Y
-	case gfx.TextureCubeMapNegativeY:
-		return gl.TEXTURE_CUBE_MAP_NEGATIVE_Y
-	case gfx.TextureCubeMapPositiveZ:
-		return gl.TEXTURE_CUBE_MAP_POSITIVE_Z
-	case gfx.TextureCubeMapNegativeZ:
-		return gl.TEXTURE_CUBE_MAP_NEGATIVE_Z
-	default:
-		panic("invalid texture target parameter")
-	}
-}
-
 // Texture implements the gfx.Framebuffer interface by wrapping a OpenGL
 // texture object ID.
 type Texture struct {

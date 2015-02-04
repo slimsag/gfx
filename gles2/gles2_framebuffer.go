@@ -13,21 +13,6 @@ import (
 	gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
 )
 
-func convertFramebufferAttachment(a gfx.FramebufferAttachment) uint32 {
-	switch a {
-	case gfx.ColorAttachment0:
-		return gl.COLOR_ATTACHMENT0
-	case gfx.DepthAttachment:
-		return gl.DEPTH_ATTACHMENT
-	case gfx.StencilAttachment:
-		return gl.STENCIL_ATTACHMENT
-	case gfx.DepthStencilAttachment:
-		return gl.DEPTH_STENCIL_ATTACHMENT
-	default:
-		panic("Framebuffer.Texture2D: invalid framebuffer attachment parameter")
-	}
-}
-
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
@@ -99,8 +84,8 @@ func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx
 	f.useState()
 	gl.FramebufferTexture2D(
 		gl.FRAMEBUFFER,
-		convertFramebufferAttachment(attachment),
-		convertTextureTarget(target),
+		f.ctx.Enums[int(attachment)],
+		f.ctx.Enums[int(target)],
 		tex.(*Texture).Object,
 		0,
 	)
@@ -111,7 +96,7 @@ func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx
 	f.useState()
 	gl.FramebufferTexture2D(
 		gl.FRAMEBUFFER,
-		convertFramebufferAttachment(attachment),
+		f.ctx.Enums[int(attachment)],
 		gl.RENDERBUFFER,
 		buf.(*Renderbuffer).Object,
 		0,

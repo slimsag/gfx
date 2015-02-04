@@ -17,11 +17,48 @@ type Context struct {
 	// The default framebuffer implementation for the context.
 	*Framebuffer
 
+	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
+	Enums *[gfx.EnumMax]uint32
+
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
+}
+
+func (c *Context) putEnum(gfxEnum int, glEnum uint32) {
+	if glEnum == 0 {
+		fmt.Println("gfxEnum:", gfxEnum)
+		fmt.Println("glEnum:", glEnum)
+		panic("putEnum: got invalid enum")
+	}
+	c.Enums[gfxEnum] = glEnum
+}
+
+func (c *Context) loadEnums() {
+	c.Enums = new([gfx.EnumMax]uint32)
+
+	// Framebuffer attachment points.
+	c.putEnum(int(gfx.ColorAttachment0), gl.COLOR_ATTACHMENT0)
+	c.putEnum(int(gfx.DepthAttachment), gl.DEPTH_ATTACHMENT)
+	c.putEnum(int(gfx.StencilAttachment), gl.STENCIL_ATTACHMENT)
+	c.putEnum(int(gfx.DepthStencilAttachment), gl.DEPTH_STENCIL_ATTACHMENT)
+
+	// Texture targets.
+	c.putEnum(int(gfx.Texture2D), gl.TEXTURE_2D)
+	c.putEnum(int(gfx.TextureCubeMapPositiveX), gl.TEXTURE_CUBE_MAP_POSITIVE_X)
+	c.putEnum(int(gfx.TextureCubeMapNegativeX), gl.TEXTURE_CUBE_MAP_NEGATIVE_X)
+	c.putEnum(int(gfx.TextureCubeMapPositiveY), gl.TEXTURE_CUBE_MAP_POSITIVE_Y)
+	c.putEnum(int(gfx.TextureCubeMapNegativeY), gl.TEXTURE_CUBE_MAP_NEGATIVE_Y)
+	c.putEnum(int(gfx.TextureCubeMapPositiveZ), gl.TEXTURE_CUBE_MAP_POSITIVE_Z)
+	c.putEnum(int(gfx.TextureCubeMapNegativeZ), gl.TEXTURE_CUBE_MAP_NEGATIVE_Z)
+
+	// Renderbuffer storage formats.
+	c.putEnum(int(gfx.RGBA4), gl.RGBA4)
+	c.putEnum(int(gfx.RGB565), gl.RGB565)
+	c.putEnum(int(gfx.RGB5A1), gl.RGB5_A1)
+	c.putEnum(int(gfx.DepthComponent16), gl.DEPTH_COMPONENT16)
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer uint32) {
@@ -132,5 +169,6 @@ func New() (gfx.Context, error) {
 		Object: 0, // Default framebuffer object.
 		ctx:    ctx,
 	}
+	ctx.loadEnums()
 	return ctx, nil
 }
