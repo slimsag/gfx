@@ -19,6 +19,10 @@ type FramebufferAttachment int
 // StreamDraw.
 type BufferUsage int
 
+// Feature is a single OpenGL feature that can be enabled or disabled. It must
+// be one of the predefined constants.
+type Feature int
+
 const (
 	// TextureTarget enumerations.
 	zeroTextureTarget TextureTarget = iota
@@ -92,6 +96,28 @@ const (
 	// StreamDraw is a buffer usage hint where the data is likely to be used
 	// just once and then changed immedietely thereafter.
 	StreamDraw
+
+	// Feature enumerations.
+	zeroFeature = iota
+
+	// Blend is a feature that blends computed fragment color values with color
+	// buffer values.
+	Blend
+
+	// DepthTest is a feature that enables or disables testing against depth
+	// buffer values.
+	DepthTest
+
+	// CullFace is a feature that enables or disables the culling of polygon
+	// faces.
+	CullFace
+
+	// PolygonOffsetFill adds an offset to the depth values of a polygon's
+	// fragments.
+	PolygonOffsetFill
+
+	// ScissorTest abandons fragments outside the scissor rectangle.
+	ScissorTest
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations

@@ -88,6 +88,13 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.RGB565), "RGB565")
 	c.putEnum(int(gfx.RGB5A1), "RGB5_A1")
 	c.putEnum(int(gfx.DepthComponent16), "DEPTH_COMPONENT16")
+
+	// Features.
+	c.putEnum(int(gfx.Blend), "BLEND")
+	c.putEnum(int(gfx.DepthTest), "DEPTH_TEST")
+	c.putEnum(int(gfx.CullFace), "CULL_FACE")
+	c.putEnum(int(gfx.PolygonOffsetFill), "POLYGON_OFFSET_FILL")
+	c.putEnum(int(gfx.ScissorTest), "SCISSOR_TEST")
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
@@ -142,6 +149,16 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	return &Renderbuffer{
 		Object: c.Object.Call("createRenderbuffer"),
 	}
+}
+
+// Enable implements the gfx.Context interface.
+func (c *Context) Enable(f gfx.Feature) {
+	c.Object.Call("enable", c.Enums[int(f)])
+}
+
+// Disable implements the gfx.Context interface.
+func (c *Context) Disable(f gfx.Feature) {
+	c.Object.Call("disable", c.Enums[int(f)])
 }
 
 // Check implements the gfx.Context interface.

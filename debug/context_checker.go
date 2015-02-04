@@ -34,6 +34,18 @@ func (c *checker) NewRenderbuffer() gfx.Renderbuffer {
 	}
 }
 
+// Enable implements the gfx.Context interface.
+func (c *checker) Enable(f gfx.Feature) {
+	c.ctx.Enable(f)
+	c.ctx.Check()
+}
+
+// Disable implements the gfx.Context interface.
+func (c *checker) Disable(f gfx.Feature) {
+	c.ctx.Disable(f)
+	c.ctx.Check()
+}
+
 // Check implements the gfx.Context interface.
 func (c *checker) Check() {
 	// We don't want caller to accidently grab the error, so we stub out the

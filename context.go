@@ -38,6 +38,12 @@ type Context interface {
 	// complete frames.
 	NewRenderbuffer() Renderbuffer
 
+	// Enable enables the given feature.
+	Enable(f Feature)
+
+	// Disable disables the given feature.
+	Disable(f Feature)
+
 	// Check checks that no errors have occured in the context. If an error
 	// occurs, it is either a programmer error (passing an invalid value, etc)
 	// or a serious device error (running out of memory, losing the context).

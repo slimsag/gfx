@@ -59,6 +59,13 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.RGB565), gl.RGB565)
 	c.putEnum(int(gfx.RGB5A1), gl.RGB5_A1)
 	c.putEnum(int(gfx.DepthComponent16), gl.DEPTH_COMPONENT16)
+
+	// Features.
+	c.putEnum(int(gfx.Blend), gl.BLEND)
+	c.putEnum(int(gfx.DepthTest), gl.DEPTH_TEST)
+	c.putEnum(int(gfx.CullFace), gl.CULL_FACE)
+	c.putEnum(int(gfx.PolygonOffsetFill), gl.POLYGON_OFFSET_FILL)
+	c.putEnum(int(gfx.ScissorTest), gl.SCISSOR_TEST)
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer uint32) {
@@ -113,6 +120,16 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	rb := new(Renderbuffer)
 	gl.GenRenderbuffers(1, &rb.Object)
 	return rb
+}
+
+// Enable implements the gfx.Context interface.
+func (c *Context) Enable(f gfx.Feature) {
+	gl.Enable(c.Enums[int(f)])
+}
+
+// Disable implements the gfx.Context interface.
+func (c *Context) Disable(f gfx.Feature) {
+	gl.Disable(c.Enums[int(f)])
 }
 
 // Check implements the gfx.Context interface.
