@@ -44,6 +44,9 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// FrontFace sets the orientation of front-facing polygons.
+	FrontFace(o Orientation)
+
 	// Check checks that no errors have occured in the context. If an error
 	// occurs, it is either a programmer error (passing an invalid value, etc)
 	// or a serious device error (running out of memory, losing the context).

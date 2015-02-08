@@ -23,6 +23,9 @@ type BufferUsage int
 // be one of the predefined constants.
 type Feature int
 
+// Orientation represents a single orientation.
+type Orientation int
+
 const (
 	// TextureTarget enumerations.
 	zeroTextureTarget TextureTarget = iota
@@ -98,7 +101,7 @@ const (
 	StreamDraw
 
 	// Feature enumerations.
-	zeroFeature = iota
+	zeroFeature Feature = iota
 
 	// Blend is a feature that blends computed fragment color values with color
 	// buffer values.
@@ -118,6 +121,16 @@ const (
 
 	// ScissorTest abandons fragments outside the scissor rectangle.
 	ScissorTest
+
+	// Orientation enumerations.
+	zeroOrientation Orientation = iota
+
+	// CCW is a orientation for a counterclockwise winding. It is the initial
+	// orientation.
+	CCW
+
+	// CW is a orientation for clockwise winding.
+	CW
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations

@@ -46,6 +46,12 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// FrontFace implements the gfx.Context interface.
+func (c *checker) FrontFace(o gfx.Orientation) {
+	c.ctx.FrontFace(o)
+	c.ctx.Check()
+}
+
 // Check implements the gfx.Context interface.
 func (c *checker) Check() {
 	// We don't want caller to accidently grab the error, so we stub out the
