@@ -44,6 +44,9 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// Scissor sets the dimensions of the scissor box.
+	Scissor(x, y, width, height int)
+
 	// LineWidth specifies the width of rasterized lines. The initial value is 1.
 	//
 	// The actual width is determined by rounding the supplied width to the
