@@ -106,6 +106,7 @@ package gles2
 // typedef void  (APIENTRYP GPFLUSH)();
 // typedef void  (APIENTRYP GPFRAMEBUFFERRENDERBUFFER)(GLenum  target, GLenum  attachment, GLenum  renderbuffertarget, GLuint  renderbuffer);
 // typedef void  (APIENTRYP GPFRAMEBUFFERTEXTURE2D)(GLenum  target, GLenum  attachment, GLenum  textarget, GLuint  texture, GLint  level);
+// typedef void  (APIENTRYP GPFRONTFACE)(GLenum  mode);
 // typedef void  (APIENTRYP GPGENBUFFERS)(GLsizei  n, GLuint * buffers);
 // typedef void  (APIENTRYP GPGENFRAMEBUFFERS)(GLsizei  n, GLuint * framebuffers);
 // typedef void  (APIENTRYP GPGENRENDERBUFFERS)(GLsizei  n, GLuint * renderbuffers);
@@ -261,6 +262,9 @@ package gles2
 // static void  glowFramebufferTexture2D(GPFRAMEBUFFERTEXTURE2D fnptr, GLenum  target, GLenum  attachment, GLenum  textarget, GLuint  texture, GLint  level) {
 //   (*fnptr)(target, attachment, textarget, texture, level);
 // }
+// static void  glowFrontFace(GPFRONTFACE fnptr, GLenum  mode) {
+//   (*fnptr)(mode);
+// }
 // static void  glowGenBuffers(GPGENBUFFERS fnptr, GLsizei  n, GLuint * buffers) {
 //   (*fnptr)(n, buffers);
 // }
@@ -399,6 +403,7 @@ const (
 	BLEND_SRC_ALPHA                           = 0x80CB
 	BLEND_SRC_RGB                             = 0x80C9
 	BLUE_BITS                                 = 0x0D54
+	CCW                                       = 0x0901
 	CLAMP_TO_EDGE                             = 0x812F
 	COLOR_ATTACHMENT0                         = 0x8CE0
 	COLOR_BUFFER_BIT                          = 0x00004000
@@ -412,6 +417,7 @@ const (
 	CULL_FACE                                 = 0x0B44
 	CULL_FACE_MODE                            = 0x0B45
 	CURRENT_PROGRAM                           = 0x8B8D
+	CW                                        = 0x0900
 	DEBUG_OUTPUT_SYNCHRONOUS_ARB              = 0x8242
 	DEBUG_SEVERITY_HIGH                       = 0x9146
 	DEBUG_SEVERITY_LOW                        = 0x9148
@@ -606,6 +612,7 @@ var (
 	gpFlush                          C.GPFLUSH
 	gpFramebufferRenderbuffer        C.GPFRAMEBUFFERRENDERBUFFER
 	gpFramebufferTexture2D           C.GPFRAMEBUFFERTEXTURE2D
+	gpFrontFace                      C.GPFRONTFACE
 	gpGenBuffers                     C.GPGENBUFFERS
 	gpGenFramebuffers                C.GPGENFRAMEBUFFERS
 	gpGenRenderbuffers               C.GPGENRENDERBUFFERS
@@ -841,6 +848,11 @@ func FramebufferRenderbuffer(target uint32, attachment uint32, renderbuffertarge
 }
 func FramebufferTexture2D(target uint32, attachment uint32, textarget uint32, texture uint32, level int32) {
 	C.glowFramebufferTexture2D(gpFramebufferTexture2D, (C.GLenum)(target), (C.GLenum)(attachment), (C.GLenum)(textarget), (C.GLuint)(texture), (C.GLint)(level))
+}
+
+// define front- and back-facing polygons
+func FrontFace(mode uint32) {
+	C.glowFrontFace(gpFrontFace, (C.GLenum)(mode))
 }
 
 // generate buffer object names
@@ -1182,6 +1194,10 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
 	gpFramebufferTexture2D = (C.GPFRAMEBUFFERTEXTURE2D)(getProcAddr("glFramebufferTexture2D"))
 	if gpFramebufferTexture2D == nil {
 		return errors.New("glFramebufferTexture2D")
+	}
+	gpFrontFace = (C.GPFRONTFACE)(getProcAddr("glFrontFace"))
+	if gpFrontFace == nil {
+		return errors.New("glFrontFace")
 	}
 	gpGenBuffers = (C.GPGENBUFFERS)(getProcAddr("glGenBuffers"))
 	if gpGenBuffers == nil {
