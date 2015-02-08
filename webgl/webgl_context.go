@@ -26,7 +26,8 @@ type Context struct {
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
-	lastColorMask        [4]bool
+	LastLineWidth        float32
+	LastColorMask        [4]bool
 	LastCullFace         gfx.Facet
 	LastFrontFace        gfx.Orientation
 
@@ -171,6 +172,14 @@ func (c *Context) Enable(f gfx.Feature) {
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
 	c.Object.Call("disable", c.Enums[int(f)])
+}
+
+// LineWidth implements the gfx.Context interface.
+func (c *Context) LineWidth(w float32) {
+	if c.LastLineWidth == w {
+		return
+	}
+	c.Object.Call("lineWidth", float64(w))
 }
 
 // ColorMask implements the gfx.Context interface.

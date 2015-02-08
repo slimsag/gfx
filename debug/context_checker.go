@@ -46,6 +46,12 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// LineWidth implements the gfx.Context interface.
+func (c *checker) LineWidth(w float32) {
+	c.ctx.LineWidth(w)
+	c.ctx.Check()
+}
+
 // ColorMask implements the gfx.Context interface.
 func (c *checker) ColorMask(r, g, b, a bool) {
 	c.ctx.ColorMask(r, g, b, a)

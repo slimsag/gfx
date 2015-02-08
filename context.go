@@ -44,6 +44,21 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// LineWidth specifies the width of rasterized lines. The initial value is 1.
+	//
+	// The actual width is determined by rounding the supplied width to the
+	// nearest integer. (If the rounding results in the value 0, it is as if
+	// the line width were 1.) If ∣Δx∣>=∣Δy∣, i pixels are filled in each
+	// column that is rasterized, where i is the rounded value of width.
+	// Otherwise, i pixels are filled in each row that is rasterized.
+	//
+	// There is a range of supported line widths. Only width 1 is guaranteed to
+	// be supported; others depend on the implementation. To query the range of
+	// supported widths, call Get with argument AliasedLineWidthRange.
+	//
+	// TODO(slimsag): implement the Context.Get method.
+	LineWidth(w float32)
+
 	// ColorMask lets you set whether individual colors can be written when
 	// drawing or rendering to a framebuffer.
 	//
