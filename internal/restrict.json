@@ -280,6 +280,7 @@
 		"glVertexAttribPointer",
 		"glGetQueryObjectiv",
 		"glDeleteQueries",
+		"glLineWidth",
 		"glViewport",
 		"glDrawElements",
 		"glDrawArrays",
