@@ -182,6 +182,7 @@ package gl
 // typedef void  (APIENTRYP GPGETSHADERIV)(GLuint  shader, GLenum  pname, GLint * params);
 // typedef const GLubyte * (APIENTRYP GPGETSTRING)(GLenum  name);
 // typedef GLint  (APIENTRYP GPGETUNIFORMLOCATION)(GLuint  program, const GLchar * name);
+// typedef void  (APIENTRYP GPLINEWIDTH)(GLfloat  width);
 // typedef void  (APIENTRYP GPLINKPROGRAM)(GLuint  program);
 // typedef void  (APIENTRYP GPREADPIXELS)(GLint  x, GLint  y, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, void * pixels);
 // typedef void  (APIENTRYP GPRENDERBUFFERSTORAGE)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height);
@@ -395,6 +396,9 @@ package gl
 // }
 // static GLint  glowGetUniformLocation(GPGETUNIFORMLOCATION fnptr, GLuint  program, const GLchar * name) {
 //   return (*fnptr)(program, name);
+// }
+// static void  glowLineWidth(GPLINEWIDTH fnptr, GLfloat  width) {
+//   (*fnptr)(width);
 // }
 // static void  glowLinkProgram(GPLINKPROGRAM fnptr, GLuint  program) {
 //   (*fnptr)(program);
@@ -737,6 +741,7 @@ var (
 	gpGetShaderiv                    C.GPGETSHADERIV
 	gpGetString                      C.GPGETSTRING
 	gpGetUniformLocation             C.GPGETUNIFORMLOCATION
+	gpLineWidth                      C.GPLINEWIDTH
 	gpLinkProgram                    C.GPLINKPROGRAM
 	gpReadPixels                     C.GPREADPIXELS
 	gpRenderbufferStorage            C.GPRENDERBUFFERSTORAGE
@@ -1075,6 +1080,11 @@ func GetUniformLocation(program uint32, name *uint8) int32 {
 	return (int32)(ret)
 }
 
+// specify the width of rasterized lines
+func LineWidth(width float32) {
+	C.glowLineWidth(gpLineWidth, (C.GLfloat)(width))
+}
+
 // Links a program object
 func LinkProgram(program uint32) {
 	C.glowLinkProgram(gpLinkProgram, (C.GLuint)(program))
@@ -1403,6 +1413,10 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
 	gpGetUniformLocation = (C.GPGETUNIFORMLOCATION)(getProcAddr("glGetUniformLocation"))
 	if gpGetUniformLocation == nil {
 		return errors.New("glGetUniformLocation")
+	}
+	gpLineWidth = (C.GPLINEWIDTH)(getProcAddr("glLineWidth"))
+	if gpLineWidth == nil {
+		return errors.New("glLineWidth")
 	}
 	gpLinkProgram = (C.GPLINKPROGRAM)(getProcAddr("glLinkProgram"))
 	if gpLinkProgram == nil {
