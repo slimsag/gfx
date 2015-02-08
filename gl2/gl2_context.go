@@ -139,11 +139,13 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
+	// TODO(slimsag): protect against double-enable
 	gl.Enable(c.Enums[int(f)])
 }
 
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
+	// TODO(slimsag): protect against double-disable
 	gl.Disable(c.Enums[int(f)])
 }
 
@@ -152,6 +154,7 @@ func (c *Context) Viewport(x, y, width, height int) {
 	if c.LastViewport == [4]int{x, y, width, height} {
 		return
 	}
+	c.LastViewport = [4]int{x, y, width, height}
 	gl.Viewport(int32(x), int32(y), int32(width), int32(height))
 }
 
@@ -160,6 +163,7 @@ func (c *Context) Scissor(x, y, width, height int) {
 	if c.LastScissor == [4]int{x, y, width, height} {
 		return
 	}
+	c.LastScissor = [4]int{x, y, width, height}
 	gl.Scissor(int32(x), int32(y), int32(width), int32(height))
 }
 
@@ -168,6 +172,7 @@ func (c *Context) LineWidth(w float32) {
 	if c.LastLineWidth == w {
 		return
 	}
+	c.LastLineWidth = w
 	gl.LineWidth(w)
 }
 
@@ -176,6 +181,7 @@ func (c *Context) ColorMask(r, g, b, a bool) {
 	if c.LastColorMask == [4]bool{r, g, b, a} {
 		return
 	}
+	c.LastColorMask = [4]bool{r, g, b, a}
 	gl.ColorMask(r, g, b, a)
 }
 
@@ -184,6 +190,7 @@ func (c *Context) CullFace(f gfx.Facet) {
 	if c.LastCullFace == f {
 		return
 	}
+	c.LastCullFace = f
 	gl.CullFace(c.Enums[int(f)])
 }
 
@@ -192,6 +199,7 @@ func (c *Context) FrontFace(o gfx.Orientation) {
 	if c.LastFrontFace != o {
 		return
 	}
+	c.LastFrontFace = o
 	gl.FrontFace(c.Enums[int(o)])
 }
 

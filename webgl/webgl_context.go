@@ -168,11 +168,13 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
+	// TODO(slimsag): protect against double-enable
 	c.Object.Call("enable", c.Enums[int(f)])
 }
 
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
+	// TODO(slimsag): protect against double-disable
 	c.Object.Call("disable", c.Enums[int(f)])
 }
 
@@ -181,6 +183,7 @@ func (c *Context) Viewport(x, y, width, height int) {
 	if c.LastViewport == [4]int{x, y, width, height} {
 		return
 	}
+	c.LastViewport = [4]int{x, y, width, height}
 	c.Object.Call("viewport", x, y, width, height)
 }
 
@@ -189,6 +192,7 @@ func (c *Context) Scissor(x, y, width, height int) {
 	if c.LastScissor == [4]int{x, y, width, height} {
 		return
 	}
+	c.LastScissor = [4]int{x, y, width, height}
 	c.Object.Call("scissor", x, y, width, height)
 }
 
@@ -197,6 +201,7 @@ func (c *Context) LineWidth(w float32) {
 	if c.LastLineWidth == w {
 		return
 	}
+	c.LastLineWidth = w
 	c.Object.Call("lineWidth", float64(w))
 }
 
@@ -205,6 +210,7 @@ func (c *Context) ColorMask(r, g, b, a bool) {
 	if c.LastColorMask == [4]bool{r, g, b, a} {
 		return
 	}
+	c.LastColorMask = [4]bool{r, g, b, a}
 	c.Object.Call("colorMask", r, g, b, a)
 }
 
@@ -213,6 +219,7 @@ func (c *Context) CullFace(f gfx.Facet) {
 	if c.LastCullFace == f {
 		return
 	}
+	c.LastCullFace = f
 	c.Object.Call("cullFace", c.Enums[int(f)])
 }
 
@@ -221,6 +228,7 @@ func (c *Context) FrontFace(o gfx.Orientation) {
 	if c.LastFrontFace == o {
 		return
 	}
+	c.LastFrontFace = o
 	c.Object.Call("frontFace", c.Enums[int(o)])
 }
 
