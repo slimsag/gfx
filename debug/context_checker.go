@@ -46,6 +46,12 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// ColorMask implements the gfx.Context interface.
+func (c *checker) ColorMask(r, g, b, a bool) {
+	c.ctx.ColorMask(r, g, b, a)
+	c.ctx.Check()
+}
+
 // CullFace implements the gfx.Context interface.
 func (c *checker) CullFace(f gfx.Facet) {
 	c.ctx.CullFace(f)

@@ -44,6 +44,13 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// ColorMask lets you set whether individual colors can be written when
+	// drawing or rendering to a framebuffer.
+	//
+	// The default value is true, all colors can be written to the framebuffer.
+	// false on any parameter disables that color from being written.
+	ColorMask(r, g, b, a bool)
+
 	// CullFace sets which facets are candidates for culling.
 	CullFace(f Facet)
 
