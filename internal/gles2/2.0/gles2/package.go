@@ -125,6 +125,7 @@ package gles2
 // typedef GLint  (APIENTRYP GPGETUNIFORMLOCATION)(GLuint  program, const GLchar * name);
 // typedef void  (APIENTRYP GPLINEWIDTH)(GLfloat  width);
 // typedef void  (APIENTRYP GPLINKPROGRAM)(GLuint  program);
+// typedef void  (APIENTRYP GPPOLYGONOFFSET)(GLfloat  factor, GLfloat  units);
 // typedef void  (APIENTRYP GPREADPIXELS)(GLint  x, GLint  y, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, void * pixels);
 // typedef void  (APIENTRYP GPRENDERBUFFERSTORAGE)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPRENDERBUFFERSTORAGEMULTISAMPLE)(GLenum  target, GLsizei  samples, GLenum  internalformat, GLsizei  width, GLsizei  height);
@@ -319,6 +320,9 @@ package gles2
 // }
 // static void  glowLinkProgram(GPLINKPROGRAM fnptr, GLuint  program) {
 //   (*fnptr)(program);
+// }
+// static void  glowPolygonOffset(GPPOLYGONOFFSET fnptr, GLfloat  factor, GLfloat  units) {
+//   (*fnptr)(factor, units);
 // }
 // static void  glowReadPixels(GPREADPIXELS fnptr, GLint  x, GLint  y, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, void * pixels) {
 //   (*fnptr)(x, y, width, height, format, type, pixels);
@@ -635,6 +639,7 @@ var (
 	gpGetUniformLocation             C.GPGETUNIFORMLOCATION
 	gpLineWidth                      C.GPLINEWIDTH
 	gpLinkProgram                    C.GPLINKPROGRAM
+	gpPolygonOffset                  C.GPPOLYGONOFFSET
 	gpReadPixels                     C.GPREADPIXELS
 	gpRenderbufferStorage            C.GPRENDERBUFFERSTORAGE
 	gpRenderbufferStorageMultisample C.GPRENDERBUFFERSTORAGEMULTISAMPLE
@@ -946,6 +951,11 @@ func LineWidth(width float32) {
 // Links a program object
 func LinkProgram(program uint32) {
 	C.glowLinkProgram(gpLinkProgram, (C.GLuint)(program))
+}
+
+// set the scale and units used to calculate depth values
+func PolygonOffset(factor float32, units float32) {
+	C.glowPolygonOffset(gpPolygonOffset, (C.GLfloat)(factor), (C.GLfloat)(units))
 }
 
 // read a block of pixels from the frame buffer
@@ -1280,6 +1290,10 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
 	gpLinkProgram = (C.GPLINKPROGRAM)(getProcAddr("glLinkProgram"))
 	if gpLinkProgram == nil {
 		return errors.New("glLinkProgram")
+	}
+	gpPolygonOffset = (C.GPPOLYGONOFFSET)(getProcAddr("glPolygonOffset"))
+	if gpPolygonOffset == nil {
+		return errors.New("glPolygonOffset")
 	}
 	gpReadPixels = (C.GPREADPIXELS)(getProcAddr("glReadPixels"))
 	if gpReadPixels == nil {
