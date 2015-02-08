@@ -44,6 +44,9 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// CullFace sets which facets are candidates for culling.
+	CullFace(f Facet)
+
 	// FrontFace sets the orientation of front-facing polygons.
 	FrontFace(o Orientation)
 

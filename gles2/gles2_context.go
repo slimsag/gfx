@@ -25,6 +25,7 @@ type Context struct {
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
+	LastCullFace         gfx.Facet
 	LastFrontFace        gfx.Orientation
 }
 
@@ -71,6 +72,11 @@ func (c *Context) loadEnums() {
 	// Orientations.
 	c.putEnum(int(gfx.CCW), gl.CCW)
 	c.putEnum(int(gfx.CW), gl.CW)
+
+	// Facets.
+	c.putEnum(int(gfx.Front), gl.FRONT)
+	c.putEnum(int(gfx.Back), gl.BACK)
+	c.putEnum(int(gfx.FrontAndBack), gl.FRONT_AND_BACK)
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer uint32) {
@@ -135,6 +141,14 @@ func (c *Context) Enable(f gfx.Feature) {
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
 	gl.Disable(c.Enums[int(f)])
+}
+
+// CullFace implements the gfx.Context interface.
+func (c *Context) CullFace(f gfx.Facet) {
+	if c.LastCullFace == f {
+		return
+	}
+	gl.CullFace(c.Enums[int(f)])
 }
 
 // FrontFace implements the gfx.Context interface.

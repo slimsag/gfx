@@ -26,6 +26,9 @@ type Feature int
 // Orientation represents a single orientation.
 type Orientation int
 
+// Facet represents a single facet.
+type Facet int
+
 const (
 	// TextureTarget enumerations.
 	zeroTextureTarget TextureTarget = iota
@@ -131,6 +134,19 @@ const (
 
 	// CW is a orientation for clockwise winding.
 	CW
+
+	// Facet enumerations.
+	zeroFacet Facet = iota
+
+	// Front is a facet for representing front-facing polygons.
+	Front
+
+	// Back is a facet for representing back-facing polygons.
+	Back
+
+	// FrontAndBack is a facet for representing both front and back facing
+	// polygons.
+	FrontAndBack
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations

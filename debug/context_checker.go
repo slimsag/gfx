@@ -46,6 +46,12 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// CullFace implements the gfx.Context interface.
+func (c *checker) CullFace(f gfx.Facet) {
+	c.ctx.CullFace(f)
+	c.ctx.Check()
+}
+
 // FrontFace implements the gfx.Context interface.
 func (c *checker) FrontFace(o gfx.Orientation) {
 	c.ctx.FrontFace(o)
