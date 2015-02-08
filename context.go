@@ -44,6 +44,10 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// Viewport sets the rectangular viewable area that contains the rendering
+	// results of the drawing buffer.
+	Viewport(x, y, width, height int)
+
 	// Scissor sets the dimensions of the scissor box.
 	Scissor(x, y, width, height int)
 

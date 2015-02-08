@@ -25,6 +25,7 @@ type Context struct {
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
+	LastViewport         [4]int
 	LastScissor          [4]int
 	LastLineWidth        float32
 	LastColorMask        [4]bool
@@ -144,6 +145,14 @@ func (c *Context) Enable(f gfx.Feature) {
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
 	gl.Disable(c.Enums[int(f)])
+}
+
+// Viewport implements the gfx.Context interface.
+func (c *Context) Viewport(x, y, width, height int) {
+	if c.LastViewport == [4]int{x, y, width, height} {
+		return
+	}
+	gl.Viewport(int32(x), int32(y), int32(width), int32(height))
 }
 
 // Scissor implements the gfx.Context interface.

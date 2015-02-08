@@ -46,6 +46,12 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// Viewport implements the gfx.Context interface.
+func (c *checker) Viewport(x, y, width, height int) {
+	c.ctx.Scissor(x, y, width, height)
+	c.ctx.Check()
+}
+
 // Scissor implements the gfx.Context interface.
 func (c *checker) Scissor(x, y, width, height int) {
 	c.ctx.Scissor(x, y, width, height)
