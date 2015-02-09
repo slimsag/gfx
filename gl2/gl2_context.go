@@ -137,6 +137,14 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	return rb
 }
 
+// NewShader implements the gfx.Context interface.
+func (c *Context) NewShader(t gfx.ShaderType) gfx.Shader {
+	return &Shader{
+		ctx:    c,
+		Object: gl.CreateShader(c.Enums[int(t)]),
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
 	// TODO(slimsag): protect against double-enable

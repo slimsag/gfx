@@ -38,6 +38,10 @@ type Context interface {
 	// complete frames.
 	NewRenderbuffer() Renderbuffer
 
+	// NewShader returns a new Shader object which represents the content and
+	// how exactly it is drawn to a render target.
+	NewShader(t ShaderType) Shader
+
 	// Enable enables the given feature.
 	Enable(f Feature)
 

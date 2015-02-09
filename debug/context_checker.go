@@ -34,6 +34,16 @@ func (c *checker) NewRenderbuffer() gfx.Renderbuffer {
 	}
 }
 
+// NewShader implements the gfx.Context interface.
+func (c *checker) NewShader(t gfx.ShaderType) gfx.Shader {
+	s := c.ctx.NewShader(t)
+	c.ctx.Check()
+	return &shaderChecker{
+		s:   s,
+		ctx: c,
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *checker) Enable(f gfx.Feature) {
 	c.ctx.Enable(f)

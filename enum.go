@@ -29,6 +29,9 @@ type Orientation int
 // Facet represents a single facet.
 type Facet int
 
+// ShaderType represents a single type of shader.
+type ShaderType int
+
 const (
 	// TextureTarget enumerations.
 	zeroTextureTarget TextureTarget = iota
@@ -147,6 +150,15 @@ const (
 	// FrontAndBack is a facet for representing both front and back facing
 	// polygons.
 	FrontAndBack
+
+	// ShaderType enumerations.
+	zeroShaderType ShaderType = iota
+
+	// VertexShader is a shader type which represents a vertex shader.
+	VertexShader
+
+	// FragmentShader is a shader type which represents a fragment shader.
+	FragmentShader
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations
