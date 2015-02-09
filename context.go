@@ -42,6 +42,10 @@ type Context interface {
 	// how exactly it is drawn to a render target.
 	NewShader(t ShaderType) Shader
 
+	// NewTexture returns a new Texture object which is used for images and
+	// cube maps when rendering shapes.
+	NewTexture() Texture
+
 	// Enable enables the given feature.
 	Enable(f Feature)
 

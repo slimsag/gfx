@@ -5,7 +5,7 @@
 
 package gl2
 
-// Texture implements the gfx.Framebuffer interface by wrapping a OpenGL
+// Texture implements the gfx.Texture interface by wrapping a OpenGL
 // texture object ID.
 type Texture struct {
 	// Object is literally the OpenGL texture object ID.

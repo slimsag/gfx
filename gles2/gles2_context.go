@@ -149,6 +149,15 @@ func (c *Context) NewShader(t gfx.ShaderType) gfx.Shader {
 	}
 }
 
+// NewTexture implements the gfx.Context interface.
+func (c *Context) NewTexture() gfx.Texture {
+	t := &Texture{
+		ctx: c,
+	}
+	gl.GenTextures(1, &t.Object)
+	return t
+}
+
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
 	// TODO(slimsag): protect against double-enable

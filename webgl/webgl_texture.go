@@ -10,5 +10,8 @@ import "github.com/gopherjs/gopherjs/js"
 // Texture implements the gfx.Texture interface by wrapping a WebGLTexture
 // JavaScript object.
 type Texture struct {
+	// Object is literally the WebGLTexture object.
 	Object js.Object
+
+	ctx *Context
 }
