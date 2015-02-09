@@ -155,6 +155,7 @@ func (c *Context) fastClearStencil(v int) {
 // NewFramebuffer implements the gfx.Context interface.
 func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	return &Framebuffer{
+		ctx:    c,
 		Object: c.Object.Call("createFramebuffer"),
 	}
 }
@@ -162,6 +163,7 @@ func (c *Context) NewFramebuffer() gfx.Framebuffer {
 // NewRenderbuffer implements the gfx.Context interface.
 func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	return &Renderbuffer{
+		ctx:    c,
 		Object: c.Object.Call("createRenderbuffer"),
 	}
 }
