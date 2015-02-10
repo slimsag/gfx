@@ -54,6 +54,16 @@ func (c *checker) NewTexture() gfx.Texture {
 	}
 }
 
+// NewBuffer implements the gfx.Context interface.
+func (c *checker) NewBuffer() gfx.Buffer {
+	b := c.ctx.NewBuffer()
+	c.ctx.Check()
+	return &bufferChecker{
+		b:   b,
+		ctx: c,
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *checker) Enable(f gfx.Feature) {
 	c.ctx.Enable(f)

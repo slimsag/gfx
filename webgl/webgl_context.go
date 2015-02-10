@@ -184,6 +184,14 @@ func (c *Context) NewTexture() gfx.Texture {
 	}
 }
 
+// NewBuffer implements the gfx.Buffer interface.
+func (c *Context) NewBuffer() gfx.Buffer {
+	return &Buffer{
+		ctx: c,
+		Object: c.Object.Call("createBuffer"),
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
 	// TODO(slimsag): protect against double-enable

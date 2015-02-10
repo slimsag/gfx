@@ -26,10 +26,6 @@ type Context interface {
 	// when drawn to, appears on the window.
 	Framebuffer
 
-	// NewBuffer returns a new buffer object that contains data such as
-	// vertices or colors.
-	//NewBuffer() Buffer
-
 	// NewFramebuffer returns a new Framebuffer object used for storing
 	// complete frames.
 	NewFramebuffer() Framebuffer
@@ -45,6 +41,10 @@ type Context interface {
 	// NewTexture returns a new Texture object which is used for images and
 	// cube maps when rendering shapes.
 	NewTexture() Texture
+
+	// NewBuffer returns a new buffer object that contains data such as
+	// vertices or colors.
+	NewBuffer() Buffer
 
 	// Enable enables the given feature.
 	Enable(f Feature)
