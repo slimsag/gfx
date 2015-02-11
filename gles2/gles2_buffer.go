@@ -5,6 +5,8 @@
 
 package gles2
 
+import gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
+
 // Buffer implements the gfx.Buffer interface by wrapping a OpenGL buffer
 // object ID.
 type Buffer struct {
@@ -12,4 +14,13 @@ type Buffer struct {
 	Object uint32
 
 	ctx *Context
+}
+
+// Delete implements the gfx.Object interface.
+func (b *Buffer) Delete() {
+	if b.Object == 0 {
+		return
+	}
+	gl.DeleteBuffers(1, &b.Object)
+	b.Object = 0
 }

@@ -20,7 +20,7 @@ func (r *rbChecker) Storage(internalFormat gfx.RenderbufferFormat, width, height
 	r.ctx.Check()
 }
 
-// Delete implements the gfx.Framebuffer interface.
+// Delete implements the gfx.Object interface.
 func (r *rbChecker) Delete() {
 	r.rb.Delete()
 	r.ctx.Check()

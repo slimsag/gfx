@@ -82,7 +82,7 @@ func (f *fbChecker) Status() error {
 	return status
 }
 
-// Delete implements the gfx.Framebuffer interface.
+// Delete implements the gfx.Object interface.
 func (f *fbChecker) Delete() {
 	f.fb.Delete()
 	f.ctx.Check() // not f.check() because it uses the deleted framebuffer.

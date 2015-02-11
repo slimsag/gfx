@@ -15,3 +15,12 @@ type Buffer struct {
 
 	ctx *Context
 }
+
+// Delete implements the gfx.Object interface.
+func (b *Buffer) Delete() {
+	if b.Object == nil {
+		return
+	}
+	b.ctx.Object.Call("deleteBuffer", b.Object)
+	b.Object = nil
+}

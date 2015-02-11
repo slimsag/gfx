@@ -15,3 +15,12 @@ type Texture struct {
 
 	ctx *Context
 }
+
+// Delete implements the gfx.Object interface.
+func (t *Texture) Delete() {
+	if t.Object == nil {
+		return
+	}
+	t.ctx.Object.Call("deleteTexture", t.Object)
+	t.Object = nil
+}

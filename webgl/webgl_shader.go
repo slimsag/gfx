@@ -15,3 +15,12 @@ type Shader struct {
 
 	ctx *Context
 }
+
+// Delete implements the gfx.Object interface.
+func (s *Shader) Delete() {
+	if s.Object == nil {
+		return
+	}
+	s.ctx.Object.Call("deleteShader", s.Object)
+	s.Object = nil
+}

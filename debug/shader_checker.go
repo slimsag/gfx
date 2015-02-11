@@ -13,3 +13,9 @@ type shaderChecker struct {
 	s   gfx.Shader
 	ctx gfx.Context
 }
+
+// Delete implements the gfx.Object interface.
+func (s *shaderChecker) Delete() {
+	s.s.Delete()
+	s.ctx.Check()
+}

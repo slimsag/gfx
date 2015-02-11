@@ -13,3 +13,9 @@ type programChecker struct {
 	p   gfx.Program
 	ctx gfx.Context
 }
+
+// Delete implements the gfx.Object interface.
+func (p *programChecker) Delete() {
+	p.p.Delete()
+	p.ctx.Check()
+}

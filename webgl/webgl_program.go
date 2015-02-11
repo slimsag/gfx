@@ -15,3 +15,12 @@ type Program struct {
 
 	ctx *Context
 }
+
+// Delete implements the gfx.Object interface.
+func (p *Program) Delete() {
+	if p.Object == nil {
+		return
+	}
+	p.ctx.Object.Call("deleteProgram", p.Object)
+	p.Object = nil
+}

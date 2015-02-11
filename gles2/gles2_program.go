@@ -5,6 +5,8 @@
 
 package gles2
 
+import gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
+
 // Program implements the gfx.Program interface by wrapping a OpenGL program
 // object ID.
 type Program struct {
@@ -12,4 +14,13 @@ type Program struct {
 	Object uint32
 
 	ctx *Context
+}
+
+// Delete implements the gfx.Object interface.
+func (p *Program) Delete() {
+	if p.Object == 0 {
+		return
+	}
+	gl.DeleteProgram(p.Object)
+	p.Object = 0
 }

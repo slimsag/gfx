@@ -31,7 +31,11 @@ func (r *Renderbuffer) Storage(internalFormat gfx.RenderbufferFormat, width, hei
 	gl.RenderbufferStorage(gl.RENDERBUFFER, r.ctx.Enums[int(internalFormat)], int32(width), int32(height))
 }
 
-// Delete implements the gfx.Renderbuffer interface.
+// Delete implements the gfx.Object interface.
 func (r *Renderbuffer) Delete() {
+	if r.Object == 0 {
+		return
+	}
 	gl.DeleteRenderbuffers(1, &r.Object)
+	r.Object = 0
 }

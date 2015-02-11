@@ -13,3 +13,9 @@ type bufferChecker struct {
 	b   gfx.Buffer
 	ctx gfx.Context
 }
+
+// Delete implements the gfx.Object interface.
+func (b *bufferChecker) Delete() {
+	b.b.Delete()
+	b.ctx.Check()
+}

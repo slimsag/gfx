@@ -128,7 +128,11 @@ func (f *Framebuffer) Status() error {
 	}
 }
 
-// Delete implements the gfx.Framebuffer interface.
+// Delete implements the gfx.Object interface.
 func (f *Framebuffer) Delete() {
+	if f.Object == nil {
+		return
+	}
 	f.ctx.Object.Call("deleteFramebuffer", f.Object)
+	f.Object = nil
 }
