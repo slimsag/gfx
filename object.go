@@ -4,8 +4,9 @@
 
 package gfx
 
-// Texture represents a single texture. It is used for images and cube maps
-// when rendering shapes.
-type Texture interface {
-	Object
+// Object represents a OpenGL object that can be deleted.
+type Object interface {
+	// Delete deletes this object, use of the object after deletion is not
+	// allowed.
+	Delete()
 }

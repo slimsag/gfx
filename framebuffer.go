@@ -16,6 +16,7 @@ var (
 // Framebuffer is a collection of buffers that serve as a rendering
 // destination.
 type Framebuffer interface {
+	Object
 	Clearable
 
 	// ReadPixelsUint8 reads RGBA 32/bpp pixel data into the given slice from a
@@ -41,8 +42,4 @@ type Framebuffer interface {
 	// is returned when the framebuffer attachment combination is not supported
 	// by the hardware.
 	Status() error
-
-	// Delete deletes this framebuffer object, it is unsafe to use this
-	// framebuffer after deletion.
-	Delete()
 }
