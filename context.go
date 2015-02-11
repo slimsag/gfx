@@ -54,6 +54,11 @@ type Context interface {
 	// destination blending.
 	BlendColor(r, g, b, a float32)
 
+	// BlendEquation sets the equation used to blend RGB and Alpha values of an
+	// incoming source fragment with a destination values as stored in the
+	// fragment's frame buffer.
+	BlendEquation(eq BlendEquation)
+
 	// DepthMask sets whether or not you can write to the depth buffer.
 	DepthMask(m bool)
 

@@ -32,6 +32,9 @@ type Facet int
 // ShaderType represents a single type of shader.
 type ShaderType int
 
+// BlendEquation represents a single blend equation mode.
+type BlendEquation int
+
 const (
 	// TextureTarget enumerations.
 	zeroTextureTarget TextureTarget = iota
@@ -159,6 +162,18 @@ const (
 
 	// FragmentShader is a shader type which represents a fragment shader.
 	FragmentShader
+
+	// BlendEquation enumerations.
+	zeroBlendEquation BlendEquation = iota
+
+	// FuncAdd is a blend equation to represent addition.
+	FuncAdd
+
+	// FuncAdd is a blend equation to represent subtraction.
+	FuncSubtract
+
+	// FuncAdd is a blend equation to represent reverse subtraction.
+	FuncReverseSubtract
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations

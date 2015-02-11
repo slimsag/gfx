@@ -235,6 +235,7 @@
 		"glUseProgram",
 		"glBlendFuncSeparate",
 		"glBlendEquationSeparate",
+		"glBlendEquation",
 		"glStencilOpSeparate",
 		"glStencilFuncSeparate",
 		"glStencilMaskSeparate",

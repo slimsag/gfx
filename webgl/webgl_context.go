@@ -24,6 +24,7 @@ type Context struct {
 	LastBindFramebuffer  js.Object
 	LastBindRenderbuffer js.Object
 	LastBlendColor       [4]float32
+	LastBlendEquation    gfx.BlendEquation
 	LastDepthMask        bool
 	LastClearColor       [4]float32
 	LastClearDepth       float64
@@ -112,6 +113,11 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.Front), "FRONT")
 	c.putEnum(int(gfx.Back), "BACK")
 	c.putEnum(int(gfx.FrontAndBack), "FRONT_AND_BACK")
+
+	// BlendEquations.
+	c.putEnum(int(gfx.FuncAdd), "FUNC_ADD")
+	c.putEnum(int(gfx.FuncSubtract), "FUNC_SUBTRACT")
+	c.putEnum(int(gfx.FuncReverseSubtract), "FUNC_REVERSE_SUBTRACT")
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
@@ -209,6 +215,15 @@ func (c *Context) BlendColor(r, g, b, a float32) {
 	}
 	c.LastBlendColor = [4]float32{r, g, b, a}
 	c.Object.Call("blendColor", r, g, b, a)
+}
+
+// BlendEquation implements the gfx.Context interface.
+func (c *Context) BlendEquation(eq gfx.BlendEquation) {
+	if c.LastBlendEquation == eq {
+		return
+	}
+	c.LastBlendEquation = eq
+	c.Object.Call("blendEquation", c.Enums[int(eq)])
 }
 
 // DepthMask implements the gfx.Context interface.

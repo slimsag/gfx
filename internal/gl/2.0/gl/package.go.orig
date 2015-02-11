@@ -125,6 +125,7 @@ package gl
 // typedef void  (APIENTRYP GPBINDRENDERBUFFER)(GLenum  target, GLuint  renderbuffer);
 // typedef void  (APIENTRYP GPBINDTEXTURE)(GLenum  target, GLuint  texture);
 // typedef void  (APIENTRYP GPBLENDCOLOR)(GLfloat  red, GLfloat  green, GLfloat  blue, GLfloat  alpha);
+// typedef void  (APIENTRYP GPBLENDEQUATION)(GLenum  mode);
 // typedef void  (APIENTRYP GPBLENDEQUATIONSEPARATE)(GLenum  modeRGB, GLenum  modeAlpha);
 // typedef void  (APIENTRYP GPBLENDFUNCSEPARATE)(GLenum  sfactorRGB, GLenum  dfactorRGB, GLenum  sfactorAlpha, GLenum  dfactorAlpha);
 // typedef void  (APIENTRYP GPBUFFERDATA)(GLenum  target, GLsizeiptr  size, const void * data, GLenum  usage);
@@ -228,6 +229,9 @@ package gl
 // }
 // static void  glowBlendColor(GPBLENDCOLOR fnptr, GLfloat  red, GLfloat  green, GLfloat  blue, GLfloat  alpha) {
 //   (*fnptr)(red, green, blue, alpha);
+// }
+// static void  glowBlendEquation(GPBLENDEQUATION fnptr, GLenum  mode) {
+//   (*fnptr)(mode);
 // }
 // static void  glowBlendEquationSeparate(GPBLENDEQUATIONSEPARATE fnptr, GLenum  modeRGB, GLenum  modeAlpha) {
 //   (*fnptr)(modeRGB, modeAlpha);
@@ -688,6 +692,7 @@ var (
 	gpBindRenderbuffer               C.GPBINDRENDERBUFFER
 	gpBindTexture                    C.GPBINDTEXTURE
 	gpBlendColor                     C.GPBLENDCOLOR
+	gpBlendEquation                  C.GPBLENDEQUATION
 	gpBlendEquationSeparate          C.GPBLENDEQUATIONSEPARATE
 	gpBlendFuncSeparate              C.GPBLENDFUNCSEPARATE
 	gpBufferData                     C.GPBUFFERDATA
@@ -816,6 +821,11 @@ func BindTexture(target uint32, texture uint32) {
 // set the blend color
 func BlendColor(red float32, green float32, blue float32, alpha float32) {
 	C.glowBlendColor(gpBlendColor, (C.GLfloat)(red), (C.GLfloat)(green), (C.GLfloat)(blue), (C.GLfloat)(alpha))
+}
+
+// specify the equation used for both the RGB blend equation and the Alpha blend equation
+func BlendEquation(mode uint32) {
+	C.glowBlendEquation(gpBlendEquation, (C.GLenum)(mode))
 }
 
 // set the RGB blend equation and the alpha blend equation separately
@@ -1228,6 +1238,10 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
 	gpBlendColor = (C.GPBLENDCOLOR)(getProcAddr("glBlendColor"))
 	if gpBlendColor == nil {
 		return errors.New("glBlendColor")
+	}
+	gpBlendEquation = (C.GPBLENDEQUATION)(getProcAddr("glBlendEquation"))
+	if gpBlendEquation == nil {
+		return errors.New("glBlendEquation")
 	}
 	gpBlendEquationSeparate = (C.GPBLENDEQUATIONSEPARATE)(getProcAddr("glBlendEquationSeparate"))
 	if gpBlendEquationSeparate == nil {
