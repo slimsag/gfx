@@ -64,6 +64,16 @@ func (c *checker) NewBuffer() gfx.Buffer {
 	}
 }
 
+// NewProgram implements the gfx.Context interface.
+func (c *checker) NewProgram() gfx.Program {
+	p := c.ctx.NewProgram()
+	c.ctx.Check()
+	return &programChecker{
+		p:   p,
+		ctx: c,
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *checker) Enable(f gfx.Feature) {
 	c.ctx.Enable(f)

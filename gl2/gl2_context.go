@@ -158,13 +158,21 @@ func (c *Context) NewTexture() gfx.Texture {
 	return t
 }
 
-// NewBuffer implements the gfx.Buffer interface.
+// NewBuffer implements the gfx.Context interface.
 func (c *Context) NewBuffer() gfx.Buffer {
 	b := &Buffer{
 		ctx: c,
 	}
 	gl.GenBuffers(1, &b.Object)
 	return b
+}
+
+// NewProgram implements the gfx.Context interface.
+func (c *Context) NewProgram() gfx.Program {
+	return &Program{
+		ctx:    c,
+		Object: gl.CreateProgram(),
+	}
 }
 
 // Enable implements the gfx.Context interface.

@@ -167,6 +167,14 @@ func (c *Context) NewBuffer() gfx.Buffer {
 	return b
 }
 
+// NewProgram implements the gfx.Context interface.
+func (c *Context) NewProgram() gfx.Program {
+	return &Program{
+		ctx: c,
+		Object: gl.CreateProgram(),
+	}
+}
+
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
 	// TODO(slimsag): protect against double-enable

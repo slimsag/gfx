@@ -46,6 +46,10 @@ type Context interface {
 	// vertices or colors.
 	NewBuffer() Buffer
 
+	// NewProgram returns a new program object which represents the
+	// programmable OpenGL pipeline and associated shader programs.
+	NewProgram() Program
+
 	// Enable enables the given feature.
 	Enable(f Feature)
 
