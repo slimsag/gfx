@@ -50,6 +50,10 @@ type Context interface {
 	// programmable OpenGL pipeline and associated shader programs.
 	NewProgram() Program
 
+	// BlendColor specifies the blend color used to calculate source and
+	// destination blending.
+	BlendColor(r, g, b, a float32)
+
 	// DepthMask sets whether or not you can write to the depth buffer.
 	DepthMask(m bool)
 

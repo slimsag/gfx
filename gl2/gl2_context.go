@@ -22,6 +22,7 @@ type Context struct {
 
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
+	LastBlendColor       [4]float32
 	LastDepthMask        bool
 	LastClearColor       [4]float32
 	LastClearDepth       float64
@@ -174,6 +175,15 @@ func (c *Context) NewProgram() gfx.Program {
 		ctx:    c,
 		Object: gl.CreateProgram(),
 	}
+}
+
+// BlendColor implements the gfx.Context interface.
+func (c *Context) BlendColor(r, g, b, a float32) {
+	if c.LastBlendColor == [4]float32{r, g, b, a} {
+		return
+	}
+	c.LastBlendColor = [4]float32{r, g, b, a}
+	gl.BlendColor(r, g, b, a)
 }
 
 // DepthMask implements the gfx.Context interface.

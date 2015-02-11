@@ -74,6 +74,12 @@ func (c *checker) NewProgram() gfx.Program {
 	}
 }
 
+// BlendColor implements the gfx.Context interface.
+func (c *checker) BlendColor(r, g, b, a float32) {
+	c.ctx.BlendColor(r, g, b, a)
+	c.ctx.Check()
+}
+
 // DepthMask implements the gfx.Context interface.
 func (c *checker) DepthMask(m bool) {
 	c.ctx.DepthMask(m)
