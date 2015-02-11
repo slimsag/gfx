@@ -50,6 +50,9 @@ type Context interface {
 	// programmable OpenGL pipeline and associated shader programs.
 	NewProgram() Program
 
+	// DepthMask sets whether or not you can write to the depth buffer.
+	DepthMask(m bool)
+
 	// Enable enables the given feature.
 	Enable(f Feature)
 

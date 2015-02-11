@@ -23,6 +23,7 @@ type Context struct {
 
 	LastBindFramebuffer  js.Object
 	LastBindRenderbuffer js.Object
+	LastDepthMask        bool
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
@@ -198,6 +199,15 @@ func (c *Context) NewProgram() gfx.Program {
 		ctx: c,
 		Object: c.Object.Call("createProgram"),
 	}
+}
+
+// DepthMask implements the gfx.Context interface.
+func (c *Context) DepthMask(m bool) {
+	if c.LastDepthMask == m {
+		return
+	}
+	c.LastDepthMask = m
+	c.Object.Call("depthMask", m)
 }
 
 // Enable implements the gfx.Context interface.

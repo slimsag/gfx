@@ -74,6 +74,12 @@ func (c *checker) NewProgram() gfx.Program {
 	}
 }
 
+// DepthMask implements the gfx.Context interface.
+func (c *checker) DepthMask(m bool) {
+	c.ctx.DepthMask(m)
+	c.ctx.Check()
+}
+
 // Enable implements the gfx.Context interface.
 func (c *checker) Enable(f gfx.Feature) {
 	c.ctx.Enable(f)

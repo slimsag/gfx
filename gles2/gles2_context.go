@@ -22,6 +22,7 @@ type Context struct {
 
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
+	LastDepthMask        bool
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
@@ -173,6 +174,15 @@ func (c *Context) NewProgram() gfx.Program {
 		ctx: c,
 		Object: gl.CreateProgram(),
 	}
+}
+
+// DepthMask implements the gfx.Context interface.
+func (c *Context) DepthMask(m bool) {
+	if c.LastDepthMask == m {
+		return
+	}
+	c.LastDepthMask = m
+	gl.DepthMask(m)
 }
 
 // Enable implements the gfx.Context interface.
