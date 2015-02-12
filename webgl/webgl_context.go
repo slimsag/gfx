@@ -239,13 +239,19 @@ func (c *Context) DepthMask(m bool) {
 
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
-	// TODO(slimsag): protect against double-enable
+	if c.Features[f-gfx.FirstFeature] {
+		return
+	}
+	c.Features[f-gfx.FirstFeature] = true
 	c.Object.Call("enable", c.Enums[int(f)])
 }
 
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
-	// TODO(slimsag): protect against double-disable
+	if !c.Features[f-gfx.FirstFeature] {
+		return
+	}
+	c.Features[f-gfx.FirstFeature] = false
 	c.Object.Call("disable", c.Enums[int(f)])
 }
 
