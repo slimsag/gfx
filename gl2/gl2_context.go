@@ -20,6 +20,10 @@ type Context struct {
 	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
 	Enums *[gfx.EnumMax]uint32
 
+	// Feature is a map of gfx feature enumerations to their current enabled or
+	// disabled status.
+	Features *[gfx.LastFeature - gfx.FirstFeature]bool
+
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
 	LastBlendColor       [4]float32
@@ -46,8 +50,6 @@ func (c *Context) putEnum(gfxEnum int, glEnum uint32) {
 }
 
 func (c *Context) loadEnums() {
-	c.Enums = new([gfx.EnumMax]uint32)
-
 	// Framebuffer attachment points.
 	c.putEnum(int(gfx.ColorAttachment0), gl.COLOR_ATTACHMENT0)
 	c.putEnum(int(gfx.DepthAttachment), gl.DEPTH_ATTACHMENT)
@@ -212,13 +214,19 @@ func (c *Context) DepthMask(m bool) {
 
 // Enable implements the gfx.Context interface.
 func (c *Context) Enable(f gfx.Feature) {
-	// TODO(slimsag): protect against double-enable
+	if c.Features[f-gfx.FirstFeature] {
+		return
+	}
+	c.Features[f-gfx.FirstFeature] = true
 	gl.Enable(c.Enums[int(f)])
 }
 
 // Disable implements the gfx.Context interface.
 func (c *Context) Disable(f gfx.Feature) {
-	// TODO(slimsag): protect against double-disable
+	if !c.Features[f-gfx.FirstFeature] {
+		return
+	}
+	c.Features[f-gfx.FirstFeature] = false
 	gl.Disable(c.Enums[int(f)])
 }
 
@@ -325,7 +333,10 @@ func New() (gfx.Context, error) {
 		return nil, err
 	}
 
-	ctx := &Context{}
+	ctx := &Context{
+		Enums:    new([gfx.EnumMax]uint32),
+		Features: new([gfx.LastFeature - gfx.FirstFeature]bool),
+	}
 	ctx.Framebuffer = &Framebuffer{
 		Object: 0, // Default framebuffer object.
 		ctx:    ctx,

@@ -21,6 +21,13 @@ type Context struct {
 	// The default framebuffer implementation for the context.
 	*Framebuffer
 
+	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
+	Enums *[gfx.EnumMax]int
+
+	// Feature is a map of gfx feature enumerations to their current enabled or
+	// disabled status.
+	Features *[gfx.LastFeature - gfx.FirstFeature]bool
+
 	LastBindFramebuffer  js.Object
 	LastBindRenderbuffer js.Object
 	LastBlendColor       [4]float32
@@ -35,9 +42,6 @@ type Context struct {
 	LastColorMask        [4]bool
 	LastCullFace         gfx.Facet
 	LastFrontFace        gfx.Orientation
-
-	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
-	Enums *[gfx.EnumMax]int
 
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
@@ -75,8 +79,6 @@ func (c *Context) putEnum(gfxEnum int, name string) {
 }
 
 func (c *Context) loadEnums() {
-	c.Enums = new([gfx.EnumMax]int)
-
 	// Framebuffer attachment points.
 	c.putEnum(int(gfx.ColorAttachment0), "COLOR_ATTACHMENT0")
 	c.putEnum(int(gfx.DepthAttachment), "DEPTH_ATTACHMENT")
@@ -344,6 +346,8 @@ func (c *Context) Finish() {
 func Wrap(o js.Object) gfx.Context {
 	ctx := &Context{
 		Object: o,
+		Enums: new([gfx.EnumMax]int),
+		Features: new([gfx.LastFeature - gfx.FirstFeature]bool),
 	}
 	ctx.Framebuffer = &Framebuffer{
 		Object: nil, // Default framebuffer object.

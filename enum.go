@@ -36,11 +36,8 @@ type ShaderType int
 type BlendEquation int
 
 const (
-	// TextureTarget enumerations.
-	zeroTextureTarget TextureTarget = iota
-
 	// Texture2D is a 2D image.
-	Texture2D
+	Texture2D TextureTarget = iota
 
 	// TextureCubeMapPositiveX is a image for the positive X face of the cube.
 	TextureCubeMapPositiveX
@@ -60,11 +57,8 @@ const (
 	// TextureCubeMapNegativeZ is a image for the negative Z face of the cube.
 	TextureCubeMapNegativeZ
 
-	// RenderbufferFormat enumerations.
-	zeroRenderbufferFormat RenderbufferFormat = iota
-
 	// RGBA4 is a 4-bits per channel renderbuffer storage format.
-	RGBA4
+	RGBA4 RenderbufferFormat = iota
 
 	// RGB565 is a renderbuffer storage format with 5 bits red, 6 bits green,
 	// and 5 bits blue, respectively.
@@ -77,11 +71,8 @@ const (
 	// DepthComponent16 is a renderbuffer storage format with
 	DepthComponent16
 
-	// FramebufferAttachment enumerations.
-	zeroFramebufferAttachment FramebufferAttachment = iota
-
 	// ColorAttachment0 is a framebuffer attachment point for the color buffer.
-	ColorAttachment0
+	ColorAttachment0 FramebufferAttachment = iota
 
 	// ColorAttachment0 is a framebuffer attachment point for the depth buffer.
 	DepthAttachment
@@ -94,12 +85,9 @@ const (
 	// and stencil buffer.
 	DepthStencilAttachment
 
-	// BufferUsage enumerations.
-	zeroBufferUsage BufferUsage = iota
-
 	// StaticDraw is a buffer usage hint where the data is static and generally
 	// does not change.
-	StaticDraw
+	StaticDraw BufferUsage = iota
 
 	// DynamicDraw is a buffer usage hint where the data changes moderately
 	// often.
@@ -109,8 +97,9 @@ const (
 	// just once and then changed immedietely thereafter.
 	StreamDraw
 
-	// Feature enumerations.
-	zeroFeature Feature = iota
+	// FirstFeature is the first feature enumeration. Feature enumerations
+	// range from [FirstFeature - LastFeature].
+	FirstFeature Feature = iota
 
 	// Blend is a feature that blends computed fragment color values with color
 	// buffer values.
@@ -131,21 +120,19 @@ const (
 	// ScissorTest abandons fragments outside the scissor rectangle.
 	ScissorTest
 
-	// Orientation enumerations.
-	zeroOrientation Orientation = iota
+	// LastFeature is the last feature enumeration. Feature enumerations range
+	// from [FirstFeature - LastFeature].
+	LastFeature
 
 	// CCW is a orientation for a counterclockwise winding. It is the initial
 	// orientation.
-	CCW
+	CCW Orientation = iota
 
 	// CW is a orientation for clockwise winding.
 	CW
 
-	// Facet enumerations.
-	zeroFacet Facet = iota
-
 	// Front is a facet for representing front-facing polygons.
-	Front
+	Front Facet = iota
 
 	// Back is a facet for representing back-facing polygons.
 	Back
@@ -154,20 +141,14 @@ const (
 	// polygons.
 	FrontAndBack
 
-	// ShaderType enumerations.
-	zeroShaderType ShaderType = iota
-
 	// VertexShader is a shader type which represents a vertex shader.
-	VertexShader
+	VertexShader ShaderType = iota
 
 	// FragmentShader is a shader type which represents a fragment shader.
 	FragmentShader
 
-	// BlendEquation enumerations.
-	zeroBlendEquation BlendEquation = iota
-
 	// FuncAdd is a blend equation to represent addition.
-	FuncAdd
+	FuncAdd BlendEquation = iota
 
 	// FuncAdd is a blend equation to represent subtraction.
 	FuncSubtract
