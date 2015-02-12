@@ -104,6 +104,13 @@ func (c *checker) Disable(f gfx.Feature) {
 	c.ctx.Check()
 }
 
+// IsEnabled implements the gfx.Context interface.
+func (c *checker) IsEnabled(f gfx.Feature) bool {
+	v := c.ctx.IsEnabled(f)
+	c.ctx.Check()
+	return v
+}
+
 // Viewport implements the gfx.Context interface.
 func (c *checker) Viewport(x, y, width, height int) {
 	c.ctx.Viewport(x, y, width, height)

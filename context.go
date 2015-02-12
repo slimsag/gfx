@@ -68,6 +68,9 @@ type Context interface {
 	// Disable disables the given feature.
 	Disable(f Feature)
 
+	// IsEnabled tells if the given feature is enabled or not.
+	IsEnabled(f Feature) bool
+
 	// Viewport sets the rectangular viewable area that contains the rendering
 	// results of the drawing buffer.
 	Viewport(x, y, width, height int)

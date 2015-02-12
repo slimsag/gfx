@@ -230,6 +230,11 @@ func (c *Context) Disable(f gfx.Feature) {
 	gl.Disable(c.Enums[int(f)])
 }
 
+// IsEnabled implements the gfx.Context interface.
+func (c *Context) IsEnabled(f gfx.Feature) bool {
+	return c.Features[f-gfx.FirstFeature]
+}
+
 // Viewport implements the gfx.Context interface.
 func (c *Context) Viewport(x, y, width, height int) {
 	if c.LastViewport == [4]int{x, y, width, height} {
