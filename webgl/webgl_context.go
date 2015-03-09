@@ -16,32 +16,23 @@ import (
 // Context implements the gfx.Context interface.
 type Context struct {
 	// Object is literally the WebGLRenderingContext JavaScript object.
-	Object js.Object
+	Object *js.Object
 
 	// The default framebuffer implementation for the context.
-	*Framebuffer
+	Framebuffer
 
 	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
-	Enums *[gfx.EnumMax]int
+	Enums [gfx.EnumMax]int
 
-	// Feature is a map of gfx feature enumerations to their current enabled or
-	// disabled status.
-	Features *[gfx.LastFeature - gfx.FirstFeature]bool
-
-	LastBindFramebuffer  js.Object
-	LastBindRenderbuffer js.Object
-	LastBlendColor       [4]float32
-	LastBlendEquation    gfx.BlendEquation
-	LastDepthMask        bool
+	LastBindFramebuffer  *js.Object
+	LastBindRenderbuffer *js.Object
 	LastClearColor       [4]float32
 	LastClearDepth       float64
 	LastClearStencil     int
-	LastViewport         [4]int
-	LastScissor          [4]int
-	LastLineWidth        float32
-	LastColorMask        [4]bool
-	LastCullFace         gfx.Facet
-	LastFrontFace        gfx.Orientation
+
+	current contextState
+
+	// TODO(slimsag): privatize all below here
 
 	// WebGL error codes (see the Check method).
 	NO_ERROR                      int `js:"NO_ERROR"`
@@ -122,7 +113,7 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.FuncReverseSubtract), "FUNC_REVERSE_SUBTRACT")
 }
 
-func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
+func (c *Context) fastBindFramebuffer(framebuffer *js.Object) {
 	if c.LastBindFramebuffer == framebuffer {
 		return
 	}
@@ -130,7 +121,7 @@ func (c *Context) fastBindFramebuffer(framebuffer js.Object) {
 	c.Object.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
 }
 
-func (c *Context) fastBindRenderbuffer(renderbuffer js.Object) {
+func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) {
 	if c.LastBindRenderbuffer == renderbuffer {
 		return
 	}
@@ -197,7 +188,7 @@ func (c *Context) NewTexture() gfx.Texture {
 // NewBuffer implements the gfx.Buffer interface.
 func (c *Context) NewBuffer() gfx.Buffer {
 	return &Buffer{
-		ctx: c,
+		ctx:    c,
 		Object: c.Object.Call("createBuffer"),
 	}
 }
@@ -205,113 +196,9 @@ func (c *Context) NewBuffer() gfx.Buffer {
 // NewProgram implements the gfx.Context interface.
 func (c *Context) NewProgram() gfx.Program {
 	return &Program{
-		ctx: c,
+		ctx:    c,
 		Object: c.Object.Call("createProgram"),
 	}
-}
-
-// BlendColor implements the gfx.Context interface.
-func (c *Context) BlendColor(r, g, b, a float32) {
-	if c.LastBlendColor == [4]float32{r, g, b, a} {
-		return
-	}
-	c.LastBlendColor = [4]float32{r, g, b, a}
-	c.Object.Call("blendColor", r, g, b, a)
-}
-
-// BlendEquation implements the gfx.Context interface.
-func (c *Context) BlendEquation(eq gfx.BlendEquation) {
-	if c.LastBlendEquation == eq {
-		return
-	}
-	c.LastBlendEquation = eq
-	c.Object.Call("blendEquation", c.Enums[int(eq)])
-}
-
-// DepthMask implements the gfx.Context interface.
-func (c *Context) DepthMask(m bool) {
-	if c.LastDepthMask == m {
-		return
-	}
-	c.LastDepthMask = m
-	c.Object.Call("depthMask", m)
-}
-
-// Enable implements the gfx.Context interface.
-func (c *Context) Enable(f gfx.Feature) {
-	if c.Features[f-gfx.FirstFeature] {
-		return
-	}
-	c.Features[f-gfx.FirstFeature] = true
-	c.Object.Call("enable", c.Enums[int(f)])
-}
-
-// Disable implements the gfx.Context interface.
-func (c *Context) Disable(f gfx.Feature) {
-	if !c.Features[f-gfx.FirstFeature] {
-		return
-	}
-	c.Features[f-gfx.FirstFeature] = false
-	c.Object.Call("disable", c.Enums[int(f)])
-}
-
-// IsEnabled implements the gfx.Context interface.
-func (c *Context) IsEnabled(f gfx.Feature) bool {
-	return c.Features[f-gfx.FirstFeature]
-}
-
-// Viewport implements the gfx.Context interface.
-func (c *Context) Viewport(x, y, width, height int) {
-	if c.LastViewport == [4]int{x, y, width, height} {
-		return
-	}
-	c.LastViewport = [4]int{x, y, width, height}
-	c.Object.Call("viewport", x, y, width, height)
-}
-
-// Scissor implements the gfx.Context interface.
-func (c *Context) Scissor(x, y, width, height int) {
-	if c.LastScissor == [4]int{x, y, width, height} {
-		return
-	}
-	c.LastScissor = [4]int{x, y, width, height}
-	c.Object.Call("scissor", x, y, width, height)
-}
-
-// LineWidth implements the gfx.Context interface.
-func (c *Context) LineWidth(w float32) {
-	if c.LastLineWidth == w {
-		return
-	}
-	c.LastLineWidth = w
-	c.Object.Call("lineWidth", float64(w))
-}
-
-// ColorMask implements the gfx.Context interface.
-func (c *Context) ColorMask(r, g, b, a bool) {
-	if c.LastColorMask == [4]bool{r, g, b, a} {
-		return
-	}
-	c.LastColorMask = [4]bool{r, g, b, a}
-	c.Object.Call("colorMask", r, g, b, a)
-}
-
-// CullFace implements the gfx.Context interface.
-func (c *Context) CullFace(f gfx.Facet) {
-	if c.LastCullFace == f {
-		return
-	}
-	c.LastCullFace = f
-	c.Object.Call("cullFace", c.Enums[int(f)])
-}
-
-// FrontFace implements the gfx.Context interface.
-func (c *Context) FrontFace(o gfx.Orientation) {
-	if c.LastFrontFace == o {
-		return
-	}
-	c.LastFrontFace = o
-	c.Object.Call("frontFace", c.Enums[int(o)])
 }
 
 // Check implements the gfx.Context interface.
@@ -354,16 +241,12 @@ func (c *Context) Finish() {
 
 // Wrap returns a new WebGL rendering context by wrapping the given JavaScript
 // WebGLRenderingContext object.
-func Wrap(o js.Object) gfx.Context {
+func Wrap(o *js.Object) gfx.Context {
 	ctx := &Context{
 		Object: o,
-		Enums: new([gfx.EnumMax]int),
-		Features: new([gfx.LastFeature - gfx.FirstFeature]bool),
 	}
-	ctx.Framebuffer = &Framebuffer{
-		Object: nil, // Default framebuffer object.
-		ctx:    ctx,
-	}
+	ctx.Framebuffer.Object = nil // Default framebuffer object.
+	ctx.Framebuffer.ctx = ctx
 	ctx.loadEnums()
 	return ctx
 }
@@ -458,7 +341,7 @@ var (
 
 // New takes an HTML5 canvas object and context attributes (nil for the default
 // ones). If any error is returned, it will be of type ErrNoWebGLSupport
-func New(canvas js.Object, ca *ContextAttributes) (gfx.Context, error) {
+func New(canvas *js.Object, ca *ContextAttributes) (gfx.Context, error) {
 	if js.Global.Get("WebGLRenderingContext") == js.Undefined {
 		return nil, ErrNoWebGLSupport
 	}

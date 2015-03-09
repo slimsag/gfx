@@ -11,7 +11,7 @@ import "github.com/gopherjs/gopherjs/js"
 // JavaScript object.
 type Buffer struct {
 	// Object is literally the WebGLBuffer object.
-	Object js.Object
+	Object *js.Object
 
 	ctx *Context
 }

@@ -11,7 +11,7 @@ import "github.com/gopherjs/gopherjs/js"
 // JavaScript object.
 type Program struct {
 	// Object is literally the WebGLProgram object.
-	Object js.Object
+	Object *js.Object
 
 	ctx *Context
 }

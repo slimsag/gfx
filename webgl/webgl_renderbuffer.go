@@ -15,7 +15,7 @@ import (
 type Renderbuffer struct {
 	// Object is literally the WebGLRenderbuffer object (or nil in the case of
 	// the default renderbuffer).
-	Object js.Object
+	Object *js.Object
 
 	ctx *Context
 }

@@ -11,7 +11,7 @@ import "github.com/gopherjs/gopherjs/js"
 // JavaScript object.
 type Shader struct {
 	// Object is literally the WebGLShader object.
-	Object js.Object
+	Object *js.Object
 
 	ctx *Context
 }

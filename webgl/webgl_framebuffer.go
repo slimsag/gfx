@@ -17,7 +17,7 @@ import (
 type Framebuffer struct {
 	// Object is literally the WebGLFramebuffer object (or nil in the case of
 	// the default framebuffer).
-	Object js.Object
+	Object *js.Object
 
 	ctx *Context
 
