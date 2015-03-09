@@ -74,77 +74,70 @@ func (c *checker) NewProgram() gfx.Program {
 	}
 }
 
-// BlendColor implements the gfx.Context interface.
-func (c *checker) BlendColor(r, g, b, a float32) {
-	c.ctx.BlendColor(r, g, b, a)
+// NewState implements the gfx.Context interface.
+func (c *checker) NewState(values ...gfx.ContextStateValue) gfx.ContextState {
+	return c.ctx.NewState(values...)
+}
+
+// Load implements the gfx.Context interface.
+func (c *checker) Load(s gfx.ContextState) {
+	c.ctx.Load(s)
 	c.ctx.Check()
+}
+
+// BlendColor implements the gfx.Context interface.
+func (c *checker) BlendColor(r, g, b, a float32) gfx.ContextStateValue {
+	return c.ctx.BlendColor(r, g, b, a)
 }
 
 // BlendEquation implements the gfx.Context interface.
-func (c *checker) BlendEquation(eq gfx.BlendEquation) {
-	c.ctx.BlendEquation(eq)
-	c.ctx.Check()
+func (c *checker) BlendEquation(eq gfx.BlendEquation) gfx.ContextStateValue {
+	return c.ctx.BlendEquation(eq)
 }
 
 // DepthMask implements the gfx.Context interface.
-func (c *checker) DepthMask(m bool) {
-	c.ctx.DepthMask(m)
-	c.ctx.Check()
+func (c *checker) DepthMask(m bool) gfx.ContextStateValue {
+	return c.ctx.DepthMask(m)
 }
 
 // Enable implements the gfx.Context interface.
-func (c *checker) Enable(f gfx.Feature) {
-	c.ctx.Enable(f)
-	c.ctx.Check()
+func (c *checker) Enable(f gfx.Feature) gfx.ContextStateValue {
+	return c.ctx.Enable(f)
 }
 
 // Disable implements the gfx.Context interface.
-func (c *checker) Disable(f gfx.Feature) {
-	c.ctx.Disable(f)
-	c.ctx.Check()
-}
-
-// IsEnabled implements the gfx.Context interface.
-func (c *checker) IsEnabled(f gfx.Feature) bool {
-	v := c.ctx.IsEnabled(f)
-	c.ctx.Check()
-	return v
+func (c *checker) Disable(f gfx.Feature) gfx.ContextStateValue {
+	return c.ctx.Disable(f)
 }
 
 // Viewport implements the gfx.Context interface.
-func (c *checker) Viewport(x, y, width, height int) {
-	c.ctx.Viewport(x, y, width, height)
-	c.ctx.Check()
+func (c *checker) Viewport(x, y, width, height int) gfx.ContextStateValue {
+	return c.ctx.Viewport(x, y, width, height)
 }
 
 // Scissor implements the gfx.Context interface.
-func (c *checker) Scissor(x, y, width, height int) {
-	c.ctx.Scissor(x, y, width, height)
-	c.ctx.Check()
+func (c *checker) Scissor(x, y, width, height int) gfx.ContextStateValue {
+	return c.ctx.Scissor(x, y, width, height)
 }
 
 // LineWidth implements the gfx.Context interface.
-func (c *checker) LineWidth(w float32) {
-	c.ctx.LineWidth(w)
-	c.ctx.Check()
+func (c *checker) LineWidth(w float32) gfx.ContextStateValue {
+	return c.ctx.LineWidth(w)
 }
 
 // ColorMask implements the gfx.Context interface.
-func (c *checker) ColorMask(r, g, b, a bool) {
-	c.ctx.ColorMask(r, g, b, a)
-	c.ctx.Check()
+func (c *checker) ColorMask(r, g, b, a bool) gfx.ContextStateValue {
+	return c.ctx.ColorMask(r, g, b, a)
 }
 
 // CullFace implements the gfx.Context interface.
-func (c *checker) CullFace(f gfx.Facet) {
-	c.ctx.CullFace(f)
-	c.ctx.Check()
+func (c *checker) CullFace(f gfx.Facet) gfx.ContextStateValue {
+	return c.ctx.CullFace(f)
 }
 
 // FrontFace implements the gfx.Context interface.
-func (c *checker) FrontFace(o gfx.Orientation) {
-	c.ctx.FrontFace(o)
-	c.ctx.Check()
+func (c *checker) FrontFace(o gfx.Orientation) gfx.ContextStateValue {
+	return c.ctx.FrontFace(o)
 }
 
 // Check implements the gfx.Context interface.
