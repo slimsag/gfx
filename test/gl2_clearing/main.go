@@ -7,10 +7,10 @@ package main
 import (
 	"runtime"
 
+	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/debug"
 	"github.com/slimsag/gfx/gl2"
-	glfw "github.com/slimsag/glfw3"
 )
 
 func init() {
