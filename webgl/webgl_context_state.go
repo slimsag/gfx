@@ -74,6 +74,7 @@ const (
 	csBlendColor = iota
 	csBlendEquation
 	csDepthMask
+	csUseProgram
 	csViewport
 	csScissor
 	csLineWidth
@@ -86,7 +87,7 @@ const (
 
 func (c *Context) glBlendColor(v interface{}) {
 	x := v.([4]float32)
-	c.Object.Call("blendColor", x[0], x[0], x[0], x[0])
+	c.O.Call("blendColor", x[0], x[0], x[0], x[0])
 }
 
 // BlendColor implements the gfx.ContextStateProvider interface.
@@ -100,21 +101,21 @@ func (c *Context) BlendColor(r, g, b, a float32) gfx.ContextStateValue {
 }
 
 func (c *Context) glBlendEquation(v interface{}) {
-	c.Object.Call("blendEquation", v.(int))
+	c.O.Call("blendEquation", v.(int))
 }
 
 // BlendEquation implements the gfx.ContextStateProvider interface.
 func (c *Context) BlendEquation(eq gfx.BlendEquation) gfx.ContextStateValue {
 	return csv{
 		value:        c.Enums[int(eq)],
-		defaultValue: c.Object.Get("FUNC_ADD").Int(), // TODO(slimsag): verify
+		defaultValue: c.O.Get("FUNC_ADD").Int(), // TODO(slimsag): verify
 		key:          csBlendEquation,
 		glCall:       c.glBlendEquation,
 	}
 }
 
 func (c *Context) glDepthMask(v interface{}) {
-	c.Object.Call("depthMask", v.(bool))
+	c.O.Call("depthMask", v.(bool))
 }
 
 // DepthMask implements the gfx.ContextStateProvider interface.
@@ -127,9 +128,23 @@ func (c *Context) DepthMask(m bool) gfx.ContextStateValue {
 	}
 }
 
+func (c *Context) glUseProgram(v interface{}) {
+	c.O.Call("useProgram", v)
+}
+
+// UseProgram implements the gfx.ContextStateProvider interface.
+func (c *Context) UseProgram(p gfx.Program) gfx.ContextStateValue {
+	return csv{
+		value:        p,
+		defaultValue: nil, // TODO(slimsag): verify
+		key:          csUseProgram,
+		glCall:       c.glUseProgram,
+	}
+}
+
 func (c *Context) glViewport(v interface{}) {
 	x := v.([4]int)
-	c.Object.Call("viewport", x[0], x[0], x[0], x[0])
+	c.O.Call("viewport", x[0], x[0], x[0], x[0])
 }
 
 // Viewport implements the gfx.ContextStateProvider interface.
@@ -144,7 +159,7 @@ func (c *Context) Viewport(x, y, width, height int) gfx.ContextStateValue {
 
 func (c *Context) glScissor(v interface{}) {
 	x := v.([4]int)
-	c.Object.Call("scissor", x[0], x[0], x[0], x[0])
+	c.O.Call("scissor", x[0], x[0], x[0], x[0])
 }
 
 // Scissor implements the gfx.ContextStateProvider interface.
@@ -158,7 +173,7 @@ func (c *Context) Scissor(x, y, width, height int) gfx.ContextStateValue {
 }
 
 func (c *Context) glLineWidth(v interface{}) {
-	c.Object.Call("lineWidth", v.(float64))
+	c.O.Call("lineWidth", v.(float64))
 }
 
 // LineWidth implements the gfx.ContextStateProvider interface.
@@ -173,7 +188,7 @@ func (c *Context) LineWidth(w float32) gfx.ContextStateValue {
 
 func (c *Context) glColorMask(v interface{}) {
 	x := v.([4]bool)
-	c.Object.Call("colorMask", x[0], x[1], x[2], x[3])
+	c.O.Call("colorMask", x[0], x[1], x[2], x[3])
 }
 
 // ColorMask implements the gfx.ContextStateProvider interface.
@@ -187,28 +202,28 @@ func (c *Context) ColorMask(r, g, b, a bool) gfx.ContextStateValue {
 }
 
 func (c *Context) glCullFace(v interface{}) {
-	c.Object.Call("cullFace", v.(int))
+	c.O.Call("cullFace", v.(int))
 }
 
 // CullFace implements the gfx.ContextStateProvider interface.
 func (c *Context) CullFace(f gfx.Facet) gfx.ContextStateValue {
 	return csv{
 		value:        c.Enums[int(f)],
-		defaultValue: c.Object.Get("FRONT").Int(), // TODO(slimsag): verify
+		defaultValue: c.O.Get("FRONT").Int(), // TODO(slimsag): verify
 		key:          csCullFace,
 		glCall:       c.glCullFace,
 	}
 }
 
 func (c *Context) glFrontFace(v interface{}) {
-	c.Object.Call("frontFace", v.(int))
+	c.O.Call("frontFace", v.(int))
 }
 
 // FrontFace implements the gfx.ContextStateProvider interface.
 func (c *Context) FrontFace(o gfx.Orientation) gfx.ContextStateValue {
 	return csv{
 		value:        c.Enums[int(o)],
-		defaultValue: c.Object.Get("CCW").Int(), // TODO(slimsag): verify
+		defaultValue: c.O.Get("CCW").Int(), // TODO(slimsag): verify
 		key:          csFrontFace,
 		glCall:       c.glFrontFace,
 	}
@@ -220,7 +235,7 @@ type featureKey struct {
 }
 
 func (c *Context) glEnable(v interface{}) {
-	c.Object.Call("enable", v.(int))
+	c.O.Call("enable", v.(int))
 }
 
 // Enable implements the gfx.ContextStateProvider interface.
@@ -237,7 +252,7 @@ func (c *Context) Enable(f gfx.Feature) gfx.ContextStateValue {
 }
 
 func (c *Context) glDisable(v interface{}) {
-	c.Object.Call("disable", v.(int))
+	c.O.Call("disable", v.(int))
 }
 
 // Disable implements the gfx.ContextStateProvider interface.

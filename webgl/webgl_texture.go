@@ -10,17 +10,22 @@ import "github.com/gopherjs/gopherjs/js"
 // Texture implements the gfx.Texture interface by wrapping a WebGLTexture
 // JavaScript object.
 type Texture struct {
-	// Object is literally the WebGLTexture object.
-	Object *js.Object
+	// o is literally the WebGLTexture object.
+	o *js.Object
 
 	ctx *Context
 }
 
 // Delete implements the gfx.Object interface.
 func (t *Texture) Delete() {
-	if t.Object == nil {
+	if t.o == nil {
 		return
 	}
-	t.ctx.Object.Call("deleteTexture", t.Object)
-	t.Object = nil
+	t.ctx.O.Call("deleteTexture", t.o)
+	t.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (t *Texture) Object() interface{} {
+	return t.o
 }

@@ -127,7 +127,7 @@ func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	fb := &Framebuffer{
 		ctx: c,
 	}
-	gl.GenFramebuffers(1, &fb.Object)
+	gl.GenFramebuffers(1, &fb.o)
 	return fb
 }
 
@@ -136,15 +136,15 @@ func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	rb := &Renderbuffer{
 		ctx: c,
 	}
-	gl.GenRenderbuffers(1, &rb.Object)
+	gl.GenRenderbuffers(1, &rb.o)
 	return rb
 }
 
 // NewShader implements the gfx.Context interface.
 func (c *Context) NewShader(t gfx.ShaderType) gfx.Shader {
 	return &Shader{
-		ctx:    c,
-		Object: gl.CreateShader(c.Enums[int(t)]),
+		ctx: c,
+		o:   gl.CreateShader(c.Enums[int(t)]),
 	}
 }
 
@@ -153,7 +153,7 @@ func (c *Context) NewTexture() gfx.Texture {
 	t := &Texture{
 		ctx: c,
 	}
-	gl.GenTextures(1, &t.Object)
+	gl.GenTextures(1, &t.o)
 	return t
 }
 
@@ -162,15 +162,15 @@ func (c *Context) NewBuffer() gfx.Buffer {
 	b := &Buffer{
 		ctx: c,
 	}
-	gl.GenBuffers(1, &b.Object)
+	gl.GenBuffers(1, &b.o)
 	return b
 }
 
 // NewProgram implements the gfx.Context interface.
 func (c *Context) NewProgram() gfx.Program {
 	return &Program{
-		ctx:    c,
-		Object: gl.CreateProgram(),
+		ctx: c,
+		o:   gl.CreateProgram(),
 	}
 }
 
@@ -224,7 +224,7 @@ func New() (gfx.Context, error) {
 	}
 
 	ctx := &Context{}
-	ctx.Framebuffer.Object = 0 // Default framebuffer object.
+	ctx.Framebuffer.o = 0 // Default framebuffer object.
 	ctx.Framebuffer.ctx = ctx
 	ctx.loadEnums()
 	return ctx, nil

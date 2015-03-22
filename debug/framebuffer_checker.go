@@ -88,6 +88,11 @@ func (f *fbChecker) Delete() {
 	f.ctx.Check() // not f.check() because it uses the deleted framebuffer.
 }
 
+// Object implements the gfx.Object interface.
+func (f *fbChecker) Object() interface{} {
+	return f.fb.Object()
+}
+
 func (f *fbChecker) check() {
 	if status := f.Status(); status != nil {
 		panic(status)

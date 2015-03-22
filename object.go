@@ -9,4 +9,13 @@ type Object interface {
 	// Delete deletes this object, use of the object after deletion is not
 	// allowed.
 	Delete()
+
+	// Object returns the literal OpenGL object, for use directly with the lowest
+	// level API. The type is dependant upon the OpenGL provider in use:
+	//
+	//  gfx/gl2:    uint32
+	//  gfx/gles2:  uint32
+	//  gfx/webgl: *js.Object
+	//
+	Object() interface{}
 }

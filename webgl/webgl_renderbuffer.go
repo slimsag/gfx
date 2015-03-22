@@ -13,9 +13,9 @@ import (
 // Renderbuffer implements the gfx.Renderbuffer interface by wrapping a
 // WebGLRenderbuffer JavaScript object.
 type Renderbuffer struct {
-	// Object is literally the WebGLRenderbuffer object (or nil in the case of
-	// the default renderbuffer).
-	Object *js.Object
+	// o is literally the WebGLRenderbuffer object (or nil in the case of the
+	// default renderbuffer).
+	o *js.Object
 
 	ctx *Context
 }
@@ -23,20 +23,25 @@ type Renderbuffer struct {
 // useState binds the global OpenGL state for this local Renderbuffer object.
 func (r *Renderbuffer) useState() {
 	// Bind the renderbuffer now.
-	r.ctx.fastBindRenderbuffer(r.Object)
+	r.ctx.fastBindRenderbuffer(r.o)
 }
 
 // Storage implements the gfx.Renderbuffer interface.
 func (r *Renderbuffer) Storage(internalFormat gfx.RenderbufferFormat, width, height int) {
 	r.useState()
-	r.ctx.Object.Call("renderbufferStorage", r.ctx.RENDERBUFFER, r.ctx.Enums[int(internalFormat)], width, height)
+	r.ctx.O.Call("renderbufferStorage", r.ctx.RENDERBUFFER, r.ctx.Enums[int(internalFormat)], width, height)
 }
 
 // Delete implements the gfx.Object interface.
 func (r *Renderbuffer) Delete() {
-	if r.Object == nil {
+	if r.o == nil {
 		return
 	}
-	r.ctx.Object.Call("deleteRenderbuffer", r.Object)
-	r.Object = nil
+	r.ctx.O.Call("deleteRenderbuffer", r.o)
+	r.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (r *Renderbuffer) Object() interface{} {
+	return r.o
 }

@@ -10,17 +10,22 @@ import "github.com/gopherjs/gopherjs/js"
 // Shader implements the gfx.Shader interface by wrapping a WebGLShader
 // JavaScript object.
 type Shader struct {
-	// Object is literally the WebGLShader object.
-	Object *js.Object
+	// o is literally the WebGLShader object.
+	o *js.Object
 
 	ctx *Context
 }
 
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
-	if s.Object == nil {
+	if s.o == nil {
 		return
 	}
-	s.ctx.Object.Call("deleteShader", s.Object)
-	s.Object = nil
+	s.ctx.O.Call("deleteShader", s.o)
+	s.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (s *Shader) Object() interface{} {
+	return s.o
 }

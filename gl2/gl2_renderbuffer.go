@@ -13,8 +13,8 @@ import (
 // Renderbuffer implements the gfx.Renderbuffer interface by wrapping a OpenGL
 // renderbuffer object ID.
 type Renderbuffer struct {
-	// Object is literally the OpenGL renderbuffer object ID.
-	Object uint32
+	// o is literally the OpenGL renderbuffer object ID.
+	o uint32
 
 	ctx *Context
 }
@@ -22,7 +22,7 @@ type Renderbuffer struct {
 // useState binds the global OpenGL state for this local Renderbuffer object.
 func (r *Renderbuffer) useState() {
 	// Bind the renderbuffer now.
-	r.ctx.fastBindRenderbuffer(r.Object)
+	r.ctx.fastBindRenderbuffer(r.o)
 }
 
 // Storage implements the gfx.Renderbuffer interface.
@@ -33,9 +33,14 @@ func (r *Renderbuffer) Storage(internalFormat gfx.RenderbufferFormat, width, hei
 
 // Delete implements the gfx.Object interface.
 func (r *Renderbuffer) Delete() {
-	if r.Object == 0 {
+	if r.o == 0 {
 		return
 	}
-	gl.DeleteRenderbuffers(1, &r.Object)
-	r.Object = 0
+	gl.DeleteRenderbuffers(1, &r.o)
+	r.o = 0
+}
+
+// Object implements the gfx.Object interface.
+func (r *Renderbuffer) Object() interface{} {
+	return r.o
 }

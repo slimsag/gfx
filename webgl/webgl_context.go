@@ -15,8 +15,8 @@ import (
 
 // Context implements the gfx.Context interface.
 type Context struct {
-	// Object is literally the WebGLRenderingContext JavaScript object.
-	Object *js.Object
+	// O is literally the WebGLRenderingContext JavaScript object.
+	O *js.Object
 
 	// The default framebuffer implementation for the context.
 	Framebuffer
@@ -60,7 +60,7 @@ type Context struct {
 }
 
 func (c *Context) putEnum(gfxEnum int, name string) {
-	glEnum := c.Object.Get(name).Int()
+	glEnum := c.O.Get(name).Int()
 	if glEnum == 0 {
 		fmt.Println("gfxEnum:", gfxEnum)
 		fmt.Println("name:", name)
@@ -118,7 +118,7 @@ func (c *Context) fastBindFramebuffer(framebuffer *js.Object) {
 		return
 	}
 	c.LastBindFramebuffer = framebuffer
-	c.Object.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
+	c.O.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
 }
 
 func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) {
@@ -126,7 +126,7 @@ func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) {
 		return
 	}
 	c.LastBindRenderbuffer = renderbuffer
-	c.Object.Call("bindRenderbuffer", c.RENDERBUFFER, renderbuffer)
+	c.O.Call("bindRenderbuffer", c.RENDERBUFFER, renderbuffer)
 }
 
 func (c *Context) fastClearColor(v [4]float32) {
@@ -134,7 +134,7 @@ func (c *Context) fastClearColor(v [4]float32) {
 		return
 	}
 	c.LastClearColor = v
-	c.Object.Call("clearColor", v[0], v[1], v[2], v[3])
+	c.O.Call("clearColor", v[0], v[1], v[2], v[3])
 }
 
 func (c *Context) fastClearDepth(v float64) {
@@ -142,7 +142,7 @@ func (c *Context) fastClearDepth(v float64) {
 		return
 	}
 	c.LastClearDepth = v
-	c.Object.Call("clearDepth", v)
+	c.O.Call("clearDepth", v)
 }
 
 func (c *Context) fastClearStencil(v int) {
@@ -150,60 +150,60 @@ func (c *Context) fastClearStencil(v int) {
 		return
 	}
 	c.LastClearStencil = v
-	c.Object.Call("clearStencil", v)
+	c.O.Call("clearStencil", v)
 }
 
 // NewFramebuffer implements the gfx.Context interface.
 func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	return &Framebuffer{
-		ctx:    c,
-		Object: c.Object.Call("createFramebuffer"),
+		ctx: c,
+		o:   c.O.Call("createFramebuffer"),
 	}
 }
 
 // NewRenderbuffer implements the gfx.Context interface.
 func (c *Context) NewRenderbuffer() gfx.Renderbuffer {
 	return &Renderbuffer{
-		ctx:    c,
-		Object: c.Object.Call("createRenderbuffer"),
+		ctx: c,
+		o:   c.O.Call("createRenderbuffer"),
 	}
 }
 
 // NewShader implements the gfx.Context interface.
 func (c *Context) NewShader(t gfx.ShaderType) gfx.Shader {
 	return &Shader{
-		ctx:    c,
-		Object: c.Object.Call("createShader", c.Enums[int(t)]),
+		ctx: c,
+		o:   c.O.Call("createShader", c.Enums[int(t)]),
 	}
 }
 
 // NewTexture implements the gfx.Context interface.
 func (c *Context) NewTexture() gfx.Texture {
 	return &Texture{
-		ctx:    c,
-		Object: c.Object.Call("createTexture"),
+		ctx: c,
+		o:   c.O.Call("createTexture"),
 	}
 }
 
 // NewBuffer implements the gfx.Buffer interface.
 func (c *Context) NewBuffer() gfx.Buffer {
 	return &Buffer{
-		ctx:    c,
-		Object: c.Object.Call("createBuffer"),
+		ctx: c,
+		o:   c.O.Call("createBuffer"),
 	}
 }
 
 // NewProgram implements the gfx.Context interface.
 func (c *Context) NewProgram() gfx.Program {
 	return &Program{
-		ctx:    c,
-		Object: c.Object.Call("createProgram"),
+		ctx: c,
+		o:   c.O.Call("createProgram"),
 	}
 }
 
 // Check implements the gfx.Context interface.
 func (c *Context) Check() {
-	e := c.Object.Call("getError").Int()
+	e := c.O.Call("getError").Int()
 
 	// Avoid the larger switch statement below, as no error is the most likely
 	// case.
@@ -231,21 +231,21 @@ func (c *Context) Check() {
 
 // Flush implements the gfx.Context interface.
 func (c *Context) Flush() {
-	c.Object.Call("flush")
+	c.O.Call("flush")
 }
 
 // Finish implements the gfx.Context interface.
 func (c *Context) Finish() {
-	c.Object.Call("finish")
+	c.O.Call("finish")
 }
 
 // Wrap returns a new WebGL rendering context by wrapping the given JavaScript
 // WebGLRenderingContext object.
 func Wrap(o *js.Object) gfx.Context {
 	ctx := &Context{
-		Object: o,
+		O: o,
 	}
-	ctx.Framebuffer.Object = nil // Default framebuffer object.
+	ctx.Framebuffer.o = nil // Default framebuffer object.
 	ctx.Framebuffer.ctx = ctx
 	ctx.loadEnums()
 	return ctx

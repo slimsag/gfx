@@ -16,9 +16,9 @@ import (
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
-	// Object is literally the OpenGL framebuffer object ID (or zero in the
-	// case of the default framebuffer).
-	Object uint32
+	// o is literally the OpenGL framebuffer object ID (or zero in the case of the
+	// default framebuffer).
+	o uint32
 
 	ctx *Context
 
@@ -36,7 +36,7 @@ func (f *Framebuffer) useState() {
 	f.ctx.fastClearStencil(f.clearStencil)
 
 	// Bind the framebuffer now.
-	f.ctx.fastBindFramebuffer(f.Object)
+	f.ctx.fastBindFramebuffer(f.o)
 }
 
 // ClearColor implements the gfx.Clearable interface.
@@ -86,7 +86,7 @@ func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx
 		gl.FRAMEBUFFER,
 		f.ctx.Enums[int(attachment)],
 		f.ctx.Enums[int(target)],
-		tex.(*Texture).Object,
+		tex.Object().(uint32),
 		0,
 	)
 }
@@ -98,7 +98,7 @@ func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx
 		gl.FRAMEBUFFER,
 		f.ctx.Enums[int(attachment)],
 		gl.RENDERBUFFER,
-		buf.(*Renderbuffer).Object,
+		buf.Object().(uint32),
 		0,
 	)
 }
@@ -130,9 +130,14 @@ func (f *Framebuffer) Status() error {
 
 // Delete implements the gfx.Object interface.
 func (f *Framebuffer) Delete() {
-	if f.Object == 0 {
+	if f.o == 0 {
 		return
 	}
-	gl.DeleteFramebuffers(1, &f.Object)
-	f.Object = 0
+	gl.DeleteFramebuffers(1, &f.o)
+	f.o = 0
+}
+
+// Object implements the gfx.Object interface.
+func (f *Framebuffer) Object() interface{} {
+	return f.o
 }

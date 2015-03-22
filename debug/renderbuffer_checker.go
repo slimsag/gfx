@@ -25,3 +25,8 @@ func (r *rbChecker) Delete() {
 	r.rb.Delete()
 	r.ctx.Check()
 }
+
+// Object implements the gfx.Object interface.
+func (r *rbChecker) Object() interface{} {
+	return r.rb.Object()
+}

@@ -10,17 +10,22 @@ import "github.com/slimsag/gfx/internal/gl/2.0/gl"
 // Buffer implements the gfx.Buffer interface by wrapping a OpenGL buffer
 // object ID.
 type Buffer struct {
-	// Object is literally the OpenGL buffer object ID.
-	Object uint32
+	// o is literally the OpenGL buffer object ID.
+	o uint32
 
 	ctx *Context
 }
 
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
-	if b.Object == 0 {
+	if b.o == 0 {
 		return
 	}
-	gl.DeleteBuffers(1, &b.Object)
-	b.Object = 0
+	gl.DeleteBuffers(1, &b.o)
+	b.o = 0
+}
+
+// Object implements the gfx.Object interface.
+func (b *Buffer) Object() interface{} {
+	return b.o
 }

@@ -19,3 +19,8 @@ func (b *bufferChecker) Delete() {
 	b.b.Delete()
 	b.ctx.Check()
 }
+
+// Object implements the gfx.Object interface.
+func (b *bufferChecker) Object() interface{} {
+	return b.b.Object()
+}

@@ -19,3 +19,8 @@ func (s *shaderChecker) Delete() {
 	s.s.Delete()
 	s.ctx.Check()
 }
+
+// Object implements the gfx.Object interface.
+func (s *shaderChecker) Object() interface{} {
+	return s.s.Object()
+}

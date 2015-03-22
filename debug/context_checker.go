@@ -110,6 +110,11 @@ func (c *checker) Disable(f gfx.Feature) gfx.ContextStateValue {
 	return c.ctx.Disable(f)
 }
 
+// UseProgram implements the gfx.Context interface.
+func (c *checker) UseProgram(p gfx.Program) gfx.ContextStateValue {
+	return c.ctx.UseProgram(p)
+}
+
 // Viewport implements the gfx.Context interface.
 func (c *checker) Viewport(x, y, width, height int) gfx.ContextStateValue {
 	return c.ctx.Viewport(x, y, width, height)

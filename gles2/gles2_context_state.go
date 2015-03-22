@@ -77,6 +77,7 @@ const (
 	csBlendColor = iota
 	csBlendEquation
 	csDepthMask
+	csUseProgram
 	csViewport
 	csScissor
 	csLineWidth
@@ -127,6 +128,20 @@ func (c *Context) DepthMask(m bool) gfx.ContextStateValue {
 		defaultValue: true, // TODO(slimsag): verify
 		key:          csDepthMask,
 		glCall:       glDepthMask,
+	}
+}
+
+func glUseProgram(v interface{}) {
+	gl.UseProgram(v.(uint32))
+}
+
+// UseProgram implements the gfx.ContextStateProvider interface.
+func (c *Context) UseProgram(p gfx.Program) gfx.ContextStateValue {
+	return csv{
+		value:        p,
+		defaultValue: nil, // TODO(slimsag): verify
+		key:          csUseProgram,
+		glCall:       glUseProgram,
 	}
 }
 

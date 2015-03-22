@@ -15,9 +15,9 @@ import (
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
-	// Object is literally the WebGLFramebuffer object (or nil in the case of
-	// the default framebuffer).
-	Object *js.Object
+	// o is literally the WebGLFramebuffer object (or nil in the case of the
+	// default framebuffer).
+	o *js.Object
 
 	ctx *Context
 
@@ -35,7 +35,7 @@ func (f *Framebuffer) useState() {
 	f.ctx.fastClearStencil(f.clearStencil)
 
 	// Bind the framebuffer now.
-	f.ctx.fastBindFramebuffer(f.Object)
+	f.ctx.fastBindFramebuffer(f.o)
 }
 
 // ClearColor implements the gfx.Clearable interface.
@@ -68,24 +68,24 @@ func (f *Framebuffer) Clear(m gfx.ClearMask) {
 
 	// Use this framebuffer's state, and perform the clear operation.
 	f.useState()
-	f.ctx.Object.Call("clear", mask)
+	f.ctx.O.Call("clear", mask)
 }
 
 // ReadPixelsUint8 implements the gfx.Framebuffer interface.
 func (f *Framebuffer) ReadPixelsUint8(x, y, width, height int, dst []uint8) {
 	f.useState()
-	f.ctx.Object.Call("readPixels", x, y, width, height, f.ctx.RGBA, f.ctx.UNSIGNED_BYTE, dst)
+	f.ctx.O.Call("readPixels", x, y, width, height, f.ctx.RGBA, f.ctx.UNSIGNED_BYTE, dst)
 }
 
 // Texture2D implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx.TextureTarget, tex gfx.Texture) {
 	f.useState()
-	f.ctx.Object.Call(
+	f.ctx.O.Call(
 		"framebufferTexture2D",
 		f.ctx.FRAMEBUFFER,
 		f.ctx.Enums[int(attachment)],
 		f.ctx.Enums[int(target)],
-		tex.(*Texture).Object,
+		tex.Object().(*js.Object),
 		0,
 	)
 }
@@ -93,12 +93,12 @@ func (f *Framebuffer) Texture2D(attachment gfx.FramebufferAttachment, target gfx
 // Renderbuffer implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx.Renderbuffer) {
 	f.useState()
-	f.ctx.Object.Call(
+	f.ctx.O.Call(
 		"framebufferTexture2D",
 		f.ctx.FRAMEBUFFER,
 		f.ctx.Enums[int(attachment)],
 		f.ctx.RENDERBUFFER,
-		buf.(*Renderbuffer).Object,
+		buf.Object().(*js.Object),
 		0,
 	)
 }
@@ -106,7 +106,7 @@ func (f *Framebuffer) Renderbuffer(attachment gfx.FramebufferAttachment, buf gfx
 // Status implements the gfx.Framebuffer interface.
 func (f *Framebuffer) Status() error {
 	f.useState()
-	e := f.ctx.Object.Call("checkFramebufferStatus", f.ctx.FRAMEBUFFER).Int()
+	e := f.ctx.O.Call("checkFramebufferStatus", f.ctx.FRAMEBUFFER).Int()
 
 	// Avoid the larger switch statement below, as no error is the most likely
 	// case.
@@ -130,9 +130,14 @@ func (f *Framebuffer) Status() error {
 
 // Delete implements the gfx.Object interface.
 func (f *Framebuffer) Delete() {
-	if f.Object == nil {
+	if f.o == nil {
 		return
 	}
-	f.ctx.Object.Call("deleteFramebuffer", f.Object)
-	f.Object = nil
+	f.ctx.O.Call("deleteFramebuffer", f.o)
+	f.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (f *Framebuffer) Object() interface{} {
+	return f.o
 }

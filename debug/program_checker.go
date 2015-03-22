@@ -19,3 +19,8 @@ func (p *programChecker) Delete() {
 	p.p.Delete()
 	p.ctx.Check()
 }
+
+// Object implements the gfx.Object interface.
+func (p *programChecker) Object() interface{} {
+	return p.p.Object()
+}

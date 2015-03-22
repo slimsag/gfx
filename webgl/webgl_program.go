@@ -10,17 +10,22 @@ import "github.com/gopherjs/gopherjs/js"
 // Program implements the gfx.Program interface by wrapping a WebGLProgram
 // JavaScript object.
 type Program struct {
-	// Object is literally the WebGLProgram object.
-	Object *js.Object
+	// o is literally the WebGLProgram object.
+	o *js.Object
 
 	ctx *Context
 }
 
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
-	if p.Object == nil {
+	if p.o == nil {
 		return
 	}
-	p.ctx.Object.Call("deleteProgram", p.Object)
-	p.Object = nil
+	p.ctx.O.Call("deleteProgram", p.o)
+	p.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (p *Program) Object() interface{} {
+	return p.o
 }

@@ -10,17 +10,22 @@ import "github.com/gopherjs/gopherjs/js"
 // Buffer implements the gfx.Buffer interface by wrapping a WebGLBuffer
 // JavaScript object.
 type Buffer struct {
-	// Object is literally the WebGLBuffer object.
-	Object *js.Object
+	// o is literally the WebGLBuffer object.
+	o *js.Object
 
 	ctx *Context
 }
 
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
-	if b.Object == nil {
+	if b.o == nil {
 		return
 	}
-	b.ctx.Object.Call("deleteBuffer", b.Object)
-	b.Object = nil
+	b.ctx.O.Call("deleteBuffer", b.o)
+	b.o = nil
+}
+
+// Object implements the gfx.Object interface.
+func (b *Buffer) Object() interface{} {
+	return b.o
 }

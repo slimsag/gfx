@@ -45,6 +45,9 @@ type ContextStateProvider interface {
 	// Disable disables the given feature.
 	Disable(f Feature) ContextStateValue
 
+	// UseProgram sets the program object to use for rendering.
+	UseProgram(p Program) ContextStateValue
+
 	// Viewport sets the rectangular viewable area that contains the rendering
 	// results of the drawing buffer.
 	Viewport(x, y, width, height int) ContextStateValue

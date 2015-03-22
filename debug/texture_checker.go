@@ -19,3 +19,8 @@ func (t *textureChecker) Delete() {
 	t.t.Delete()
 	t.ctx.Check()
 }
+
+// Object implements the gfx.Object interface.
+func (t *textureChecker) Object() interface{} {
+	return t.t.Object()
+}
