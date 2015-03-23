@@ -14,7 +14,7 @@
 //  http://github.com/go-gl/glow
 //
 // Generated based on the OpenGL XML specification:
-//  SVN revision 29651
+//  SVN revision 30264
 package gl
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
@@ -478,9 +478,6 @@ import "C"
 import (
 	"errors"
 	"unsafe"
-
-	"github.com/slimsag/gfx/internal/procaddr"
-	"github.com/slimsag/gfx/internal/procaddr/auto"
 )
 
 const (
@@ -658,6 +655,7 @@ const (
 	STENCIL_TEST                              = 0x0B90
 	STENCIL_VALUE_MASK                        = 0x0B93
 	STENCIL_WRITEMASK                         = 0x0B98
+	STREAM_DRAW                               = 0x88E0
 	TEXTURE0                                  = 0x84C0
 	TEXTURE_2D                                = 0x0DE1
 	TEXTURE_BASE_LEVEL                        = 0x813C
@@ -1211,9 +1209,13 @@ func Viewport(x int32, y int32, width int32, height int32) {
 	C.glowViewport(gpViewport, (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width), (C.GLsizei)(height))
 }
 func Init() error {
-	return InitWithProcAddrFunc(auto.GetProcAddress)
+	return InitWithProcAddrFunc(getProcAddress)
 }
-func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
+
+// InitWithProcAddrFunc intializes the package using the specified OpenGL
+// function pointer loading function. For more cases Init should be used
+// instead.
+func InitWithProcAddrFunc(getProcAddr func(name string) unsafe.Pointer) error {
 	gpActiveTexture = (C.GPACTIVETEXTURE)(getProcAddr("glActiveTexture"))
 	if gpActiveTexture == nil {
 		return errors.New("glActiveTexture")
