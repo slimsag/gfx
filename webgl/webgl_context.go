@@ -30,6 +30,7 @@ type Context struct {
 	LastClearDepth       float64
 	LastClearStencil     int
 
+	puts    int
 	current contextState
 
 	// TODO(slimsag): privatize all below here
@@ -60,6 +61,7 @@ type Context struct {
 }
 
 func (c *Context) putEnum(gfxEnum int, name string) {
+	c.puts++
 	glEnum := c.O.Get(name).Int()
 	if glEnum == 0 {
 		fmt.Println("gfxEnum:", gfxEnum)
@@ -70,12 +72,6 @@ func (c *Context) putEnum(gfxEnum int, name string) {
 }
 
 func (c *Context) loadEnums() {
-	// Framebuffer attachment points.
-	c.putEnum(int(gfx.ColorAttachment0), "COLOR_ATTACHMENT0")
-	c.putEnum(int(gfx.DepthAttachment), "DEPTH_ATTACHMENT")
-	c.putEnum(int(gfx.StencilAttachment), "STENCIL_ATTACHMENT")
-	c.putEnum(int(gfx.DepthStencilAttachment), "DEPTH_STENCIL_ATTACHMENT")
-
 	// Texture targets.
 	c.putEnum(int(gfx.Texture2D), "TEXTURE_2D")
 	c.putEnum(int(gfx.TextureCubeMapPositiveX), "TEXTURE_CUBE_MAP_POSITIVE_X")
@@ -90,6 +86,17 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.RGB565), "RGB565")
 	c.putEnum(int(gfx.RGB5A1), "RGB5_A1")
 	c.putEnum(int(gfx.DepthComponent16), "DEPTH_COMPONENT16")
+
+	// Framebuffer attachment points.
+	c.putEnum(int(gfx.ColorAttachment0), "COLOR_ATTACHMENT0")
+	c.putEnum(int(gfx.DepthAttachment), "DEPTH_ATTACHMENT")
+	c.putEnum(int(gfx.StencilAttachment), "STENCIL_ATTACHMENT")
+	c.putEnum(int(gfx.DepthStencilAttachment), "DEPTH_STENCIL_ATTACHMENT")
+
+	// Buffer usage hints.
+	c.putEnum(int(gfx.StaticDraw), "STATIC_DRAW")
+	c.putEnum(int(gfx.DynamicDraw), "DYNAMIC_DRAW")
+	c.putEnum(int(gfx.StreamDraw), "STREAM_DRAW")
 
 	// Features.
 	c.putEnum(int(gfx.Blend), "BLEND")
@@ -107,10 +114,24 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.Back), "BACK")
 	c.putEnum(int(gfx.FrontAndBack), "FRONT_AND_BACK")
 
-	// BlendEquations.
+	// Shader types.
+	c.putEnum(int(gfx.VertexShader), "VERTEX_SHADER")
+	c.putEnum(int(gfx.FragmentShader), "FRAGMENT_SHADER")
+
+	// Blend equations.
 	c.putEnum(int(gfx.FuncAdd), "FUNC_ADD")
 	c.putEnum(int(gfx.FuncSubtract), "FUNC_SUBTRACT")
 	c.putEnum(int(gfx.FuncReverseSubtract), "FUNC_REVERSE_SUBTRACT")
+
+	// Verify that we put all enums into the array.
+	if c.puts != len(c.Enums) {
+		for k, e := range c.Enums {
+			if e == 0 {
+				fmt.Println("Missing:", k)
+			}
+		}
+		panic("Did not put all enums (see above)")
+	}
 }
 
 func (c *Context) fastBindFramebuffer(framebuffer *js.Object) {
