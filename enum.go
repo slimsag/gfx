@@ -97,10 +97,6 @@ const (
 	// just once and then changed immedietely thereafter.
 	StreamDraw
 
-	// FirstFeature is the first feature enumeration. Feature enumerations
-	// range from [FirstFeature - LastFeature].
-	FirstFeature Feature = iota
-
 	// Blend is a feature that blends computed fragment color values with color
 	// buffer values.
 	Blend
@@ -119,10 +115,6 @@ const (
 
 	// ScissorTest abandons fragments outside the scissor rectangle.
 	ScissorTest
-
-	// LastFeature is the last feature enumeration. Feature enumerations range
-	// from [FirstFeature - LastFeature].
-	LastFeature
 
 	// CCW is a orientation for a counterclockwise winding. It is the initial
 	// orientation.
