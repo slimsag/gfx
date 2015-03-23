@@ -92,13 +92,13 @@ func (c *context) glCall(name string, newValue interface{}) {
 }
 
 func TestContextState(t *testing.T) {
-	ctx := Context(&context{
+	ctx := &context{
 		current: contextState{
 			lighting(true),
 			shadows(true),
 			physics(true),
 		},
-	})
+	}
 
 	// shadows: true (default).
 	// lighting: false (explicit).
@@ -122,13 +122,13 @@ func TestContextState(t *testing.T) {
 }
 
 func BenchmarkContextState(b *testing.B) {
-	ctx := Context(&context{
+	ctx := &context{
 		current: contextState{
 			lighting(true),
 			shadows(true),
 			physics(true),
 		},
-	})
+	}
 
 	// shadows: true (default).
 	// lighting: false (explicit).

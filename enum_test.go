@@ -9,17 +9,17 @@ import "testing"
 // It's important that enumerations range consequtively from [zero - EnumMax],
 // because we use an flat array as a lookup table.
 func TestEnumOrder(t *testing.T) {
-	zeros := []int{
-		int(zeroTextureTarget),
-		int(zeroRenderbufferFormat),
-		int(zeroFramebufferAttachment),
-		int(zeroBufferUsage),
-		int(zeroFeature),
+	ord := []int{
+		int(Texture2D),
+		int(DepthAttachment),
+		int(PolygonOffsetFill),
+		int(FrontAndBack),
+		int(FragmentShader),
 		EnumMax,
 	}
 	var last = 0
-	for i := 1; i < len(zeros); i++ {
-		this := zeros[i]
+	for i := 1; i < len(ord); i++ {
+		this := ord[i]
 		if this <= last {
 			t.Log("last", last)
 			t.Log("this", this)
