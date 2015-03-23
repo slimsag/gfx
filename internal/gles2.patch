@@ -5,9 +5,9 @@ index 2ff25c7..970743f 100644
 @@ -1,4 +1,5 @@
  // Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
 +// +build arm gles2
- 
+
  package gles2
- 
+
 diff --git a/gles2tmp/2.0/gles2/debug.go b/gles2/2.0/gles2/debug.go
 index b7bf913..41ca461 100644
 --- a/gles2tmp/2.0/gles2/debug.go
@@ -15,9 +15,9 @@ index b7bf913..41ca461 100644
 @@ -1,4 +1,5 @@
  // Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
 +// +build arm gles2
- 
+
  package gles2
- 
+
 diff --git a/gles2tmp/2.0/gles2/package.go b/gles2/2.0/gles2/package.go
 index a180a3b..8865804 100644
 --- a/gles2tmp/2.0/gles2/package.go
@@ -27,17 +27,6 @@ index a180a3b..8865804 100644
  // This document is licensed under the SGI Free Software B License.
  // For details, see http://oss.sgi.com/projects/FreeB.
 +// +build arm gles2
- 
+
  // Package gles2 implements Go bindings to OpenGL.
  //
-@@ -375,8 +376,8 @@ import (
- 	"errors"
- 	"unsafe"
- 
--	"github.com/go-gl/glow/procaddr"
--	"github.com/go-gl/glow/procaddr/auto"
-+	"github.com/slimsag/gfx/internal/procaddr"
-+	"github.com/slimsag/gfx/internal/procaddr/auto"
- )
- 
- const (
