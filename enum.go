@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:generate stringer -type=TextureTarget,RenderbufferFormat,FramebufferAttachment,BufferUsage,Feature,Orientation,Facet,ShaderType,BlendEquation  -output=stringers.go
+
 package gfx
 
 // TextureTarget represents a single texture target.
@@ -99,7 +101,7 @@ const (
 
 	// Blend is a feature that blends computed fragment color values with color
 	// buffer values.
-	Blend
+	Blend Feature = iota
 
 	// DepthTest is a feature that enables or disables testing against depth
 	// buffer values.
