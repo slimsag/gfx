@@ -24,6 +24,11 @@ func (p *Program) AttachShader(s gfx.Shader) {
 	gl.AttachShader(p.o, s.Object().(uint32))
 }
 
+// Link implements the gfx.Program interface.
+func (p *Program) Link() {
+	gl.LinkProgram(p.o)
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == 0 {

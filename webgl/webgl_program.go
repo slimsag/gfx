@@ -5,7 +5,7 @@
 
 package webgl
 
-import(
+import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/slimsag/gfx"
 )
@@ -22,6 +22,11 @@ type Program struct {
 // AttachShader implements the gfx.Program interface.
 func (p *Program) AttachShader(s gfx.Shader) {
 	p.ctx.O.Call("attachShader", p.o, s.Object().(*js.Object))
+}
+
+// Link implements the gfx.Program interface.
+func (p *Program) Link() {
+	p.ctx.O.Call("linkProgram", p.o)
 }
 
 // Delete implements the gfx.Object interface.

@@ -20,6 +20,12 @@ func (p *programChecker) AttachShader(s gfx.Shader) {
 	p.ctx.Check()
 }
 
+// Link implements the gfx.Program interface.
+func (p *programChecker) Link() {
+	p.p.Link()
+	p.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (p *programChecker) Delete() {
 	p.p.Delete()

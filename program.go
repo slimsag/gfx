@@ -15,4 +15,8 @@ type Program interface {
 	// same type is already attached to this program, a InvalidOperation panic
 	// will be generated at Context.Check time.
 	AttachShader(s Shader)
+
+	// Link links an attached vertex shader and an attached fragment shader to
+	// this program so it can be used by the GPU.
+	Link()
 }
