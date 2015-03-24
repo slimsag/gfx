@@ -14,5 +14,5 @@ type Program interface {
 	// If the shader is already attached to a program, or another shader of the
 	// same type is already attached to this program, a InvalidOperation panic
 	// will be generated at Context.Check time.
-	//AttachShader(s Shader) error
+	AttachShader(s Shader)
 }

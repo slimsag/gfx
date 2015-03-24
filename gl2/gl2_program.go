@@ -5,7 +5,10 @@
 
 package gl2
 
-import "github.com/slimsag/gfx/internal/gl/2.0/gl"
+import (
+	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
+)
 
 // Program implements the gfx.Program interface by wrapping a OpenGL program
 // object ID.
@@ -14,6 +17,11 @@ type Program struct {
 	o uint32
 
 	ctx *Context
+}
+
+// AttachShader implements the gfx.Program interface.
+func (p *Program) AttachShader(s gfx.Shader) {
+	gl.AttachShader(p.o, s.Object().(uint32))
 }
 
 // Delete implements the gfx.Object interface.
