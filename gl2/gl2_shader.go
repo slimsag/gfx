@@ -16,6 +16,13 @@ type Shader struct {
 	ctx *Context
 }
 
+// Source implements the gfx.Shader interface.
+func (s *Shader) Source(src string) {
+	lengths := int32(len(src))
+	sources := gl.Str(src)
+	gl.ShaderSource(s.o, 1, &sources, &lengths)
+}
+
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
 	if s.o == 0 {

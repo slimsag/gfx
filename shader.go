@@ -15,4 +15,7 @@ type UniformLocation interface {
 // target.
 type Shader interface {
 	Object
+
+	// Source sets and replaces the shader source code for this shader object.
+	Source(src string)
 }

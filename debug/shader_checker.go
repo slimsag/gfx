@@ -14,6 +14,12 @@ type shaderChecker struct {
 	ctx gfx.Context
 }
 
+// Source implements the gfx.Shader interface.
+func (s *shaderChecker) Source(src string) {
+	s.s.Source(src)
+	s.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (s *shaderChecker) Delete() {
 	s.s.Delete()

@@ -16,6 +16,11 @@ type Shader struct {
 	ctx *Context
 }
 
+// Source implements the gfx.Shader interface.
+func (s *Shader) Source(src string) {
+	s.ctx.O.Call("shaderSource", s.o, src)
+}
+
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
 	if s.o == nil {
