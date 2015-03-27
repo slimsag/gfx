@@ -6,11 +6,11 @@ It is the most idiomatic Go OpenGL API in existence today and uses singular stat
 
 ## Platform Support
 
-Through one single API it runs on Desktop, Mobile, and Web through the various backends:
+Through one single API it runs on Desktop, Mobile, and Web through the various drivers:
 
-- `gl2` OpenGL 2 backend (Windows, Linux, OSX).
-- `gles2` OpenGL ES 2 backend (Android, iOS, Raspberry Pi).
-- `webgl` WebGL backend (HTML5 web browsers)
+- `driver/gl2` OpenGL 2 backend (Windows, Linux, OSX).
+- `driver/gles2` OpenGL ES 2 backend (Android, iOS, Raspberry Pi).
+- `driver/webgl` WebGL backend (HTML5 web browsers)
 
 ## Debugging
 
