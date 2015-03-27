@@ -18,4 +18,8 @@ type Shader interface {
 
 	// Source sets and replaces the shader source code for this shader object.
 	Source(src string)
+
+	// Compile compiles the previously set GLSL shader source code into a binary
+	// that will be linked via a Program object.
+	Compile()
 }

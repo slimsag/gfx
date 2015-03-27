@@ -23,6 +23,11 @@ func (s *Shader) Source(src string) {
 	gl.ShaderSource(s.o, 1, &sources, &lengths)
 }
 
+// Compile implements the gfx.Shader interface.
+func (s *Shader) Compile() {
+	gl.CompileShader(s.o)
+}
+
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
 	if s.o == 0 {

@@ -20,6 +20,12 @@ func (s *shaderChecker) Source(src string) {
 	s.ctx.Check()
 }
 
+// Compile implements the gfx.Shader interface.
+func (s *shaderChecker) Compile() {
+	s.s.Compile()
+	s.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (s *shaderChecker) Delete() {
 	s.s.Delete()

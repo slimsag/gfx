@@ -21,6 +21,11 @@ func (s *Shader) Source(src string) {
 	s.ctx.O.Call("shaderSource", s.o, src)
 }
 
+// Compile implements the gfx.Shader interface.
+func (s *Shader) Compile() {
+	s.ctx.O.Call("compileShader", s.o)
+}
+
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
 	if s.o == nil {
