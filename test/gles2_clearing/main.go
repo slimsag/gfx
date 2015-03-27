@@ -11,7 +11,7 @@ import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/debug"
-	"github.com/slimsag/gfx/gles2"
+	"github.com/slimsag/gfx/driver/gles2"
 )
 
 func init() {

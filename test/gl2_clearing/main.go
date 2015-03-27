@@ -10,7 +10,7 @@ import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/debug"
-	"github.com/slimsag/gfx/gl2"
+	"github.com/slimsag/gfx/driver/gl2"
 )
 
 func init() {

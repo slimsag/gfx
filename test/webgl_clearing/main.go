@@ -9,7 +9,7 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/debug"
-	"github.com/slimsag/gfx/webgl"
+	"github.com/slimsag/gfx/driver/webgl"
 )
 
 func main() {
