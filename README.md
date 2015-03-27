@@ -1,54 +1,40 @@
 # gfx
-Super experimental Go graphics API
 
-# Goals
+gfx is a **_very experimental_** Go graphics API based on the common functionality between desktop, mobile, and web OpenGL APIs.
 
-Basically everything mentioned below is not implemented yet.
+It is the most idiomatic Go OpenGL API in existence today and uses singular state objects to replace OpenGL's reliance on global state (which can be corruptive to library-based ecosystems).
 
-- One uniform API for Desktop, Mobile, and Web.
-  - (Desktop) Modern OpenGL 2 and 3 backends.
-  - (Mobile) OpenGL ES 2 backend.
-  - (Web) WebGL backend.
-- Non-limited
-  - Can use existing OpenGL Go bindings _with_ these bindings in order to access OpenGL platform-dependant features (geometry shaders, etc).
-- Idiomatic
-  - An idiomatic Go API with _little to no overhead_.
-  - _Object-based_ utilizing performant hardware and software direct state access (DSA).
-- Debuggable
-  - Generate panics (with useful stack traces!) when a function call caused an error.
-  - Record and playback API calls, stepping through one-by-one to see what happens.
-- Performance
-  - Maintains an internal stack and uses a jump-table to avoid nearly all CGO overhead.
+## Platform Support
 
-# TODO
+Through one single API it runs on Desktop, Mobile, and Web through the various backends:
 
-- Add [WebGLContextEvent](https://msdn.microsoft.com/en-us/library/ie/dn302356(v=vs.85).aspx)
-- Figure out a common event interface.
-- Add all [Context attributes and methods](https://msdn.microsoft.com/en-us/library/ie/dn302362(v=vs.85).aspx)
-- Add [WebGLShaderPrecisionFormat](https://msdn.microsoft.com/en-us/library/ie/dn302463(v=vs.85).aspx).
-- `blendEquationSeparate`, `blendFuncSeparate` are broken in WebGL.
-- Expose `glReadPixels`
+- `gl2` OpenGL 2 backend (Windows, Linux, OSX).
+- `gles2` OpenGL ES 2 backend (Android, iOS, Raspberry Pi).
+- `webgl` WebGL backend (HTML5 web browsers)
 
-# State bound problems
+## Debugging
 
-- active
-  - [activeTexture](https://msdn.microsoft.com/en-us/library/ie/dn302363(v=vs.85).aspx)
-- bind
-  - [bindAttribLocation](https://msdn.microsoft.com/en-us/library/ie/dn455110(v=vs.85).aspx)
-  - [bindFramebuffer](https://msdn.microsoft.com/en-us/library/ie/dn302366(v=vs.85).aspx)
-  - [bindRenderbuffer](https://msdn.microsoft.com/en-us/library/ie/dn302367(v=vs.85).aspx)
-  - [bindTexture](https://msdn.microsoft.com/en-us/library/ie/dn302368(v=vs.85).aspx)
-- other
-  - [blendColor](https://msdn.microsoft.com/en-us/library/ie/dn798648(v=vs.85).aspx)
-  - [blendEquation](https://msdn.microsoft.com/en-us/library/ie/dn302369(v=vs.85).aspx)
-  - [blendEquationSeparate](https://msdn.microsoft.com/en-us/library/ie/dn302370(v=vs.85).aspx)
-  - [blendFunc](https://msdn.microsoft.com/en-us/library/ie/dn302371(v=vs.85).aspx)
-  - [blendFuncSeparate](https://msdn.microsoft.com/en-us/library/ie/dn302372(v=vs.85).aspx)
-  - []
+Effectively the core API is based around interfaces -- because of this debugging it is extremely easy by wrapping your graphics context with a `debug.Context` one, which generates panics on any OpenGL errors giving you useful stack traces!
+
+## Limitless
+
+It can cooperate with pre-existing OpenGL bindings for accessing platform-dependant features (like geometry shaders on desktop hardware).
+
+## Future Optimizations
+
+It's API design enables the potential use of DSA (Direct State Access) and CGO call batching techniques to improve the performance of applications significantly.
+
+## Future Recording & Playback
+
+Similar to how we've implementing debugging, it will be possible for us to implement record-and-playback analysis of OpenGL calls.
+
+## Examples
+
+Right now just what is in the `test/` directory (not very much).
 
 # TODO - Examples
 
-- [WebGLProgram example](https://msdn.microsoft.com/en-us/library/ie/dn302360(v=vs.85).aspx).
-- [WebGLShader example](https://msdn.microsoft.com/en-us/library/ie/dn302462(v=vs.85).aspx).
-- [WebGLTexture example](https://msdn.microsoft.com/en-us/library/ie/dn302467(v=vs.85).aspx).
-- [attachShader example](https://msdn.microsoft.com/en-us/library/ie/dn302364(v=vs.85).aspx).
+- https://msdn.microsoft.com/en-us/library/ie/dn302360(v=vs.85).aspx
+- https://msdn.microsoft.com/en-us/library/ie/dn302462(v=vs.85).aspx
+- https://msdn.microsoft.com/en-us/library/ie/dn302467(v=vs.85).aspx
+- https://msdn.microsoft.com/en-us/library/ie/dn302364(v=vs.85).aspx
