@@ -19,7 +19,7 @@ type Shader struct {
 // Source implements the gfx.Shader interface.
 func (s *Shader) Source(src string) {
 	lengths := int32(len(src))
-	sources := gl.Str(src)
+	sources := gl.Str(src + "\x00")
 	gl.ShaderSource(s.o, 1, &sources, &lengths)
 }
 
