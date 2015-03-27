@@ -13,10 +13,12 @@ import (
 )
 
 func main() {
-	// Create a canvas element.
+	// Create the body and canvas.
 	document := js.Global.Get("document")
+	body := document.Call("createElement", "body")
+	document.Set("body", body)
 	canvas := document.Call("createElement", "canvas")
-	document.Get("body").Call("appendChild", canvas)
+	body.Call("appendChild", canvas)
 
 	// Set size of canvas to 640x480
 	canvas.Set("width", 640)
