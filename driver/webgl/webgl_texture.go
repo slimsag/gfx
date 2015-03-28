@@ -20,6 +20,11 @@ type Texture struct {
 	typ gfx.TextureType
 }
 
+// Type implements the gfx.Texture interface.
+func (t *Texture) Type() gfx.TextureType {
+	return t.typ
+}
+
 // Delete implements the gfx.Object interface.
 func (t *Texture) Delete() {
 	if t.o == nil {

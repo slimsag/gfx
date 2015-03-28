@@ -8,4 +8,8 @@ package gfx
 // when rendering shapes.
 type Texture interface {
 	Object
+
+	// Type returns the type of this texture, either TextureType2D or
+	// TextureTypeCubeMap.
+	Type() TextureType
 }
