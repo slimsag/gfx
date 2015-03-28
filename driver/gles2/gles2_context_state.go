@@ -28,7 +28,7 @@ const (
 
 func glBlendColor(v interface{}) {
 	x := v.([4]float32)
-	gl.BlendColor(x[0], x[0], x[0], x[0])
+	gl.BlendColor(x[0], x[1], x[2], x[3])
 }
 
 // BlendColor implements the gfx.ContextStateProvider interface.
@@ -85,7 +85,7 @@ func (c *Context) UseProgram(p gfx.Program) gfx.ContextStateValue {
 
 func glViewport(v interface{}) {
 	x := v.([4]int32)
-	gl.Viewport(x[0], x[0], x[0], x[0])
+	gl.Viewport(x[0], x[1], x[2], x[3])
 }
 
 // Viewport implements the gfx.ContextStateProvider interface.
@@ -100,7 +100,7 @@ func (c *Context) Viewport(x, y, width, height int) gfx.ContextStateValue {
 
 func glScissor(v interface{}) {
 	x := v.([4]int32)
-	gl.Scissor(x[0], x[0], x[0], x[0])
+	gl.Scissor(x[0], x[1], x[2], x[3])
 }
 
 // Scissor implements the gfx.ContextStateProvider interface.
