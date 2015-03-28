@@ -14,16 +14,18 @@ type shaderChecker struct {
 	ctx gfx.Context
 }
 
-// Source implements the gfx.Shader interface.
-func (s *shaderChecker) Source(src string) {
-	s.s.Source(src)
+// Compile implements the gfx.Shader interface.
+func (s *shaderChecker) Compile(src string) bool {
+	success := s.s.Compile(src)
 	s.ctx.Check()
+	return success
 }
 
-// Compile implements the gfx.Shader interface.
-func (s *shaderChecker) Compile() {
-	s.s.Compile()
+// InfoLog implements the gfx.Shader interface.
+func (s *shaderChecker) InfoLog() string {
+	infoLog := s.s.InfoLog()
 	s.ctx.Check()
+	return infoLog
 }
 
 // Delete implements the gfx.Object interface.
