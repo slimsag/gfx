@@ -5,7 +5,10 @@
 
 package gl2
 
-import "github.com/slimsag/gfx/internal/gl/2.0/gl"
+import (
+	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/gl/2.0/gl"
+)
 
 // Texture implements the gfx.Texture interface by wrapping a OpenGL
 // texture object ID.
@@ -14,6 +17,7 @@ type Texture struct {
 	o uint32
 
 	ctx *Context
+	typ gfx.TextureType
 }
 
 // Delete implements the gfx.Object interface.

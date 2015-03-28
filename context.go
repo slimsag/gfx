@@ -42,7 +42,7 @@ type Context interface {
 
 	// NewTexture returns a new Texture object which is used for images and
 	// cube maps when rendering shapes.
-	NewTexture() Texture
+	NewTexture(t TextureType) Texture
 
 	// NewBuffer returns a new buffer object that contains data such as
 	// vertices or colors.

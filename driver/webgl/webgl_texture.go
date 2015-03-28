@@ -5,7 +5,10 @@
 
 package webgl
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"github.com/gopherjs/gopherjs/js"
+	"github.com/slimsag/gfx"
+)
 
 // Texture implements the gfx.Texture interface by wrapping a WebGLTexture
 // JavaScript object.
@@ -14,6 +17,7 @@ type Texture struct {
 	o *js.Object
 
 	ctx *Context
+	typ gfx.TextureType
 }
 
 // Delete implements the gfx.Object interface.

@@ -81,6 +81,10 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.TextureCubeMapPositiveZ), "TEXTURE_CUBE_MAP_POSITIVE_Z")
 	c.putEnum(int(gfx.TextureCubeMapNegativeZ), "TEXTURE_CUBE_MAP_NEGATIVE_Z")
 
+	// Texture types.
+	c.putEnum(int(gfx.TextureType2D), "TEXTURE_2D")
+	c.putEnum(int(gfx.TextureTypeCubeMap), "TEXTURE_CUBE_MAP")
+
 	// Renderbuffer storage formats.
 	c.putEnum(int(gfx.RGBA4), "RGBA4")
 	c.putEnum(int(gfx.RGB565), "RGB565")
@@ -199,9 +203,10 @@ func (c *Context) NewShader(t gfx.ShaderType) gfx.Shader {
 }
 
 // NewTexture implements the gfx.Context interface.
-func (c *Context) NewTexture() gfx.Texture {
+func (c *Context) NewTexture(t gfx.TextureType) gfx.Texture {
 	return &Texture{
 		ctx: c,
+		typ: t,
 		o:   c.O.Call("createTexture"),
 	}
 }

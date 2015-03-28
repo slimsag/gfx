@@ -34,6 +34,9 @@ type Facet int
 // ShaderType represents a single type of shader.
 type ShaderType int
 
+// TextureType represents a single type of texture.
+type TextureType int
+
 // BlendEquation represents a single blend equation mode.
 type BlendEquation int
 
@@ -58,6 +61,13 @@ const (
 
 	// TextureCubeMapNegativeZ is a image for the negative Z face of the cube.
 	TextureCubeMapNegativeZ
+
+	// TextureType2D is a texture type representing a 2D texture.
+	TextureType2D TextureType = iota
+
+	// TextureTypeCubeMap is a texture type representing a cube-map texture with 6
+	// faces.
+	TextureTypeCubeMap
 
 	// RGBA4 is a 4-bits per channel renderbuffer storage format.
 	RGBA4 RenderbufferFormat = iota

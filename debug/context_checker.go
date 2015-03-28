@@ -45,11 +45,11 @@ func (c *checker) NewShader(t gfx.ShaderType) gfx.Shader {
 }
 
 // NewTexture implements the gfx.Context interface.
-func (c *checker) NewTexture() gfx.Texture {
-	t := c.ctx.NewTexture()
+func (c *checker) NewTexture(t gfx.TextureType) gfx.Texture {
+	tex := c.ctx.NewTexture(t)
 	c.ctx.Check()
 	return &textureChecker{
-		t:   t,
+		t:   tex,
 		ctx: c,
 	}
 }
