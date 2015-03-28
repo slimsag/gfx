@@ -28,6 +28,15 @@ func (s *Shader) Compile(src string) bool {
 	return success == 1
 }
 
+// InfoLog implements the gfx.Shader interface.
+func (s *Shader) InfoLog() string {
+	var length int32
+	gl.GetShaderiv(s.o, gl.INFO_LOG_LENGTH, &length)
+	log := make([]byte, length)
+	gl.GetShaderInfoLog(s.o, length, nil, &log[0])
+	return string(log)
+}
+
 // Delete implements the gfx.Object interface.
 func (s *Shader) Delete() {
 	if s.o == 0 {

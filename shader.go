@@ -20,4 +20,7 @@ type Shader interface {
 	// be linked via a Program object. It returns a boolean representing whether
 	// or not compilation was successful.
 	Compile(src string) bool
+
+	// InfoLog returns the compiler information log of this shader.
+	InfoLog() string
 }

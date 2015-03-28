@@ -20,7 +20,12 @@ type Shader struct {
 func (s *Shader) Compile(src string) bool {
 	s.ctx.O.Call("shaderSource", s.o, src)
 	s.ctx.O.Call("compileShader", s.o)
-	return s.ctx.O.Call("getShaderParameter", s.o, s.ctx.COMPILE_STATUS)
+	return s.ctx.O.Call("getShaderParameter", s.o, s.ctx.COMPILE_STATUS).Bool()
+}
+
+// InfoLog implements the gfx.Shader interface.
+func (s *Shader) InfoLog() string {
+	return s.ctx.O.Call("getShaderInfoLog", s.o).String()
 }
 
 // Delete implements the gfx.Object interface.
