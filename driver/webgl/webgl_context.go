@@ -11,12 +11,14 @@ import (
 
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/slimsag/gfx"
+	"github.com/slimsag/gfx/internal/state"
 )
 
 // Context implements the gfx.Context interface.
 type Context struct {
 	// O is literally the WebGLRenderingContext JavaScript object.
 	O *js.Object
+	state.Context
 
 	// The default framebuffer implementation for the context.
 	Framebuffer
@@ -30,8 +32,7 @@ type Context struct {
 	LastClearDepth       float64
 	LastClearStencil     int
 
-	puts    int
-	current contextState
+	puts int
 
 	// TODO(slimsag): privatize all below here
 

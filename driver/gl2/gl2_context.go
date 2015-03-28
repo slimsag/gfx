@@ -10,12 +10,14 @@ import (
 
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/internal/gl/2.0/gl"
+	"github.com/slimsag/gfx/internal/state"
 )
 
 // Context implements the gfx.Context interface.
 type Context struct {
 	// The default framebuffer implementation for the context.
 	Framebuffer
+	state.Context
 
 	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
 	Enums [gfx.EnumMax]uint32
@@ -26,8 +28,7 @@ type Context struct {
 	LastClearDepth       float64
 	LastClearStencil     int
 
-	puts    int
-	current contextState
+	puts int
 }
 
 func (c *Context) putEnum(gfxEnum int, glEnum uint32) {

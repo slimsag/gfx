@@ -8,70 +8,8 @@ package gl2
 import (
 	"github.com/slimsag/gfx"
 	"github.com/slimsag/gfx/internal/gl/2.0/gl"
+	s "github.com/slimsag/gfx/internal/state"
 )
-
-type csv struct {
-	key                 interface{}
-	value, defaultValue interface{}
-	glCall              func(value interface{})
-}
-
-type contextState []gfx.ContextStateValue
-
-func (c contextState) find(k interface{}) (index int, pair csv) {
-	var i interface{}
-	for index, i = range c {
-		pair = i.(csv)
-		if pair.key != k {
-			// Non-equal keys.
-			continue
-		}
-		return index, pair
-	}
-	return -1, csv{}
-}
-
-func (c *Context) NewState(values ...gfx.ContextStateValue) gfx.ContextState {
-	return contextState(values)
-}
-
-func (c *Context) Load(s gfx.ContextState) {
-	var st contextState
-	if s != nil {
-		st = s.(contextState)
-	}
-
-	// For any state not explicitly mentioned in the current state, revert it
-	// to the default state.
-	for _, curI := range c.current {
-		cur := curI.(csv)
-		if index, _ := st.find(cur.key); index != -1 {
-			continue
-		}
-
-		// Revert to the default state.
-		if cur.value == cur.defaultValue {
-			// Already using this value! Do nothing.
-			continue
-		}
-		cur.glCall(cur.defaultValue)
-	}
-
-	// For each state explicitly mentioned in the destination state, apply it
-	// if needed.
-	for _, dstI := range st {
-		dst := dstI.(csv)
-		found, cur := c.current.find(dst.key)
-		if found != -1 && cur.value == dst.value {
-			// Already using this value! Do nothing.
-			continue
-		}
-
-		// Did not find a matching previous value.
-		dst.glCall(dst.value)
-	}
-	c.current = st
-}
 
 const (
 	csBlendColor = iota
@@ -95,11 +33,11 @@ func glBlendColor(v interface{}) {
 
 // BlendColor implements the gfx.ContextStateProvider interface.
 func (c *Context) BlendColor(r, g, b, a float32) gfx.ContextStateValue {
-	return csv{
-		value:        [4]float32{r, g, b, a},
-		defaultValue: [4]float32{0, 0, 0, 0}, // TODO(slimsag): verify
-		key:          csBlendColor,
-		glCall:       glBlendColor,
+	return s.CSV{
+		Value:        [4]float32{r, g, b, a},
+		DefaultValue: [4]float32{0, 0, 0, 0}, // TODO(slimsag): verify
+		Key:          csBlendColor,
+		GLCall:       glBlendColor,
 	}
 }
 
@@ -109,11 +47,11 @@ func glBlendEquation(v interface{}) {
 
 // BlendEquation implements the gfx.ContextStateProvider interface.
 func (c *Context) BlendEquation(eq gfx.BlendEquation) gfx.ContextStateValue {
-	return csv{
-		value:        c.Enums[int(eq)],
-		defaultValue: uint32(gl.FUNC_ADD), // TODO(slimsag): verify
-		key:          csBlendEquation,
-		glCall:       glBlendEquation,
+	return s.CSV{
+		Value:        c.Enums[int(eq)],
+		DefaultValue: uint32(gl.FUNC_ADD), // TODO(slimsag): verify
+		Key:          csBlendEquation,
+		GLCall:       glBlendEquation,
 	}
 }
 
@@ -123,11 +61,11 @@ func glDepthMask(v interface{}) {
 
 // DepthMask implements the gfx.ContextStateProvider interface.
 func (c *Context) DepthMask(m bool) gfx.ContextStateValue {
-	return csv{
-		value:        m,
-		defaultValue: true, // TODO(slimsag): verify
-		key:          csDepthMask,
-		glCall:       glDepthMask,
+	return s.CSV{
+		Value:        m,
+		DefaultValue: true, // TODO(slimsag): verify
+		Key:          csDepthMask,
+		GLCall:       glDepthMask,
 	}
 }
 
@@ -137,11 +75,11 @@ func glUseProgram(v interface{}) {
 
 // UseProgram implements the gfx.ContextStateProvider interface.
 func (c *Context) UseProgram(p gfx.Program) gfx.ContextStateValue {
-	return csv{
-		value:        p,
-		defaultValue: nil, // TODO(slimsag): verify
-		key:          csUseProgram,
-		glCall:       glUseProgram,
+	return s.CSV{
+		Value:        p,
+		DefaultValue: nil, // TODO(slimsag): verify
+		Key:          csUseProgram,
+		GLCall:       glUseProgram,
 	}
 }
 
@@ -152,11 +90,11 @@ func glViewport(v interface{}) {
 
 // Viewport implements the gfx.ContextStateProvider interface.
 func (c *Context) Viewport(x, y, width, height int) gfx.ContextStateValue {
-	return csv{
-		value:        [4]int32{int32(x), int32(y), int32(width), int32(height)},
-		defaultValue: [4]int32{0, 0, 0, 0}, // TODO(slimsag): track real default viewport values
-		key:          csViewport,
-		glCall:       glViewport,
+	return s.CSV{
+		Value:        [4]int32{int32(x), int32(y), int32(width), int32(height)},
+		DefaultValue: [4]int32{0, 0, 0, 0}, // TODO(slimsag): track real default viewport values
+		Key:          csViewport,
+		GLCall:       glViewport,
 	}
 }
 
@@ -167,11 +105,11 @@ func glScissor(v interface{}) {
 
 // Scissor implements the gfx.ContextStateProvider interface.
 func (c *Context) Scissor(x, y, width, height int) gfx.ContextStateValue {
-	return csv{
-		value:        [4]int32{int32(x), int32(y), int32(width), int32(height)},
-		defaultValue: [4]int32{0, 0, 0, 0}, // TODO(slimsag): track real default scissor values
-		key:          csScissor,
-		glCall:       glScissor,
+	return s.CSV{
+		Value:        [4]int32{int32(x), int32(y), int32(width), int32(height)},
+		DefaultValue: [4]int32{0, 0, 0, 0}, // TODO(slimsag): track real default scissor values
+		Key:          csScissor,
+		GLCall:       glScissor,
 	}
 }
 
@@ -181,11 +119,11 @@ func glLineWidth(v interface{}) {
 
 // LineWidth implements the gfx.ContextStateProvider interface.
 func (c *Context) LineWidth(w float32) gfx.ContextStateValue {
-	return csv{
-		value:        w,
-		defaultValue: 1.0,
-		key:          csLineWidth,
-		glCall:       glLineWidth,
+	return s.CSV{
+		Value:        w,
+		DefaultValue: 1.0,
+		Key:          csLineWidth,
+		GLCall:       glLineWidth,
 	}
 }
 
@@ -196,11 +134,11 @@ func glColorMask(v interface{}) {
 
 // ColorMask implements the gfx.ContextStateProvider interface.
 func (c *Context) ColorMask(r, g, b, a bool) gfx.ContextStateValue {
-	return csv{
-		value:        [4]bool{r, g, b, a},
-		defaultValue: [4]bool{true, true, true, true},
-		key:          csColorMask,
-		glCall:       glColorMask,
+	return s.CSV{
+		Value:        [4]bool{r, g, b, a},
+		DefaultValue: [4]bool{true, true, true, true},
+		Key:          csColorMask,
+		GLCall:       glColorMask,
 	}
 }
 
@@ -210,11 +148,11 @@ func glCullFace(v interface{}) {
 
 // CullFace implements the gfx.ContextStateProvider interface.
 func (c *Context) CullFace(f gfx.Facet) gfx.ContextStateValue {
-	return csv{
-		value:        c.Enums[int(f)],
-		defaultValue: uint32(gl.FRONT), // TODO(slimsag): verify
-		key:          csCullFace,
-		glCall:       glCullFace,
+	return s.CSV{
+		Value:        c.Enums[int(f)],
+		DefaultValue: uint32(gl.FRONT), // TODO(slimsag): verify
+		Key:          csCullFace,
+		GLCall:       glCullFace,
 	}
 }
 
@@ -224,11 +162,11 @@ func glFrontFace(v interface{}) {
 
 // FrontFace implements the gfx.ContextStateProvider interface.
 func (c *Context) FrontFace(o gfx.Orientation) gfx.ContextStateValue {
-	return csv{
-		value:        c.Enums[int(o)],
-		defaultValue: uint32(gl.CCW), // TODO(slimsag): verify
-		key:          csFrontFace,
-		glCall:       glFrontFace,
+	return s.CSV{
+		Value:        c.Enums[int(o)],
+		DefaultValue: uint32(gl.CCW), // TODO(slimsag): verify
+		Key:          csFrontFace,
+		GLCall:       glFrontFace,
 	}
 }
 
@@ -243,14 +181,14 @@ func glEnable(v interface{}) {
 
 // Enable implements the gfx.ContextStateProvider interface.
 func (c *Context) Enable(f gfx.Feature) gfx.ContextStateValue {
-	return csv{
-		value:        c.Enums[int(f)],
-		defaultValue: 0, // TODO(slimsag): default feature values!
-		key: featureKey{
+	return s.CSV{
+		Value:        c.Enums[int(f)],
+		DefaultValue: 0, // TODO(slimsag): default feature values!
+		Key: featureKey{
 			csKey: csEnable,
 			f:     f,
 		},
-		glCall: glEnable,
+		GLCall: glEnable,
 	}
 }
 
@@ -260,13 +198,13 @@ func glDisable(v interface{}) {
 
 // Disable implements the gfx.ContextStateProvider interface.
 func (c *Context) Disable(f gfx.Feature) gfx.ContextStateValue {
-	return csv{
-		value:        c.Enums[int(f)],
-		defaultValue: 0, // TODO(slimsag): default feature values!
-		key: featureKey{
+	return s.CSV{
+		Value:        c.Enums[int(f)],
+		DefaultValue: 0, // TODO(slimsag): default feature values!
+		Key: featureKey{
 			csKey: csDisable,
 			f:     f,
 		},
-		glCall: glDisable,
+		GLCall: glDisable,
 	}
 }
