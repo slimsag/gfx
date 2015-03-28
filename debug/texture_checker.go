@@ -14,6 +14,13 @@ type textureChecker struct {
 	ctx gfx.Context
 }
 
+// Type implements the gfx.Texture interface.
+func (t *textureChecker) Type() gfx.TextureType {
+	typ := t.t.Type()
+	t.ctx.Check()
+	return typ
+}
+
 // Delete implements the gfx.Object interface.
 func (t *textureChecker) Delete() {
 	t.t.Delete()
