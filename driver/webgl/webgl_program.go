@@ -27,6 +27,11 @@ func (p *Program) Link(vert, frag gfx.Shader) bool {
 	return p.ctx.O.Call("getProgramParameter", p.o, p.ctx.LINK_STATUS).Bool()
 }
 
+// InfoLog implements the gfx.Program interface.
+func (p *Program) InfoLog() string {
+	return p.ctx.O.Call("getProgramInfoLog", p.o).String()
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == nil {

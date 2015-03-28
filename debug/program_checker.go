@@ -21,6 +21,13 @@ func (p *programChecker) Link(vert, frag gfx.Shader) bool {
 	return success
 }
 
+// InfoLog implements the gfx.Program interface.
+func (p *programChecker) InfoLog() string {
+	infoLog := p.p.InfoLog()
+	p.ctx.Check()
+	return infoLog
+}
+
 // Delete implements the gfx.Object interface.
 func (p *programChecker) Delete() {
 	p.p.Delete()

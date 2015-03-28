@@ -13,4 +13,7 @@ type Program interface {
 	// can be used by the GPU. It returns whether or not linking the shaders into
 	// a program was successful or not.
 	Link(vert, frag Shader) bool
+
+	// InfoLog returns the linker information log of this program.
+	InfoLog() string
 }

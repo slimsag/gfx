@@ -30,6 +30,15 @@ func (p *Program) Link(vert, frag gfx.Shader) bool {
 	return status == 1
 }
 
+// InfoLog implements the gfx.Program interface.
+func (p *Program) InfoLog() string {
+	var length int32
+	gl.GetShaderiv(p.o, gl.INFO_LOG_LENGTH, &length)
+	log := make([]byte, length)
+	gl.GetProgramInfoLog(p.o, length, nil, &log[0])
+	return string(log)
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == 0 {
