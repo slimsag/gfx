@@ -33,7 +33,10 @@ func main() {
 	// Wrap the context to get a debug context.
 	gl = debug.Context(gl)
 
+	gl.LoadFramebufferState(gl.NewFramebufferState(
+		gl.ClearColor(1, 0, 0, 1),
+	))
+
 	// Clear the color buffer to red.
-	gl.ClearColor(1, 0, 0, 1)
 	gl.Clear(gfx.ColorBuffer)
 }

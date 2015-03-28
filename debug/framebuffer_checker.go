@@ -14,25 +14,33 @@ type fbChecker struct {
 	ctx gfx.Context
 }
 
-// ClearColor implements the gfx.Clearable interface.
-func (f *fbChecker) ClearColor(r, g, b, a float32) {
-	f.fb.ClearColor(r, g, b, a)
+// NewFramebufferState implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) NewFramebufferState(values ...gfx.FramebufferStateValue) gfx.FramebufferState {
+	return f.fb.NewFramebufferState(values...)
+}
+
+// LoadFramebufferState implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) LoadFramebufferState(s gfx.FramebufferState) {
+	f.fb.LoadFramebufferState(s)
 	f.check()
 }
 
-// ClearDepth implements the gfx.Clearable interface.
-func (f *fbChecker) ClearDepth(depth float64) {
-	f.fb.ClearDepth(depth)
-	f.check()
+// ClearColor implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) ClearColor(r, g, b, a float32) gfx.FramebufferStateValue {
+	return f.fb.ClearColor(r, g, b, a)
 }
 
-// ClearStencil implements the gfx.Clearable interface.
-func (f *fbChecker) ClearStencil(stencil int) {
-	f.fb.ClearStencil(stencil)
-	f.check()
+// ClearDepth implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) ClearDepth(depth float64) gfx.FramebufferStateValue {
+	return f.fb.ClearDepth(depth)
 }
 
-// Clear implements the gfx.Clearable interface.
+// ClearStencil implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) ClearStencil(stencil int) gfx.FramebufferStateValue {
+	return f.fb.ClearStencil(stencil)
+}
+
+// Clear implements the gfx.Framebuffer interface.
 func (f *fbChecker) Clear(m gfx.ClearMask) {
 	// Verify bitmask argument.
 	if m == 0 {

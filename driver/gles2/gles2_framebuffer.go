@@ -11,47 +11,28 @@ import (
 
 	"github.com/slimsag/gfx"
 	gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
+	s "github.com/slimsag/gfx/internal/state"
 )
 
 // Framebuffer implements the gfx.Framebuffer interface by wrapping a
 // WebGLFramebuffer JavaScript object.
 type Framebuffer struct {
+	s.Framebuffer
+
 	// o is literally the OpenGL framebuffer object ID (or zero in the case of the
 	// default framebuffer).
 	o uint32
 
 	ctx *Context
-
-	// State tied to this framebuffer object.
-	clearColor   [4]float32
-	clearDepth   float64
-	clearStencil int
 }
 
 // useState binds the global OpenGL state for this local Framebuffer object.
 func (f *Framebuffer) useState() {
-	// Global OpenGL state.
-	f.ctx.fastClearColor(f.clearColor)
-	f.ctx.fastClearDepth(f.clearDepth)
-	f.ctx.fastClearStencil(f.clearStencil)
-
 	// Bind the framebuffer now.
-	f.ctx.fastBindFramebuffer(f.o)
-}
-
-// ClearColor implements the gfx.Clearable interface.
-func (f *Framebuffer) ClearColor(r, g, b, a float32) {
-	f.clearColor = [4]float32{r, g, b, a}
-}
-
-// ClearDepth implements the gfx.Clearable interface.
-func (f *Framebuffer) ClearDepth(depth float64) {
-	f.clearDepth = depth
-}
-
-// ClearStencil implements the gfx.Clearable interface.
-func (f *Framebuffer) ClearStencil(stencil int) {
-	f.clearStencil = stencil
+	if f.ctx.fastBindFramebuffer(f.o) {
+		f.GLCall(nil)
+	}
+	f.GLCall(f.Loaded)
 }
 
 // Clear implements the gfx.Framebuffer interface.
@@ -140,4 +121,53 @@ func (f *Framebuffer) Delete() {
 // Object implements the gfx.Object interface.
 func (f *Framebuffer) Object() interface{} {
 	return f.o
+}
+
+const (
+	csClearColor = iota
+	csClearDepth
+	csClearStencil
+)
+
+func glClearColor(v interface{}) {
+	x := v.([4]float32)
+	gl.ClearColor(x[0], x[1], x[2], x[3])
+}
+
+// ClearColor implements the gfx.ContextStateProvider interface.
+func (f *Framebuffer) ClearColor(r, g, b, a float32) gfx.FramebufferStateValue {
+	return s.CSV{
+		Value:        [4]float32{r, g, b, a},
+		DefaultValue: [4]float32{0, 0, 0, 0}, // TODO(slimsag): verify
+		Key:          csClearColor,
+		GLCall:       glClearColor,
+	}
+}
+
+func glClearDepth(v interface{}) {
+	gl.ClearDepthf(v.(float32))
+}
+
+// ClearDepth implements the gfx.ContextStateProvider interface.
+func (f *Framebuffer) ClearDepth(depth float64) gfx.FramebufferStateValue {
+	return s.CSV{
+		Value:        float32(depth),
+		DefaultValue: float32(0), // TODO(slimsag): verify
+		Key:          csClearDepth,
+		GLCall:       glClearDepth,
+	}
+}
+
+func glClearStencil(v interface{}) {
+	gl.ClearStencil(v.(int32))
+}
+
+// ClearStencil implements the gfx.ContextStateProvider interface.
+func (f *Framebuffer) ClearStencil(stencil int) gfx.FramebufferStateValue {
+	return s.CSV{
+		Value:        int32(stencil),
+		DefaultValue: int32(0), // TODO(slimsag): verify
+		Key:          csClearStencil,
+		GLCall:       glClearStencil,
+	}
 }

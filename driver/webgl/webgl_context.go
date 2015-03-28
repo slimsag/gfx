@@ -28,9 +28,6 @@ type Context struct {
 
 	LastBindFramebuffer  *js.Object
 	LastBindRenderbuffer *js.Object
-	LastClearColor       [4]float32
-	LastClearDepth       float64
-	LastClearStencil     int
 
 	puts int
 
@@ -141,44 +138,22 @@ func (c *Context) loadEnums() {
 	}
 }
 
-func (c *Context) fastBindFramebuffer(framebuffer *js.Object) {
+func (c *Context) fastBindFramebuffer(framebuffer *js.Object) bool {
 	if c.LastBindFramebuffer == framebuffer {
-		return
+		return false
 	}
 	c.LastBindFramebuffer = framebuffer
 	c.O.Call("bindFramebuffer", c.FRAMEBUFFER, framebuffer)
+	return true
 }
 
-func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) {
+func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) bool {
 	if c.LastBindRenderbuffer == renderbuffer {
-		return
+		return false
 	}
 	c.LastBindRenderbuffer = renderbuffer
 	c.O.Call("bindRenderbuffer", c.RENDERBUFFER, renderbuffer)
-}
-
-func (c *Context) fastClearColor(v [4]float32) {
-	if c.LastClearColor == v {
-		return
-	}
-	c.LastClearColor = v
-	c.O.Call("clearColor", v[0], v[1], v[2], v[3])
-}
-
-func (c *Context) fastClearDepth(v float64) {
-	if c.LastClearDepth == v {
-		return
-	}
-	c.LastClearDepth = v
-	c.O.Call("clearDepth", v)
-}
-
-func (c *Context) fastClearStencil(v int) {
-	if c.LastClearStencil == v {
-		return
-	}
-	c.LastClearStencil = v
-	c.O.Call("clearStencil", v)
+	return true
 }
 
 // NewFramebuffer implements the gfx.Context interface.
