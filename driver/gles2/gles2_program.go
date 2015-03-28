@@ -19,14 +19,15 @@ type Program struct {
 	ctx *Context
 }
 
-// AttachShader implements the gfx.Program interface.
-func (p *Program) AttachShader(s gfx.Shader) {
-	gl.AttachShader(p.o, s.Object().(uint32))
-}
-
 // Link implements the gfx.Program interface.
-func (p *Program) Link() {
+func (p *Program) Link(vert, frag gfx.Shader) bool {
+	gl.AttachShader(p.o, vert.Object().(uint32))
+	gl.AttachShader(p.o, frag.Object().(uint32))
 	gl.LinkProgram(p.o)
+
+	var status int32
+	gl.GetProgramiv(p.o, gl.LINK_STATUS, &status)
+	return status == 1
 }
 
 // Delete implements the gfx.Object interface.

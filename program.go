@@ -9,14 +9,8 @@ package gfx
 type Program interface {
 	Object
 
-	// AttachShader attaches the given shader object to this program.
-	//
-	// If the shader is already attached to a program, or another shader of the
-	// same type is already attached to this program, a InvalidOperation panic
-	// will be generated at Context.Check time.
-	AttachShader(s Shader)
-
-	// Link links an attached vertex shader and an attached fragment shader to
-	// this program so it can be used by the GPU.
-	Link()
+	// Link links the given vertex and fragment shaders into a program so that it
+	// can be used by the GPU. It returns whether or not linking the shaders into
+	// a program was successful or not.
+	Link(vert, frag Shader) bool
 }

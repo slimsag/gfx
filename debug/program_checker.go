@@ -14,16 +14,11 @@ type programChecker struct {
 	ctx gfx.Context
 }
 
-// AttachShader implements the gfx.Program interface.
-func (p *programChecker) AttachShader(s gfx.Shader) {
-	p.p.AttachShader(s)
-	p.ctx.Check()
-}
-
 // Link implements the gfx.Program interface.
-func (p *programChecker) Link() {
-	p.p.Link()
+func (p *programChecker) Link(vert, frag gfx.Shader) bool {
+	success := p.p.Link(vert, frag)
 	p.ctx.Check()
+	return success
 }
 
 // Delete implements the gfx.Object interface.
