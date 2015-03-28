@@ -16,10 +16,8 @@ type UniformLocation interface {
 type Shader interface {
 	Object
 
-	// Source sets and replaces the shader source code for this shader object.
-	Source(src string)
-
-	// Compile compiles the previously set GLSL shader source code into a binary
-	// that will be linked via a Program object.
-	Compile()
+	// Compile compiles the given GLSL shader source code into a binary that will
+	// be linked via a Program object. It returns a boolean representing whether
+	// or not compilation was successful.
+	Compile(src string) bool
 }

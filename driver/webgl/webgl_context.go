@@ -51,6 +51,7 @@ type Context struct {
 	DEPTH_BUFFER_BIT   int `js:"DEPTH_BUFFER_BIT"`
 	STENCIL_BUFFER_BIT int `js:"STENCIL_BUFFER_BIT"`
 	COLOR_BUFFER_BIT   int `js:"COLOR_BUFFER_BIT"`
+	COMPILE_STATUS     int `js:"COMPILE_STATUS"`
 
 	// Framebuffer status codes (see the Framebuffer.Status method).
 	FRAMEBUFFER_COMPLETE                      int `js:"FRAMEBUFFER_COMPLETE"`

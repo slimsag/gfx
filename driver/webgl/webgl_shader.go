@@ -16,14 +16,11 @@ type Shader struct {
 	ctx *Context
 }
 
-// Source implements the gfx.Shader interface.
-func (s *Shader) Source(src string) {
-	s.ctx.O.Call("shaderSource", s.o, src)
-}
-
 // Compile implements the gfx.Shader interface.
-func (s *Shader) Compile() {
+func (s *Shader) Compile(src string) bool {
+	s.ctx.O.Call("shaderSource", s.o, src)
 	s.ctx.O.Call("compileShader", s.o)
+	return s.ctx.O.Call("getShaderParameter", s.o, s.ctx.COMPILE_STATUS)
 }
 
 // Delete implements the gfx.Object interface.

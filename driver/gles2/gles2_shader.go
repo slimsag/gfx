@@ -16,16 +16,16 @@ type Shader struct {
 	ctx *Context
 }
 
-// Source implements the gfx.Shader interface.
-func (s *Shader) Source(src string) {
+// Compile implements the gfx.Shader interface.
+func (s *Shader) Compile(src string) bool {
 	lengths := int32(len(src))
 	sources := gl.Str(src + "\x00")
 	gl.ShaderSource(s.o, 1, &sources, &lengths)
-}
 
-// Compile implements the gfx.Shader interface.
-func (s *Shader) Compile() {
 	gl.CompileShader(s.o)
+	var success int32
+	gl.GetShaderiv(s.o, gl.COMPILE_STATUS, &success)
+	return success == 1
 }
 
 // Delete implements the gfx.Object interface.
