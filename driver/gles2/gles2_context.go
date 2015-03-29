@@ -15,8 +15,6 @@ import (
 
 // Context implements the gfx.Context interface.
 type Context struct {
-	// The default framebuffer implementation for the context.
-	Framebuffer
 	state.Context
 
 	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
@@ -24,6 +22,9 @@ type Context struct {
 
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
+
+	// The default framebuffer implementation for the context.
+	fb Framebuffer
 
 	puts int
 }
@@ -121,6 +122,11 @@ func (c *Context) fastBindRenderbuffer(renderbuffer uint32) bool {
 	c.LastBindRenderbuffer = renderbuffer
 	gl.BindRenderbuffer(gl.RENDERBUFFER, renderbuffer)
 	return true
+}
+
+// Framebuffer implements the gfx.Context interface.
+func (c *Context) Framebuffer() gfx.Framebuffer {
+	return &c.fb
 }
 
 // NewFramebuffer implements the gfx.Context interface.
@@ -226,8 +232,8 @@ func New() (gfx.Context, error) {
 	}
 
 	ctx := &Context{}
-	ctx.Framebuffer.o = 0 // Default framebuffer object.
-	ctx.Framebuffer.ctx = ctx
+	ctx.fb.o = 0 // Default framebuffer object.
+	ctx.fb.ctx = ctx
 	ctx.loadEnums()
 	return ctx, nil
 }

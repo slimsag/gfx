@@ -22,11 +22,11 @@ type Framebuffer struct {
 	Loaded  gfx.FramebufferState
 }
 
-func (f *Framebuffer) NewFramebufferState(values ...gfx.FramebufferStateValue) gfx.FramebufferState {
+func (f *Framebuffer) NewState(values ...gfx.FramebufferStateValue) gfx.FramebufferState {
 	return FramebufferState(values)
 }
 
-func (f *Framebuffer) LoadFramebufferState(s gfx.FramebufferState) {
+func (f *Framebuffer) Load(s gfx.FramebufferState) {
 	f.Loaded = s
 }
 

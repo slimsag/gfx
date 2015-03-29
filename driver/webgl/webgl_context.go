@@ -20,14 +20,14 @@ type Context struct {
 	O *js.Object
 	state.Context
 
-	// The default framebuffer implementation for the context.
-	Framebuffer
-
 	// Enums maps a gfx enumeration to it's cooresponding OpenGL one.
 	Enums [gfx.EnumMax]int
 
 	LastBindFramebuffer  *js.Object
 	LastBindRenderbuffer *js.Object
+
+	// The default framebuffer implementation for the context.
+	fb Framebuffer
 
 	puts int
 
@@ -156,6 +156,11 @@ func (c *Context) fastBindRenderbuffer(renderbuffer *js.Object) bool {
 	return true
 }
 
+// Framebuffer implements the gfx.Context interface.
+func (c *Context) Framebuffer() gfx.Framebuffer {
+	return &c.fb
+}
+
 // NewFramebuffer implements the gfx.Context interface.
 func (c *Context) NewFramebuffer() gfx.Framebuffer {
 	return &Framebuffer{
@@ -249,8 +254,8 @@ func Wrap(o *js.Object) gfx.Context {
 	ctx := &Context{
 		O: o,
 	}
-	ctx.Framebuffer.o = nil // Default framebuffer object.
-	ctx.Framebuffer.ctx = ctx
+	ctx.fb.o = nil // Default framebuffer object.
+	ctx.fb.ctx = ctx
 	ctx.loadEnums()
 	return ctx
 }

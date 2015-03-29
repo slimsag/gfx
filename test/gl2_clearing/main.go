@@ -41,13 +41,14 @@ func main() {
 	// Wrap the context to get a debug context.
 	gl = debug.Context(gl)
 
-	gl.LoadFramebufferState(gl.NewFramebufferState(
-		gl.ClearColor(1, 0, 0, 1),
+	fb := gl.Framebuffer()
+	fb.Load(fb.NewState(
+		fb.ClearColor(1, 0, 0, 1),
 	))
 
 	for !window.ShouldClose() {
 		// Clear the color buffer to red.
-		gl.Clear(gfx.ColorBuffer)
+		fb.Clear(gfx.ColorBuffer)
 
 		// Swap the front and back buffers, poll for events.
 		window.SwapBuffers()

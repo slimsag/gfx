@@ -14,14 +14,14 @@ type fbChecker struct {
 	ctx gfx.Context
 }
 
-// NewFramebufferState implements the gfx.FramebufferStateProvider interface.
-func (f *fbChecker) NewFramebufferState(values ...gfx.FramebufferStateValue) gfx.FramebufferState {
-	return f.fb.NewFramebufferState(values...)
+// NewState implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) NewState(values ...gfx.FramebufferStateValue) gfx.FramebufferState {
+	return f.fb.NewState(values...)
 }
 
-// LoadFramebufferState implements the gfx.FramebufferStateProvider interface.
-func (f *fbChecker) LoadFramebufferState(s gfx.FramebufferState) {
-	f.fb.LoadFramebufferState(s)
+// Load implements the gfx.FramebufferStateProvider interface.
+func (f *fbChecker) Load(s gfx.FramebufferState) {
+	f.fb.Load(s)
 	f.check()
 }
 

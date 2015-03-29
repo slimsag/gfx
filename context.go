@@ -24,9 +24,9 @@ var (
 type Context interface {
 	ContextStateProvider
 
-	// Framebuffer is the default framebuffer of the context, i.e. the one that
-	// when drawn to, appears on the window.
-	Framebuffer
+	// Framebuffer returns the default framebuffer of the context (i.e. the one
+	// that when drawn to appears on the window).
+	Framebuffer() Framebuffer
 
 	// NewFramebuffer returns a new Framebuffer object used for storing
 	// complete frames.

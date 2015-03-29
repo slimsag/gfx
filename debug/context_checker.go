@@ -10,8 +10,13 @@ import "github.com/slimsag/gfx"
 // underlying context after each function call is made. Thus, if any error
 // should occur you will receive a nice stack trace where that error occured.
 type checker struct {
-	*fbChecker
+	fb  *fbChecker
 	ctx gfx.Context
+}
+
+// Framebuffer implements the gfx.Context interface.
+func (c *checker) Framebuffer() gfx.Framebuffer {
+	return c.fb
 }
 
 // NewFramebuffer implements the gfx.Context interface.
@@ -175,8 +180,8 @@ func (c *checker) Finish() {
 // Status is != nil.
 func Checker(c gfx.Context) gfx.Context {
 	return &checker{
-		fbChecker: &fbChecker{
-			fb:  c.(gfx.Framebuffer),
+		fb: &fbChecker{
+			fb:  c.Framebuffer(),
 			ctx: c,
 		},
 		ctx: c,

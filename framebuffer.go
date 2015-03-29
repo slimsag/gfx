@@ -84,12 +84,12 @@ type FramebufferState interface{}
 
 // FramebufferStateProvider provides access to a framebuffer's state.
 type FramebufferStateProvider interface {
-	// NewFramebufferState returns a new framebuffer state for the given values.
-	NewFramebufferState(values ...FramebufferStateValue) FramebufferState
+	// NewState returns a new framebuffer state for the given values.
+	NewState(values ...FramebufferStateValue) FramebufferState
 
-	// LoadFramebufferState loads the given framebuffer state, replacing the
+	// Load loads the given framebuffer state, replacing the
 	// previous one. If s == nil then the default state is loaded.
-	LoadFramebufferState(s FramebufferState)
+	Load(s FramebufferState)
 
 	// ClearColor sets the color to clear the color buffer to upon a call to
 	// the Clear method.
