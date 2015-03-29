@@ -150,6 +150,11 @@ func (c *checker) FrontFace(o gfx.Orientation) gfx.ContextStateValue {
 	return c.ctx.FrontFace(o)
 }
 
+// EnableVertexAttribArray implements the gfx.Context interface.
+func (c *checker) EnableVertexAttribArray(l gfx.AttribLocation) gfx.ContextStateValue {
+	return c.ctx.EnableVertexAttribArray(l)
+}
+
 // Check implements the gfx.Context interface.
 func (c *checker) Check() {
 	// We don't want caller to accidently grab the error, so we stub out the

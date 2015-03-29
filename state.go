@@ -80,4 +80,8 @@ type ContextStateProvider interface {
 
 	// FrontFace sets the orientation of front-facing polygons.
 	FrontFace(o Orientation) ContextStateValue
+
+	// EnableVertexAttribArray enables the given vertex attribute array for use
+	// during rendering.
+	EnableVertexAttribArray(a AttribLocation) ContextStateValue
 }

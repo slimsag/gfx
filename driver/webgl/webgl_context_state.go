@@ -23,6 +23,7 @@ const (
 	csFrontFace
 	csEnable
 	csDisable
+	csEnableVertexAttribArray
 )
 
 func (c *Context) glBlendColor(v interface{}) {
@@ -205,5 +206,19 @@ func (c *Context) Disable(f gfx.Feature) gfx.ContextStateValue {
 			f:     f,
 		},
 		GLCall: c.glDisable,
+	}
+}
+
+func (c *Context) glEnableVertexAttribArray(v interface{}) {
+	c.O.Call("enableVertexAttribArray", v.(int))
+}
+
+// EnableVertexAttribArray implements the gfx.ContextStateProvider interface.
+func (c *Context) EnableVertexAttribArray(l gfx.AttribLocation) gfx.ContextStateValue {
+	return s.CSV{
+		Value:        l,
+		DefaultValue: 0, // TODO(slimsag): default enable VAA values!
+		Key:          csEnableVertexAttribArray,
+		GLCall:       c.glEnableVertexAttribArray,
 	}
 }
