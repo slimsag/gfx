@@ -462,7 +462,6 @@ const (
 	ELEMENT_ARRAY_BUFFER                      = 0x8893
 	EQUAL                                     = 0x0202
 	EXTENSIONS                                = 0x1F03
-	FIXED                                     = 0x140C
 	FLOAT                                     = 0x1406
 	FRAGMENT_SHADER                           = 0x8B30
 	FRAMEBUFFER                               = 0x8D40
