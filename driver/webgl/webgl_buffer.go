@@ -5,7 +5,10 @@
 
 package webgl
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"github.com/gopherjs/gopherjs/js"
+	"github.com/slimsag/gfx"
+)
 
 // Buffer implements the gfx.Buffer interface by wrapping a WebGLBuffer
 // JavaScript object.
@@ -14,6 +17,7 @@ type Buffer struct {
 	o *js.Object
 
 	ctx *Context
+	typ gfx.BufferType
 }
 
 // Delete implements the gfx.Object interface.

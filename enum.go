@@ -21,6 +21,9 @@ type FramebufferAttachment int
 // StreamDraw.
 type BufferUsage int
 
+// BufferType represents a single buffer type.
+type BufferType int
+
 // Feature is a single OpenGL feature that can be enabled or disabled. It must
 // be one of the predefined constants.
 type Feature int
@@ -108,6 +111,14 @@ const (
 	// StreamDraw is a buffer usage hint where the data is likely to be used
 	// just once and then changed immedietely thereafter.
 	StreamDraw
+
+	// ArrayBuffer is a buffer whose data is literally for consumption (e.g. non
+	// indexed mesh vertices).
+	ArrayBuffer BufferType = iota
+
+	// ElementArrayBuffer is a buffer whose data is elements/indices into
+	// pre-existing buffer data (e.g. indexed mesh vertices).
+	ElementArrayBuffer
 
 	// Blend is a feature that blends computed fragment color values with color
 	// buffer values.

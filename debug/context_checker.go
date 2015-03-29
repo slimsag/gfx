@@ -60,8 +60,8 @@ func (c *checker) NewTexture(t gfx.TextureType) gfx.Texture {
 }
 
 // NewBuffer implements the gfx.Context interface.
-func (c *checker) NewBuffer() gfx.Buffer {
-	b := c.ctx.NewBuffer()
+func (c *checker) NewBuffer(t gfx.BufferType) gfx.Buffer {
+	b := c.ctx.NewBuffer(t)
 	c.ctx.Check()
 	return &bufferChecker{
 		b:   b,

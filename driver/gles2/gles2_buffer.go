@@ -5,7 +5,10 @@
 
 package gles2
 
-import gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
+import (
+	"github.com/slimsag/gfx"
+	gl "github.com/slimsag/gfx/internal/gles2/2.0/gles2"
+)
 
 // Buffer implements the gfx.Buffer interface by wrapping a OpenGL buffer
 // object ID.
@@ -14,6 +17,7 @@ type Buffer struct {
 	o uint32
 
 	ctx *Context
+	typ gfx.BufferType
 }
 
 // Delete implements the gfx.Object interface.

@@ -46,7 +46,7 @@ type Context interface {
 
 	// NewBuffer returns a new buffer object that contains data such as
 	// vertices or colors.
-	NewBuffer() Buffer
+	NewBuffer(t BufferType) Buffer
 
 	// NewProgram returns a new program object which represents the
 	// programmable OpenGL pipeline and associated shader programs.

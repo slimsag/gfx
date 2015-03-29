@@ -70,6 +70,10 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.DynamicDraw), gl.DYNAMIC_DRAW)
 	c.putEnum(int(gfx.StreamDraw), gl.STREAM_DRAW)
 
+	// Buffer types.
+	c.putEnum(int(gfx.ArrayBuffer), gl.ARRAY_BUFFER)
+	c.putEnum(int(gfx.ElementArrayBuffer), gl.ELEMENT_ARRAY_BUFFER)
+
 	// Features.
 	c.putEnum(int(gfx.Blend), gl.BLEND)
 	c.putEnum(int(gfx.DepthTest), gl.DEPTH_TEST)
@@ -166,9 +170,10 @@ func (c *Context) NewTexture(t gfx.TextureType) gfx.Texture {
 }
 
 // NewBuffer implements the gfx.Context interface.
-func (c *Context) NewBuffer() gfx.Buffer {
+func (c *Context) NewBuffer(t gfx.BufferType) gfx.Buffer {
 	b := &Buffer{
 		ctx: c,
+		typ: t,
 	}
 	gl.GenBuffers(1, &b.o)
 	return b

@@ -102,6 +102,10 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.DynamicDraw), "DYNAMIC_DRAW")
 	c.putEnum(int(gfx.StreamDraw), "STREAM_DRAW")
 
+	// Buffer types.
+	c.putEnum(int(gfx.ArrayBuffer), "ARRAY_BUFFER")
+	c.putEnum(int(gfx.ElementArrayBuffer), "ELEMENT_ARRAY_BUFFER")
+
 	// Features.
 	c.putEnum(int(gfx.Blend), "BLEND")
 	c.putEnum(int(gfx.DepthTest), "DEPTH_TEST")
@@ -195,9 +199,10 @@ func (c *Context) NewTexture(t gfx.TextureType) gfx.Texture {
 }
 
 // NewBuffer implements the gfx.Buffer interface.
-func (c *Context) NewBuffer() gfx.Buffer {
+func (c *Context) NewBuffer(t gfx.BufferType) gfx.Buffer {
 	return &Buffer{
 		ctx: c,
+		typ: t,
 		o:   c.O.Call("createBuffer"),
 	}
 }
