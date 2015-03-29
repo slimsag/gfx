@@ -32,6 +32,15 @@ func (p *Program) InfoLog() string {
 	return p.ctx.O.Call("getProgramInfoLog", p.o).String()
 }
 
+// AttribLocation implements the gfx.Program interface.
+func (p *Program) AttribLocation(name string) gfx.AttribLocation {
+	l := p.ctx.O.Call("getAttribLocation", p.o, name).Int()
+	if l == -1 {
+		return nil
+	}
+	return gfx.AttribLocation(l)
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == nil {

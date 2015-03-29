@@ -28,6 +28,13 @@ func (p *programChecker) InfoLog() string {
 	return infoLog
 }
 
+// AttribLocation implements the gfx.Program interface.
+func (p *programChecker) AttribLocation(name string) gfx.AttribLocation {
+	l := p.p.AttribLocation(name)
+	p.ctx.Check()
+	return l
+}
+
 // Delete implements the gfx.Object interface.
 func (p *programChecker) Delete() {
 	p.p.Delete()

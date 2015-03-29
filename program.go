@@ -4,6 +4,10 @@
 
 package gfx
 
+// AttribLocation is an opaque type representing the location of a attribute
+// variable in a GLSL program.
+type AttribLocation interface{}
+
 // Program represents the programmable OpenGL pipeline and associated shader
 // programs.
 type Program interface {
@@ -16,4 +20,8 @@ type Program interface {
 
 	// InfoLog returns the linker information log of this program.
 	InfoLog() string
+
+	// AttribLocation returns the location in this program of the named attribute
+	// variable, or nil if there is no such variable.
+	AttribLocation(name string) AttribLocation
 }

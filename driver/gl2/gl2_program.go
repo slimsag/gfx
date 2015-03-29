@@ -39,6 +39,15 @@ func (p *Program) InfoLog() string {
 	return string(log)
 }
 
+// AttribLocation implements the gfx.Program interface.
+func (p *Program) AttribLocation(name string) gfx.AttribLocation {
+	l := gl.GetAttribLocation(p.o, gl.Str(name+"\x00"))
+	if l == -1 {
+		return nil
+	}
+	return gfx.AttribLocation(l)
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == 0 {
