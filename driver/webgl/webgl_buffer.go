@@ -27,6 +27,52 @@ func (b *Buffer) DataSize(size int, usage gfx.BufferUsage) {
 	b.ctx.O.Call("bufferData", typ, size, b.ctx.Enums[int(usage)])
 }
 
+func (b *Buffer) data(x interface{}, usage gfx.BufferUsage) {
+	typ := b.ctx.Enums[int(b.typ)]
+	b.ctx.fastBindBuffer(typ, b.o)
+	b.ctx.O.Call("bufferData", typ, x, b.ctx.Enums[int(usage)])
+}
+
+// DataInt8 implements the gfx.Buffer interface.
+func (b *Buffer) DataInt8(data []int8, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataUint8 implements the gfx.Buffer interface.
+func (b *Buffer) DataUint8(data []uint8, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataInt16 implements the gfx.Buffer interface.
+func (b *Buffer) DataInt16(data []int16, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataUint16 implements the gfx.Buffer interface.
+func (b *Buffer) DataUint16(data []uint16, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataInt32 implements the gfx.Buffer interface.
+func (b *Buffer) DataInt32(data []int32, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataUint32 implements the gfx.Buffer interface.
+func (b *Buffer) DataUint32(data []uint32, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataFloat32 implements the gfx.Buffer interface.
+func (b *Buffer) DataFloat32(data []float32, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
+// DataFloat64 implements the gfx.Buffer interface.
+func (b *Buffer) DataFloat64(data []float64, usage gfx.BufferUsage) {
+	b.data(data, usage)
+}
+
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
 	if b.o == nil {

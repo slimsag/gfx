@@ -20,6 +20,54 @@ func (b *bufferChecker) DataSize(size int, usage gfx.BufferUsage) {
 	b.ctx.Check()
 }
 
+// DataInt8 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataInt8(data []int8, usage gfx.BufferUsage) {
+	b.b.DataInt8(data, usage)
+	b.ctx.Check()
+}
+
+// DataUint8 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataUint8(data []uint8, usage gfx.BufferUsage) {
+	b.b.DataUint8(data, usage)
+	b.ctx.Check()
+}
+
+// DataInt16 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataInt16(data []int16, usage gfx.BufferUsage) {
+	b.b.DataInt16(data, usage)
+	b.ctx.Check()
+}
+
+// DataUint16 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataUint16(data []uint16, usage gfx.BufferUsage) {
+	b.b.DataUint16(data, usage)
+	b.ctx.Check()
+}
+
+// DataInt32 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataInt32(data []int32, usage gfx.BufferUsage) {
+	b.b.DataInt32(data, usage)
+	b.ctx.Check()
+}
+
+// DataUint32 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataUint32(data []uint32, usage gfx.BufferUsage) {
+	b.b.DataUint32(data, usage)
+	b.ctx.Check()
+}
+
+// DataFloat32 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataFloat32(data []float32, usage gfx.BufferUsage) {
+	b.b.DataFloat32(data, usage)
+	b.ctx.Check()
+}
+
+// DataFloat64 implements the gfx.Buffer interface.
+func (b *bufferChecker) DataFloat64(data []float64, usage gfx.BufferUsage) {
+	b.b.DataFloat64(data, usage)
+	b.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (b *bufferChecker) Delete() {
 	b.b.Delete()
