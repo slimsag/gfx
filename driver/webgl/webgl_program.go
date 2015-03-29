@@ -41,6 +41,15 @@ func (p *Program) AttribLocation(name string) gfx.AttribLocation {
 	return gfx.AttribLocation(l)
 }
 
+// UniformLocation implements the gfx.Program interface.
+func (p *Program) UniformLocation(name string) gfx.UniformLocation {
+	l := p.ctx.O.Call("getUniformLocation", p.o, name)
+	if l == nil {
+		return nil
+	}
+	return gfx.UniformLocation(l)
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == nil {

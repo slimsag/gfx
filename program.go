@@ -8,6 +8,10 @@ package gfx
 // variable in a GLSL program.
 type AttribLocation interface{}
 
+// UniformLocation is an opaque type representing the location of a uniform
+// variable in a GLSL program.
+type UniformLocation interface{}
+
 // Program represents the programmable OpenGL pipeline and associated shader
 // programs.
 type Program interface {
@@ -24,4 +28,8 @@ type Program interface {
 	// AttribLocation returns the location in this program of the named attribute
 	// variable, or nil if there is no such variable.
 	AttribLocation(name string) AttribLocation
+
+	// UniformLocation returns the location in this program of the named uniform
+	// variable, or nil if there is no such variable.
+	UniformLocation(name string) UniformLocation
 }

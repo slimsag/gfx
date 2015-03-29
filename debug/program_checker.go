@@ -35,6 +35,13 @@ func (p *programChecker) AttribLocation(name string) gfx.AttribLocation {
 	return l
 }
 
+// UniformLocation implements the gfx.Program interface.
+func (p *programChecker) UniformLocation(name string) gfx.UniformLocation {
+	l := p.p.UniformLocation(name)
+	p.ctx.Check()
+	return l
+}
+
 // Delete implements the gfx.Object interface.
 func (p *programChecker) Delete() {
 	p.p.Delete()
