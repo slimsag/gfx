@@ -26,6 +26,7 @@ type Context struct {
 	LastBindFramebuffer  *js.Object
 	LastBindRenderbuffer *js.Object
 	LastBindBuffer       *js.Object
+	LastUseProgram       *js.Object
 
 	// The default framebuffer implementation for the context.
 	fb Framebuffer
@@ -178,6 +179,15 @@ func (c *Context) fastBindBuffer(typ int, buffer *js.Object) bool {
 	}
 	c.LastBindBuffer = buffer
 	c.O.Call("bindBuffer", typ, buffer)
+	return true
+}
+
+func (c *Context) fastUseProgram(program *js.Object) bool {
+	if c.LastUseProgram == program {
+		return false
+	}
+	c.LastUseProgram = program
+	c.O.Call("useProgram", program)
 	return true
 }
 

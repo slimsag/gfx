@@ -57,6 +57,72 @@ func (p *Program) UniformLocation(name string) gfx.UniformLocation {
 	return gfx.UniformLocation(l)
 }
 
+// Uniform1fv implements the gfx.Program interface.
+func (p *Program) Uniform1fv(l gfx.UniformLocation, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform1fv(l.(int32), int32(len(data)), &data[0])
+}
+
+// Uniform1iv implements the gfx.Program interface.
+func (p *Program) Uniform1iv(l gfx.UniformLocation, data []int32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform1iv(l.(int32), int32(len(data)), &data[0])
+}
+
+// Uniform2fv implements the gfx.Program interface.
+func (p *Program) Uniform2fv(l gfx.UniformLocation, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform2fv(l.(int32), int32(len(data)/2), &data[0])
+}
+
+// Uniform2iv implements the gfx.Program interface.
+func (p *Program) Uniform2iv(l gfx.UniformLocation, data []int32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform2iv(l.(int32), int32(len(data)/2), &data[0])
+}
+
+// Uniform3fv implements the gfx.Program interface.
+func (p *Program) Uniform3fv(l gfx.UniformLocation, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform3fv(l.(int32), int32(len(data)/3), &data[0])
+}
+
+// Uniform3iv implements the gfx.Program interface.
+func (p *Program) Uniform3iv(l gfx.UniformLocation, data []int32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform3iv(l.(int32), int32(len(data)/3), &data[0])
+}
+
+// Uniform4fv implements the gfx.Program interface.
+func (p *Program) Uniform4fv(l gfx.UniformLocation, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform4fv(l.(int32), int32(len(data)/4), &data[0])
+}
+
+// Uniform4iv implements the gfx.Program interface.
+func (p *Program) Uniform4iv(l gfx.UniformLocation, data []int32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.Uniform4iv(l.(int32), int32(len(data)/4), &data[0])
+}
+
+// UniformMatrix2fv implements the gfx.Program interface.
+func (p *Program) UniformMatrix2fv(l gfx.UniformLocation, transpose bool, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.UniformMatrix2fv(l.(int32), int32(len(data)/(2*2)), transpose, &data[0])
+}
+
+// UniformMatrix3fv implements the gfx.Program interface.
+func (p *Program) UniformMatrix3fv(l gfx.UniformLocation, transpose bool, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.UniformMatrix3fv(l.(int32), int32(len(data)/(3*3)), transpose, &data[0])
+}
+
+// UniformMatrix4fv implements the gfx.Program interface.
+func (p *Program) UniformMatrix4fv(l gfx.UniformLocation, transpose bool, data []float32) {
+	p.ctx.fastUseProgram(p.o)
+	gl.UniformMatrix4fv(l.(int32), int32(len(data)/(4*4)), transpose, &data[0])
+}
+
 // Delete implements the gfx.Object interface.
 func (p *Program) Delete() {
 	if p.o == 0 {
