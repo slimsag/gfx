@@ -123,6 +123,7 @@ func (b *Buffer) SubDataFloat64(offset int, data []float64) {
 
 // Draw implements the gfx.Buffer interface.
 func (b *Buffer) Draw(p gfx.Primitive, first, count int) {
+	b.ctx.fastBindBuffer(b.ctx.Enums[int(b.typ)], b.o)
 	if b.typ == gfx.ArrayBuffer {
 		gl.DrawArrays(b.ctx.Enums[int(p)], int32(first), int32(count))
 	} else {
