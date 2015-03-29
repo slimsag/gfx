@@ -14,9 +14,9 @@ type Buffer interface {
 	// The usage hint is only a performance hint, it has no effect on the
 	// actual usage of the buffer.
 	//
-	// This function may generate an ErrOutOfMemory error, see Context.Error
+	// This function may generate an ErrOutOfMemory error, see Context.Check
 	// for more details.
-	//DataSize(size int, usage BufferUsage)
+	DataSize(size int, usage BufferUsage)
 
 	// Data prepares this buffer with the given data.
 	//

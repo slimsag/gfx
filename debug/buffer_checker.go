@@ -14,6 +14,12 @@ type bufferChecker struct {
 	ctx gfx.Context
 }
 
+// DataSize implements the gfx.Buffer interface.
+func (b *bufferChecker) DataSize(size int, usage gfx.BufferUsage) {
+	b.b.DataSize(size, usage)
+	b.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (b *bufferChecker) Delete() {
 	b.b.Delete()

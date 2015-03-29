@@ -20,6 +20,13 @@ type Buffer struct {
 	typ gfx.BufferType
 }
 
+// DataSize implements the gfx.Buffer interface.
+func (b *Buffer) DataSize(size int, usage gfx.BufferUsage) {
+	typ := b.ctx.Enums[int(b.typ)]
+	b.ctx.fastBindBuffer(typ, b.o)
+	b.ctx.O.Call("bufferData", typ, size, b.ctx.Enums[int(usage)])
+}
+
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
 	if b.o == nil {

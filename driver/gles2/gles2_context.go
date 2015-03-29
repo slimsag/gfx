@@ -22,6 +22,7 @@ type Context struct {
 
 	LastBindFramebuffer  uint32
 	LastBindRenderbuffer uint32
+	LastBindBuffer       uint32
 
 	// The default framebuffer implementation for the context.
 	fb Framebuffer
@@ -125,6 +126,15 @@ func (c *Context) fastBindRenderbuffer(renderbuffer uint32) bool {
 	}
 	c.LastBindRenderbuffer = renderbuffer
 	gl.BindRenderbuffer(gl.RENDERBUFFER, renderbuffer)
+	return true
+}
+
+func (c *Context) fastBindBuffer(typ, buffer uint32) bool {
+	if c.LastBindBuffer == buffer {
+		return false
+	}
+	c.LastBindBuffer = buffer
+	gl.BindBuffer(typ, buffer)
 	return true
 }
 
