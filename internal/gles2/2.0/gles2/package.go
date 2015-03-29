@@ -78,6 +78,7 @@ package gles2
 // typedef void  (APIENTRYP GPBLENDEQUATIONSEPARATE)(GLenum  modeRGB, GLenum  modeAlpha);
 // typedef void  (APIENTRYP GPBLENDFUNCSEPARATE)(GLenum  sfactorRGB, GLenum  dfactorRGB, GLenum  sfactorAlpha, GLenum  dfactorAlpha);
 // typedef void  (APIENTRYP GPBUFFERDATA)(GLenum  target, GLsizeiptr  size, const void * data, GLenum  usage);
+// typedef void  (APIENTRYP GPBUFFERSUBDATA)(GLenum  target, GLintptr  offset, GLsizeiptr  size, const void * data);
 // typedef GLenum  (APIENTRYP GPCHECKFRAMEBUFFERSTATUS)(GLenum  target);
 // typedef void  (APIENTRYP GPCLEAR)(GLbitfield  mask);
 // typedef void  (APIENTRYP GPCLEARCOLOR)(GLfloat  red, GLfloat  green, GLfloat  blue, GLfloat  alpha);
@@ -180,6 +181,9 @@ package gles2
 // }
 // static void  glowBufferData(GPBUFFERDATA fnptr, GLenum  target, GLsizeiptr  size, const void * data, GLenum  usage) {
 //   (*fnptr)(target, size, data, usage);
+// }
+// static void  glowBufferSubData(GPBUFFERSUBDATA fnptr, GLenum  target, GLintptr  offset, GLsizeiptr  size, const void * data) {
+//   (*fnptr)(target, offset, size, data);
 // }
 // static GLenum  glowCheckFramebufferStatus(GPCHECKFRAMEBUFFERSTATUS fnptr, GLenum  target) {
 //   return (*fnptr)(target);
@@ -595,6 +599,7 @@ var (
 	gpBlendEquationSeparate          C.GPBLENDEQUATIONSEPARATE
 	gpBlendFuncSeparate              C.GPBLENDFUNCSEPARATE
 	gpBufferData                     C.GPBUFFERDATA
+	gpBufferSubData                  C.GPBUFFERSUBDATA
 	gpCheckFramebufferStatus         C.GPCHECKFRAMEBUFFERSTATUS
 	gpClear                          C.GPCLEAR
 	gpClearColor                     C.GPCLEARCOLOR
@@ -728,6 +733,11 @@ func BlendFuncSeparate(sfactorRGB uint32, dfactorRGB uint32, sfactorAlpha uint32
 // creates and initializes a buffer object's data     store
 func BufferData(target uint32, size int, data unsafe.Pointer, usage uint32) {
 	C.glowBufferData(gpBufferData, (C.GLenum)(target), (C.GLsizeiptr)(size), data, (C.GLenum)(usage))
+}
+
+// updates a subset of a buffer object's data store
+func BufferSubData(target uint32, offset int, size int, data unsafe.Pointer) {
+	C.glowBufferSubData(gpBufferSubData, (C.GLenum)(target), (C.GLintptr)(offset), (C.GLsizeiptr)(size), data)
 }
 
 // check the completeness status of a framebuffer
@@ -1118,6 +1128,10 @@ func InitWithProcAddrFunc(getProcAddr func(name string) unsafe.Pointer) error {
 	gpBufferData = (C.GPBUFFERDATA)(getProcAddr("glBufferData"))
 	if gpBufferData == nil {
 		return errors.New("glBufferData")
+	}
+	gpBufferSubData = (C.GPBUFFERSUBDATA)(getProcAddr("glBufferSubData"))
+	if gpBufferSubData == nil {
+		return errors.New("glBufferSubData")
 	}
 	gpCheckFramebufferStatus = (C.GPCHECKFRAMEBUFFERSTATUS)(getProcAddr("glCheckFramebufferStatus"))
 	if gpCheckFramebufferStatus == nil {

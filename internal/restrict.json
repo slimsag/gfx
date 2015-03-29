@@ -223,6 +223,7 @@
 		"glGetDoublev",
 		"glGetBooleanv",
 		"glBufferData",
+		"glBufferSubData",
 		"glDeleteBuffers",
 		"glBeginQuery",
 		"glEndQuery",
