@@ -58,4 +58,24 @@ type Buffer interface {
 	// at, and count is the number of elements to draw (each measured in single
 	// vertex units, e.g. a trangle is 3).
 	Draw(p Primitive, first, count int)
+
+	// VertexAttribPointer specifies the data formats and locations of attributes
+	// in a vertex attributes array.
+	//
+	// The size parameter is the number of components per attribute (must be 1, 2,
+	// 3, or 4).
+	//
+	// The normalized parameter is whether or not values will be normalized when
+	// accessed.
+	//
+	// The stride parameter is the offset in bytes (range 0-255) between the
+	// beginning of consecutive vertex attributes. Must be a multiple of t's size.
+	//
+	// The offset parameter specifies an offset in bytes of the first component of
+	// the vertex attribute in the array. Default value is zero which means that
+	// vertex attributes are tightly packed. Must be a multiple of t's size.
+	//
+	// The type parameter was removed as WebGL only supports GL_FLOAT for the
+	// type parameter (so it is implicitly always that).
+	VertexAttribPointer(l AttribLocation, size int, normalized bool, stride, offset int)
 }

@@ -53,6 +53,7 @@ type Context struct {
 	COMPILE_STATUS     int `js:"COMPILE_STATUS"`
 	LINK_STATUS        int `js:"LINK_STATUS"`
 	UNSIGNED_SHORT     int `js:"UNSIGNED_SHORT"`
+	FLOAT              int `js:"FLOAT"`
 
 	// Framebuffer status codes (see the Framebuffer.Status method).
 	FRAMEBUFFER_COMPLETE                      int `js:"FRAMEBUFFER_COMPLETE"`

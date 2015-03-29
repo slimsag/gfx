@@ -122,6 +122,12 @@ func (b *bufferChecker) Draw(p gfx.Primitive, first, count int) {
 	b.ctx.Check()
 }
 
+// VertexAttribPointer implements the gfx.Buffer interface.
+func (b *bufferChecker) VertexAttribPointer(l gfx.AttribLocation, size int, normalized bool, stride, offset int) {
+	b.b.VertexAttribPointer(l, size, normalized, stride, offset)
+	b.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (b *bufferChecker) Delete() {
 	b.b.Delete()

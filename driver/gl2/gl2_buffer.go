@@ -132,6 +132,12 @@ func (b *Buffer) Draw(p gfx.Primitive, first, count int) {
 	}
 }
 
+// VertexAttribPointer implements the gfx.Buffer interface.
+func (b *Buffer) VertexAttribPointer(l gfx.AttribLocation, size int, normalized bool, stride, offset int) {
+	b.ctx.fastBindBuffer(b.ctx.Enums[int(b.typ)], b.o)
+	gl.VertexAttribPointer(uint32(l.(int32)), int32(size), gl.FLOAT, normalized, int32(stride), unsafe.Pointer(uintptr(offset)))
+}
+
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
 	if b.o == 0 {
