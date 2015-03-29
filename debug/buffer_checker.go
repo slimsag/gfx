@@ -68,6 +68,54 @@ func (b *bufferChecker) DataFloat64(data []float64, usage gfx.BufferUsage) {
 	b.ctx.Check()
 }
 
+// SubDataInt8 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataInt8(offset int, data []int8) {
+	b.b.SubDataInt8(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataUint8 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataUint8(offset int, data []uint8) {
+	b.b.SubDataUint8(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataInt16 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataInt16(offset int, data []int16) {
+	b.b.SubDataInt16(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataUint16 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataUint16(offset int, data []uint16) {
+	b.b.SubDataUint16(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataInt32 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataInt32(offset int, data []int32) {
+	b.b.SubDataInt32(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataUint32 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataUint32(offset int, data []uint32) {
+	b.b.SubDataUint32(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataFloat32 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataFloat32(offset int, data []float32) {
+	b.b.SubDataFloat32(offset, data)
+	b.ctx.Check()
+}
+
+// SubDataFloat64 implements the gfx.Buffer interface.
+func (b *bufferChecker) SubDataFloat64(offset int, data []float64) {
+	b.b.SubDataFloat64(offset, data)
+	b.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (b *bufferChecker) Delete() {
 	b.b.Delete()

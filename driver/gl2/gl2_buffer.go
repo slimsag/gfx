@@ -75,6 +75,52 @@ func (b *Buffer) DataFloat64(data []float64, usage gfx.BufferUsage) {
 	b.data(len(data)*8, unsafe.Pointer(&data[0]), usage)
 }
 
+func (b *Buffer) subData(offset, size int, ptr unsafe.Pointer) {
+	typ := b.ctx.Enums[int(b.typ)]
+	b.ctx.fastBindBuffer(typ, b.o)
+	gl.BufferSubData(typ, offset, size, ptr)
+}
+
+// SubDataInt8 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataInt8(offset int, data []int8) {
+	b.subData(offset, len(data), unsafe.Pointer(&data[0]))
+}
+
+// SubDataUint8 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataUint8(offset int, data []uint8) {
+	b.subData(offset, len(data), unsafe.Pointer(&data[0]))
+}
+
+// SubDataInt16 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataInt16(offset int, data []int16) {
+	b.subData(offset*2, len(data)*2, unsafe.Pointer(&data[0]))
+}
+
+// SubDataUint16 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataUint16(offset int, data []uint16) {
+	b.subData(offset*2, len(data)*2, unsafe.Pointer(&data[0]))
+}
+
+// SubDataInt32 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataInt32(offset int, data []int32) {
+	b.subData(offset*4, len(data)*4, unsafe.Pointer(&data[0]))
+}
+
+// SubDataUint32 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataUint32(offset int, data []uint32) {
+	b.subData(offset*4, len(data)*4, unsafe.Pointer(&data[0]))
+}
+
+// SubDataFloat32 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataFloat32(offset int, data []float32) {
+	b.subData(offset*4, len(data)*4, unsafe.Pointer(&data[0]))
+}
+
+// SubDataFloat64 implements the gfx.Buffer interface.
+func (b *Buffer) SubDataFloat64(offset int, data []float64) {
+	b.subData(offset*8, len(data)*8, unsafe.Pointer(&data[0]))
+}
+
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
 	if b.o == 0 {

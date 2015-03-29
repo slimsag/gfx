@@ -35,14 +35,19 @@ type Buffer interface {
 	DataFloat64(data []float64, usage BufferUsage)
 
 	// SubData updates a subarea of the data buffer with the given data,
-	// starting at the offset.
+	// starting at the offset in elements (not bytes).
 	//
 	// This function will generate an InvalidValue panic at Context.Check time
 	// if the new data would write past the end of the buffer.
 	//
 	// Calling this function may generate a OutOfMemory panic at Context.Check
 	// time.
-	//
-	// TODO(slimsag): typeof(data) == ArrayBuffer
-	//SubData(offset uint, data interface{})
+	SubDataInt8(offset int, data []int8)
+	SubDataUint8(offset int, data []uint8)
+	SubDataInt16(offset int, data []int16)
+	SubDataUint16(offset int, data []uint16)
+	SubDataInt32(offset int, data []int32)
+	SubDataUint32(offset int, data []uint32)
+	SubDataFloat32(offset int, data []float32)
+	SubDataFloat64(offset int, data []float64)
 }
