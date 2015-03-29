@@ -583,6 +583,8 @@ const (
 	LINEAR_MIPMAP_LINEAR                      = 0x2703
 	LINEAR_MIPMAP_NEAREST                     = 0x2701
 	LINES                                     = 0x0001
+	LINE_LOOP                                 = 0x0002
+	LINE_STRIP                                = 0x0003
 	LINK_STATUS                               = 0x8B82
 	MAX_FRAGMENT_UNIFORM_COMPONENTS           = 0x8B49
 	MAX_FRAGMENT_UNIFORM_VECTORS              = 0x8DFD
@@ -677,9 +679,11 @@ const (
 	TEXTURE_WRAP_S                            = 0x2802
 	TEXTURE_WRAP_T                            = 0x2803
 	TRIANGLES                                 = 0x0004
+	TRIANGLE_FAN                              = 0x0006
+	TRIANGLE_STRIP                            = 0x0005
 	TRUE                                      = 1
 	UNSIGNED_BYTE                             = 0x1401
-	UNSIGNED_INT                              = 0x1405
+	UNSIGNED_SHORT                            = 0x1403
 	VENDOR                                    = 0x1F00
 	VERSION                                   = 0x1F02
 	VERTEX_SHADER                             = 0x8B31
