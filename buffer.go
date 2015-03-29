@@ -50,4 +50,12 @@ type Buffer interface {
 	SubDataUint32(offset int, data []uint32)
 	SubDataFloat32(offset int, data []float32)
 	SubDataFloat64(offset int, data []float64)
+
+	// Draw draws the contents of this buffer as the given type of primitive
+	// object (e.g. Triangles).
+	//
+	// The first parameter is the first element in the array to start drawing data
+	// at, and count is the number of elements to draw (each measured in single
+	// vertex units, e.g. a trangle is 3).
+	Draw(p Primitive, first, count int)
 }

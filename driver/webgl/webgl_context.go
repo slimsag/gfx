@@ -52,6 +52,7 @@ type Context struct {
 	COLOR_BUFFER_BIT   int `js:"COLOR_BUFFER_BIT"`
 	COMPILE_STATUS     int `js:"COMPILE_STATUS"`
 	LINK_STATUS        int `js:"LINK_STATUS"`
+	UNSIGNED_SHORT     int `js:"UNSIGNED_SHORT"`
 
 	// Framebuffer status codes (see the Framebuffer.Status method).
 	FRAMEBUFFER_COMPLETE                      int `js:"FRAMEBUFFER_COMPLETE"`
@@ -64,7 +65,7 @@ type Context struct {
 func (c *Context) putEnum(gfxEnum int, name string) {
 	c.puts++
 	glEnum := c.O.Get(name).Int()
-	if glEnum == 0 {
+	if gfxEnum != int(gfx.Points) && glEnum == 0 {
 		fmt.Println("gfxEnum:", gfxEnum)
 		fmt.Println("name:", name)
 		panic("putEnum: got invalid enum")
@@ -131,6 +132,15 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.FuncAdd), "FUNC_ADD")
 	c.putEnum(int(gfx.FuncSubtract), "FUNC_SUBTRACT")
 	c.putEnum(int(gfx.FuncReverseSubtract), "FUNC_REVERSE_SUBTRACT")
+
+	// Primitive types.
+	c.putEnum(int(gfx.Points), "POINTS")
+	c.putEnum(int(gfx.Lines), "LINES")
+	c.putEnum(int(gfx.LineStrip), "LINE_STRIP")
+	c.putEnum(int(gfx.LineLoop), "LINE_LOOP")
+	c.putEnum(int(gfx.Triangles), "TRIANGLES")
+	c.putEnum(int(gfx.TriangleStrip), "TRIANGLE_STRIP")
+	c.putEnum(int(gfx.TriangleFan), "TRIANGLE_FAN")
 
 	// Verify that we put all enums into the array.
 	if c.puts != len(c.Enums) {

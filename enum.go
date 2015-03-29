@@ -43,6 +43,9 @@ type TextureType int
 // BlendEquation represents a single blend equation mode.
 type BlendEquation int
 
+// Primitive represents a single primitive object type (e.g. Triangles).
+type Primitive int
+
 const (
 	// Texture2D is a 2D image.
 	Texture2D TextureTarget = iota
@@ -170,6 +173,34 @@ const (
 
 	// FuncAdd is a blend equation to represent reverse subtraction.
 	FuncReverseSubtract
+
+	// Points is a primitive type where each vertex is drawn as a single dot.
+	Points Primitive = iota
+
+	// Lines is a primitive type where a line is drawn between every two vertices.
+	Lines
+
+	// LineStrip is a primitive type where a line is drawn to the next vertex each
+	// time (3 vertices produces two lines, connected end-to-end).
+	LineStrip
+
+	// LineLoop is a primitive type identical to LineStrip except the last vertex
+	// is connected to the first vertex as a line (a loop is formed).
+	LineLoop
+
+	// Triangles is a primitive type where every three vertices form a single
+	// triangle.
+	Triangles
+
+	// TriangleStrip is a primitive type where each additional vertex creates an
+	// additional triangle once the first three vertices have been drawn (e.g.
+	// 12 vertices creates 10 triangles).
+	TriangleStrip
+
+	// TriangleFan is a primitive type where each additional vertex creates an
+	// additional triangle, each containing the first vertex in the data (a fan
+	// shape is produced).
+	TriangleFan
 
 	// EnumMax is the maximum bound for enumerations. It may change in minor
 	// releases and is the maximum value for any enumeration. I.e. enumerations

@@ -116,6 +116,12 @@ func (b *bufferChecker) SubDataFloat64(offset int, data []float64) {
 	b.ctx.Check()
 }
 
+// Draw implements the gfx.Buffer interface.
+func (b *bufferChecker) Draw(p gfx.Primitive, first, count int) {
+	b.b.Draw(p, first, count)
+	b.ctx.Check()
+}
+
 // Delete implements the gfx.Object interface.
 func (b *bufferChecker) Delete() {
 	b.b.Delete()

@@ -121,6 +121,16 @@ func (b *Buffer) SubDataFloat64(offset int, data []float64) {
 	b.subData(offset*8, len(data)*8, unsafe.Pointer(&data[0]))
 }
 
+// Draw implements the gfx.Buffer interface.
+func (b *Buffer) Draw(p gfx.Primitive, first, count int) {
+	if b.typ == gfx.ArrayBuffer {
+		gl.DrawArrays(b.ctx.Enums[int(p)], int32(first), int32(count))
+	} else {
+		offset := uint32(first * 4)
+		gl.DrawElements(b.ctx.Enums[int(p)], int32(count), gl.UNSIGNED_SHORT, unsafe.Pointer(uintptr(offset)))
+	}
+}
+
 // Delete implements the gfx.Object interface.
 func (b *Buffer) Delete() {
 	if b.o == 0 {

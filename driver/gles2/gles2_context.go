@@ -32,7 +32,7 @@ type Context struct {
 
 func (c *Context) putEnum(gfxEnum int, glEnum uint32) {
 	c.puts++
-	if glEnum == 0 {
+	if gfxEnum != int(gfx.Points) && glEnum == 0 {
 		fmt.Println("gfxEnum:", gfxEnum)
 		fmt.Println("glEnum:", glEnum)
 		panic("putEnum: got invalid enum")
@@ -99,6 +99,15 @@ func (c *Context) loadEnums() {
 	c.putEnum(int(gfx.FuncAdd), gl.FUNC_ADD)
 	c.putEnum(int(gfx.FuncSubtract), gl.FUNC_SUBTRACT)
 	c.putEnum(int(gfx.FuncReverseSubtract), gl.FUNC_REVERSE_SUBTRACT)
+
+	// Primitive types.
+	c.putEnum(int(gfx.Points), gl.POINTS)
+	c.putEnum(int(gfx.Lines), gl.LINES)
+	c.putEnum(int(gfx.LineStrip), gl.LINE_STRIP)
+	c.putEnum(int(gfx.LineLoop), gl.LINE_LOOP)
+	c.putEnum(int(gfx.Triangles), gl.TRIANGLES)
+	c.putEnum(int(gfx.TriangleStrip), gl.TRIANGLE_STRIP)
+	c.putEnum(int(gfx.TriangleFan), gl.TRIANGLE_FAN)
 
 	// Verify that we put all enums into the array.
 	if c.puts != len(c.Enums) {
